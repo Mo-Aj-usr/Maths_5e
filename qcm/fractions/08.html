@@ -33,6 +33,7 @@
     #resultat {
       margin-top: 15px;
       font-weight: bold;
+      font-size: 1.2rem;
     }
     .correction {
       margin-top: 5px;
@@ -46,6 +47,24 @@
       margin-right: 8px;
       cursor: pointer;
     }
+    /* Style simple pour les fractions inline */
+    .frac {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      font-size: 1.1em;
+    }
+    .frac > sup {
+      display: block;
+      font-size: 0.7em;
+      line-height: 1;
+    }
+    .frac > sub {
+      display: block;
+      font-size: 0.7em;
+      line-height: 1;
+      border-top: 1px solid #000;
+    }
   </style>
 </head>
 <body>
@@ -58,66 +77,71 @@
 <script>
 const questions = [
   {
-    texte: "1. Calcule \\( \\frac{1}{2} \\times \\frac{3}{4} \\).",
-    propositions: ["\\( \\frac{3}{8} \\)", "\\( \\frac{4}{6} \\)", "\\( \\frac{3}{6} \\)"],
+    texte: "1. Calcule 1/2 × 3/4.",
+    propositions: ["3/8", "4/6", "3/6"],
     bonne: 0,
-    explication: "Numérateurs : 1 × 3 = 3. Dénominateurs : 2 × 4 = 8. Résultat : \\( \\frac{3}{8} \\)."
+    explication: "Numérateurs : 1 × 3 = 3. Dénominateurs : 2 × 4 = 8. Résultat : 3/8."
   },
   {
-    texte: "2. Calcule \\( \\frac{2}{5} \\times \\frac{3}{4} \\).",
-    propositions: ["\\( \\frac{6}{20} \\)", "\\( \\frac{5}{9} \\)", "\\( \\frac{6}{9} \\)"],
+    texte: "2. Calcule 2/5 × 3/4.",
+    propositions: ["6/20", "5/9", "6/9"],
     bonne: 0,
-    explication: "2 × 3 = 6 et 5 × 4 = 20 → \\( \\frac{6}{20} \\) (qui se simplifie en \\( \\frac{3}{10} \\), mais le produit direct est \\( \\frac{6}{20} \\))."
+    explication: "2 × 3 = 6 et 5 × 4 = 20 → 6/20 (qui se simplifie en 3/10, mais le produit direct est 6/20)."
   },
   {
-    texte: "3. Calcule \\( \\frac{3}{4} \\times \\frac{1}{3} \\).",
-    propositions: ["\\( \\frac{3}{12} \\)", "\\( \\frac{4}{7} \\)", "\\( \\frac{3}{7} \\)"],
+    texte: "3. Calcule 3/4 × 1/3.",
+    propositions: ["3/12", "4/7", "3/7"],
     bonne: 0,
-    explication: "3 × 1 = 3 et 4 × 3 = 12 → \\( \\frac{3}{12} \\) = \\( \\frac{1}{4} \\)."
+    explication: "3 × 1 = 3 et 4 × 3 = 12 → 3/12 = 1/4."
   },
   {
-    texte: "4. Calcule \\( \\frac{4}{5} \\times \\frac{5}{6} \\).",
-    propositions: ["\\( \\frac{20}{30} \\)", "\\( \\frac{9}{11} \\)", "\\( \\frac{4}{6} \\)"],
+    texte: "4. Calcule 4/5 × 5/6.",
+    propositions: ["20/30", "9/11", "4/6"],
     bonne: 0,
-    explication: "4 × 5 = 20 et 5 × 6 = 30 → \\( \\frac{20}{30} \\) = \\( \\frac{2}{3} \\)."
+    explication: "4 × 5 = 20 et 5 × 6 = 30 → 20/30 = 2/3."
   },
   {
-    texte: "5. Calcule \\( \\frac{2}{3} \\times \\frac{3}{2} \\).",
-    propositions: ["1", "\\( \\frac{5}{5} \\)", "\\( \\frac{6}{6} \\)"],
+    texte: "5. Calcule 2/3 × 3/2.",
+    propositions: ["1", "5/5", "6/6"],
     bonne: 0,
-    explication: "2 × 3 = 6 et 3 × 2 = 6 → \\( \\frac{6}{6} \\) = 1."
+    explication: "2 × 3 = 6 et 3 × 2 = 6 → 6/6 = 1."
   },
   {
-    texte: "6. Calcule \\( \\frac{1}{4} \\times \\frac{2}{5} \\).",
-    propositions: ["\\( \\frac{2}{20} \\)", "\\( \\frac{3}{9} \\)", "\\( \\frac{2}{9} \\)"],
+    texte: "6. Calcule 1/4 × 2/5.",
+    propositions: ["2/20", "3/9", "2/9"],
     bonne: 0,
-    explication: "1 × 2 = 2 et 4 × 5 = 20 → \\( \\frac{2}{20} \\) = \\( \\frac{1}{10} \\)."
+    explication: "1 × 2 = 2 et 4 × 5 = 20 → 2/20 = 1/10."
   },
   {
-    texte: "7. Calcule \\( \\frac{5}{8} \\times \\frac{2}{3} \\).",
-    propositions: ["\\( \\frac{10}{24} \\)", "\\( \\frac{7}{11} \\)", "\\( \\frac{10}{11} \\)"],
+    texte: "7. Calcule 5/8 × 2/3.",
+    propositions: ["10/24", "7/11", "10/11"],
     bonne: 0,
-    explication: "5 × 2 = 10 et 8 × 3 = 24 → \\( \\frac{10}{24} \\) = \\( \\frac{5}{12} \\)."
+    explication: "5 × 2 = 10 et 8 × 3 = 24 → 10/24 = 5/12."
   },
   {
-    texte: "8. Calcule \\( \\frac{3}{10} \\times \\frac{5}{6} \\).",
-    propositions: ["\\( \\frac{15}{60} \\)", "\\( \\frac{8}{16} \\)", "\\( \\frac{15}{16} \\)"],
+    texte: "8. Calcule 3/10 × 5/6.",
+    propositions: ["15/60", "8/16", "15/16"],
     bonne: 0,
-    explication: "3 × 5 = 15 et 10 × 6 = 60 → \\( \\frac{15}{60} \\) = \\( \\frac{1}{4} \\)."
+    explication: "3 × 5 = 15 et 10 × 6 = 60 → 15/60 = 1/4."
   },
   {
-    texte: "9. Calcule \\( \\frac{7}{8} \\times \\frac{4}{5} \\).",
-    propositions: ["\\( \\frac{28}{40} \\)", "\\( \\frac{11}{13} \\)", "\\( \\frac{28}{13} \\)"],
+    texte: "9. Calcule 7/8 × 4/5.",
+    propositions: ["28/40", "11/13", "28/13"],
     bonne: 0,
-    explication: "7 × 4 = 28 et 8 × 5 = 40 → \\( \\frac{28}{40} \\) = \\( \\frac{7}{10} \\)."
+    explication: "7 × 4 = 28 et 8 × 5 = 40 → 28/40 = 7/10."
   },
   {
-    texte: "10. Calcule \\( \\frac{1}{6} \\times \\frac{6}{7} \\).",
-    propositions: ["\\( \\frac{6}{42} \\)", "\\( \\frac{7}{13} \\)", "\\( \\frac{1}{7} \\)"],
+    texte: "10. Calcule 1/6 × 6/7.",
+    propositions: ["6/42", "7/13", "1/7"],
     bonne: 0,
-    explication: "1 × 6 = 6 et 6 × 7 = 42 → \\( \\frac{6}{42} \\) = \\( \\frac{1}{7} \\)."
+    explication: "1 × 6 = 6 et 6 × 7 = 42 → 6/42 = 1/7."
   }
 ];
+
+// Fonction pour transformer les fractions a/b en <span class="frac"><sup>a</sup><sub>b</sub></span>
+function formatFractions(text) {
+  return text.replace(/\b(\d+)\/(\d+)\b/g, '<span class="frac"><sup>$1</sup><sub>$2</sub></span>');
+}
 
 // génération du QCM
 const qcmDiv = document.getElementById("qcm");
@@ -125,7 +149,7 @@ questions.forEach((q, index) => {
   const div = document.createElement("div");
   div.className = "question";
   const titre = document.createElement("h3");
-  titre.innerHTML = q.texte;  // innerHTML pour interpréter le LaTeX simple (affiché tel quel, mais clair)
+  titre.innerHTML = formatFractions(q.texte);
   div.appendChild(titre);
   const answersDiv = document.createElement("div");
   answersDiv.className = "answers";
@@ -137,7 +161,7 @@ questions.forEach((q, index) => {
     input.value = i;
     label.appendChild(input);
     const propSpan = document.createElement("span");
-    propSpan.innerHTML = " " + prop;
+    propSpan.innerHTML = " " + formatFractions(prop);
     label.appendChild(propSpan);
     answersDiv.appendChild(label);
   });
@@ -173,14 +197,14 @@ document.getElementById("corrigerBtn").addEventListener("click", () => {
     if (bonneReponse) {
       score++;
       corrDiv.innerHTML =
-        "<span class='bonne'>Bonne réponse.</span> " +
-        q.explication;
+        "<span class='bonne'>Bonne réponse.</span><br>" +
+        formatFractions(q.explication);
     } else {
-      const repCorrecte = q.propositions[q.bonne];
+      const repCorrecte = questions[index].propositions[questions[index].bonne];
       corrDiv.innerHTML =
-        "<span class='mauvaise'>Mauvaise réponse.</span> " +
-        "Réponse correcte : " + repCorrecte +
-        ". " + q.explication;
+        "<span class='mauvaise'>Mauvaise réponse.</span><br>" +
+        "Réponse correcte : " + formatFractions(repCorrecte) +
+        ".<br>" + formatFractions(q.explication);
     }
   });
   document.getElementById("resultat").textContent =
