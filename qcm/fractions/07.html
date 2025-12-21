@@ -1,1 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>QCM 7 - Nombres premiers et simplification (Maths 5e)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      line-height: 1.5;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .question {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .question h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 4px;
+    }
+    #resultat {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .correction {
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+    .bonne { color: green; }
+    .mauvaise { color: red; }
+    button {
+      padding: 8px 14px;
+      font-size: 1rem;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h1>QCM 7 – Nombres premiers et simplification (5e)</h1>
+<p>Réponds aux 10 questions puis clique sur « Corriger ». Premiers <30 à maîtriser !</p>
+<div id="qcm"></div>
+<button id="corrigerBtn">Corriger</button>
+<button id="resetBtn">Réinitialiser</button>
+<div id="resultat"></div>
+<script>
+const questions = [
+  {
+    texte: "1. Parmi ces nombres, lequel est premier ?",
+    propositions: ["15", "17", "21"],
+    bonne: 1,
+    explication: "17 est premier (divisible seulement par 1 et 17). 15=3×5, 21=3×7."
+  },
+  {
+    texte: "2. Simplifier 12/18 :",
+    propositions: ["2/3", "6/9", "4/6"],
+    bonne: 0,
+    explication: "12÷6/18÷6 = 2/3. PGCD(12,18)=6."
+  },
+  {
+    texte: "3. Quel nombre premier manque ? 2, 3, 5, 7, __, 13",
+    propositions: ["9", "11", "12"],
+    bonne: 1,
+    explication: "Séquence des premiers : 2, 3, 5, 7, 11, 13."
+  },
+  {
+    texte: "4. Simplifier 20/25 :",
+    propositions: ["4/5", "2/2.5", "10/12.5"],
+    bonne: 0,
+    explication: "20÷5/25÷5 = 4/5. PGCD(20,25)=5."
+  },
+  {
+    texte: "5. 23 est :",
+    propositions: ["Premier", "Pair", "Divisible par 3"],
+    bonne: 0,
+    explication: "23 est premier (divisible seulement par 1 et 23)."
+  },
+  {
+    texte: "6. Simplifier 15/24 :",
+    propositions: ["5/8", "3/4", "5/12"],
+    bonne: 0,
+    explication: "15÷3/24÷3 = 5/8. PGCD(15,24)=3."
+  },
+  {
+    texte: "7. Parmi 29, 27, 25 : quel(s) nombre(s) premier(s) ?",
+    propositions: ["29", "27", "Les deux"],
+    bonne: 0,
+    explication: "29 premier. 27=3³, 25=5²."
+  },
+  {
+    texte: "8. Simplifier 28/42 :",
+    propositions: ["2/3", "4/6", "14/21"],
+    bonne: 0,
+    explication: "28÷14/42÷14 = 2/3. PGCD(28,42)=14."
+  },
+  {
+    texte: "9. Dernier premier <30 :",
+    propositions: ["27", "29", "31"],
+    bonne: 1,
+    explication: "Prémier <30 : 2,3,5,7,11,13,17,19,23,29."
+  },
+  {
+    texte: "10. Simplifier 36/48 :",
+    propositions: ["3/4", "9/12", "6/8"],
+    bonne: 0,
+    explication: "36÷12/48÷12 = 3/4. PGCD(36,48)=12."
+  }
+];
+// génération du QCM
+const qcmDiv = document.getElementById("qcm");
+questions.forEach((q, index) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  const titre = document.createElement("h3");
+  titre.textContent = q.texte;
+  div.appendChild(titre);
+  const answersDiv = document.createElement("div");
+  answersDiv.className = "answers";
+  q.propositions.forEach((prop, i) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "q" + index;
+    input.value = i;
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(" " + prop));
+    answersDiv.appendChild(label);
+  });
+  div.appendChild(answersDiv);
+  const corrDiv = document.createElement("div");
+  corrDiv.className = "correction";
+  corrDiv.id = "corr-q" + index;
+  div.appendChild(corrDiv);
+  qcmDiv.appendChild(div);
+});
+// correction
+document.getElementById("corrigerBtn").addEventListener("click", () => {
+  let score = 0;
+  questions.forEach((q, index) => {
+    const corrDiv = document.getElementById("corr-q" + index);
+    corrDiv.innerHTML = "";
+    const inputs = document.querySelectorAll("input[name='q" + index + "']");
+    let bonneReponse = false;
+    inputs.forEach((inp, i) => {
+      if (inp.checked && i === q.bonne) {
+        bonneReponse = true;
+      }
+    });
+    if (bonneReponse) {
+      score++;
+      corrDiv.innerHTML =
+        "<span class='bonne'>Bonne réponse.</span> " +
+        q.explication;
+    } else {
+      const repCorrecte = q.propositions[q.bonne];
+      corrDiv.innerHTML =
+        "<span class='mauvaise'>Mauvaise réponse.</span> " +
+        "Réponse correcte : " + repCorrecte +
+        ". " + q.explication;
+    }
+  });
+  document.getElementById("resultat").textContent =
+    "Score : " + score + " / " + questions.length;
+});
+// reset
+document.getElementById("resetBtn").addEventListener("click", () => {
+  const inputs = document.querySelectorAll("input[type='radio']");
+  inputs.forEach(inp => inp.checked = false);
+  questions.forEach((q, index) => {
+    document.getElementById("corr-q" + index).innerHTML = "";
+  });
+  document.getElementById("resultat").textContent = "";
+});
+</script>
+</body>
+</html>
 
