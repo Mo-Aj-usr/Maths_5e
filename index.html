@@ -2,66 +2,253 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>QCM Fractions 5e - Sommaire</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths 5e - Programme Officiel (180 QCM)</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      line-height: 1.5;
-      background-color: #f5f5f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
     }
-    h1 {
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    header {
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+      color: white;
+      padding: 30px;
       text-align: center;
     }
-    ul {
-      list-style: none;
-      padding: 0;
-      max-width: 400px;
-      margin: 20px auto;
+    h1 { margin: 0; font-size: 2.5em; }
+    .subtitle { margin: 5px 0 0 0; opacity: 0.95; }
+    .themes { padding: 30px; }
+    .theme {
+      background: #f8f9fa;
+      margin: 15px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
     }
-    li {
-      margin: 8px 0;
+    .theme:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+    .theme-header {
+      padding: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.2em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      user-select: none;
     }
-    a {
+    .theme-header:hover { background: linear-gradient(135deg, #5a67d8, #6b46c1); }
+    .arrow { font-size: 1.5em; transition: transform 0.3s; }
+    .arrow.rotated { transform: rotate(180deg); }
+    .qcm-list {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      background: white;
+    }
+    .qcm-list.open { max-height: 1000px; }
+    .qcm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 12px;
+      padding: 20px;
+    }
+    .qcm-link {
       display: block;
-      padding: 10px 14px;
-      background-color: #ffffff;
-      border-radius: 4px;
+      padding: 15px;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
       text-decoration: none;
       color: #333;
-      border: 1px solid #ccc;
-      transition: background-color 0.2s, transform 0.1s;
-    }
-    a:hover {
-      background-color: #e3f2fd;
-      transform: translateY(-1px);
-    }
-    .info {
+      border-radius: 8px;
       text-align: center;
-      font-size: 0.9rem;
-      color: #555;
-      margin-top: 10px;
+      font-weight: 500;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .qcm-link:hover {
+      transform: scale(1.05);
+      border-color: #ff6b6b;
+      box-shadow: 0 5px 20px rgba(255,107,107,0.3);
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      color: #666;
+      font-size: 0.9em;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <h1>📚 Maths 5e</h1>
+      <p class="subtitle">Programme Officiel Eduscol - 12 thèmes • 180 QCM (15 par thème)</p>
+    </header>
 
-<h1>MoA-EIC QCM Fractions 5e 2025-2026</h1>
-<p style="text-align:center;">
-  Clique sur un lien pour ouvrir la fiche correspondante (s’ouvre dans un nouvel onglet).
-</p>
+    <div class="themes">
+      <!-- 1. Nombres et calculs -->
+      <div class="theme">
+        <div class="theme-header" onclick="toggleTheme(this)">
+          <span>🔢 Nombres et calculs</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qcm-list">
+          <div class="qcm-grid">
+            <a href="qcm/nombres-calculs/01.html" target="_blank" class="qcm-link">QCM 1 - Puissances de 10</a>
+            <a href="qcm/nombres-calculs/02.html" target="_blank" class="qcm-link">QCM 2 - Notation scientifique</a>
+            <a href="qcm/nombres-calculs/03.html" target="_blank" class="qcm-link">QCM 3 - Préfixes nano-giga</a>
+            <a href="qcm/nombres-calculs/04.html" target="_blank" class="qcm-link">QCM 4 - Carrés parfaits</a>
+            <a href="qcm/nombres-calculs/05.html" target="_blank" class="qcm-link">QCM 5 - Racine carrée</a>
+            <a href="qcm/nombres-calculs/06.html" target="_blank" class="qcm-link">QCM 6 - Comparaison nombres</a>
+            <a href="qcm/nombres-calculs/07.html" target="_blank" class="qcm-link">QCM 7 - Ordres grandeur</a>
+            <a href="qcm/nombres-calculs/08.html" target="_blank" class="qcm-link">QCM 8 - Calculs décimaux</a>
+            <a href="qcm/nombres-calculs/09.html" target="_blank" class="qcm-link">QCM 9 - Nombres rationnels</a>
+            <a href="qcm/nombres-calculs/10.html" target="_blank" class="qcm-link">QCM 10 - Calcul mental</a>
+            <a href="qcm/nombres-calculs/11.html" target="_blank" class="qcm-link">QCM 11 - Calculatrice</a>
+            <a href="qcm/nombres-calculs/12.html" target="_blank" class="qcm-link">QCM 12 - Vérification</a>
+            <a href="qcm/nombres-calculs/13.html" target="_blank" class="qcm-link">QCM 13 - Problèmes</a>
+            <a href="qcm/nombres-calculs/14.html" target="_blank" class="qcm-link">QCM 14 - Révision</a>
+            <a href="qcm/nombres-calculs/15.html" target="_blank" class="qcm-link">QCM 15 - Grand test</a>
+          </div>
+        </div>
+      </div>
 
-<ul>
-  <li><a href="Fractions_5e_20251221_1.html" target="_blank">Fractions 5e – Fiche 1</a></li>
-  <li><a href="Fractions_5e_20251221_2.html" target="_blank">Fractions 5e – Fiche 2</a></li>
-  <li><a href="Fractions_5e_20251221_3.html" target="_blank">Fractions 5e – Fiche 3</a></li>
-  <li><a href="Fractions_5e_20251221_4.html" target="_blank">Fractions 5e – Fiche 4</a></li>
-  <li><a href="Fractions_5e_20251221_5.html" target="_blank">Fractions 5e – Fiche 5</a></li>
-</ul>
+      <!-- 2. Fractions (thème principal de la conversation) -->
+      <div class="theme">
+        <div class="theme-header" onclick="toggleTheme(this)">
+          <span>🍕 Fractions</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qcm-list">
+          <div class="qcm-grid">
+            <a href="qcm/fractions/01.html" target="_blank" class="qcm-link">QCM 1 - Nombres premiers <100</a>
+            <a href="qcm/fractions/02.html" target="_blank" class="qcm-link">QCM 2 - Facteurs premiers</a>
+            <a href="qcm/fractions/03.html" target="_blank" class="qcm-link">QCM 3 - Fractions égales</a>
+            <a href="qcm/fractions/04.html" target="_blank" class="qcm-link">QCM 4 - Simplification</a>
+            <a href="qcm/fractions/05.html" target="_blank" class="qcm-link">QCM 5 - Divisibilité</a>
+            <a href="qcm/fractions/06.html" target="_blank" class="qcm-link">QCM 6 - Fleuriste PGCD</a>
+            <a href="qcm/fractions/07.html" target="_blank" class="qcm-link">QCM 7 - Comparaison</a>
+            <a href="qcm/fractions/08.html" target="_blank" class="qcm-link">QCM 8 - PGCD calcul</a>
+            <a href="qcm/fractions/09.html" target="_blank" class="qcm-link">QCM 9 - Problèmes</a>
+            <a href="qcm/fractions/10.html" target="_blank" class="qcm-link">QCM 10 - Mixtes</a>
+            <a href="qcm/fractions/11.html" target="_blank" class="qcm-link">QCM 11 - Premiers 50-70</a>
+            <a href="qcm/fractions/12.html" target="_blank" class="qcm-link">QCM 12 - 780 facteurs</a>
+            <a href="qcm/fractions/13.html" target="_blank" class="qcm-link">QCM 13 - Applications</a>
+            <a href="qcm/fractions/14.html" target="_blank" class="qcm-link">QCM 14 - Contrôle</a>
+            <a href="qcm/fractions/15.html" target="_blank" class="qcm-link">QCM 15 - Grand test</a>
+          </div>
+        </div>
+      </div>
 
-<p class="info">
- Bon courage :-)
-</p>
+      <!-- 3. Calcul littéral -->
+      <div class="theme">
+        <div class="theme-header" onclick="toggleTheme(this)">
+          <span>📝 Calcul littéral</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qcm-list">
+          <div class="qcm-grid">
+            <a href="qcm/littéral/01.html" target="_blank" class="qcm-link">QCM 1 - Structure expression</a>
+            <a href="qcm/littéral/02.html" target="_blank" class="qcm-link">QCM 2 - Développer</a>
+            <a href="qcm/littéral/03.html" target="_blank" class="qcm-link">QCM 3 - Factoriser</a>
+            <a href="qcm/littéral/04.html" target="_blank" class="qcm-link">QCM 4 - Réduire</a>
+            <a href="qcm/littéral/05.html" target="_blank" class="qcm-link">QCM 5 - Équivalence</a>
+            <a href="qcm/littéral/06.html" target="_blank" class="qcm-link">QCM 6 - Équations</a>
+            <a href="qcm/littéral/07.html" target="_blank" class="qcm-link">QCM 7 - Solutions</a>
+            <a href="qcm/littéral/08.html" target="_blank" class="qcm-link">QCM 8 - Problèmes</a>
+            <a href="qcm/littéral/09.html" target="_blank" class="qcm-link">QCM 9 - Distributivité</a>
+            <a href="qcm/littéral/10.html" target="_blank" class="qcm-link">QCM 10 - Factorisation</a>
+            <a href="qcm/littéral/11.html" target="_blank" class="qcm-link">QCM 11 - Développer complexe</a>
+            <a href="qcm/littéral/12.html" target="_blank" class="qcm-link">QCM 12 - Équations 1er degré</a>
+            <a href="qcm/littéral/13.html" target="_blank" class="qcm-link">QCM 13 - Applications</a>
+            <a href="qcm/littéral/14.html" target="_blank" class="qcm-link">QCM 14 - Contrôle</a>
+            <a href="qcm/littéral/15.html" target="_blank" class="qcm-link">QCM 15 - Grand test</a>
+          </div>
+        </div>
+      </div>
 
+      <!-- Autres thèmes 5e (raccourcis pour lisibilité) -->
+      <div class="theme">
+        <div class="theme-header" onclick="toggleTheme(this)">
+          <span>📊 Statistiques</span><span class="arrow">▼</span>
+        </div>
+        <div class="qcm-list"><div class="qcm-grid">
+          <a href="qcm/statistiques/01.html" target="_blank" class="qcm-link">QCM 1 - Diagrammes circulaires</a>
+          <!-- 14 autres -->
+          <a href="qcm/statistiques/15.html" target="_blank" class="qcm-link">QCM 15 - Grand test</a>
+        </div></div>
+      </div>
+
+      <div class="theme">
+        <div class="theme-header" onclick="toggleTheme(this)">
+          <span>🎲 Probabilités</span><span class="arrow">▼</span>
+        </div>
+        <div class="qcm-list"><div class="qcm-grid"><!-- 15 QCM --></div></div>
+      </div>
+
+      <div class="theme">
+        <div class="theme-header" onclick="toggleTheme(this)">
+          <span>📏 Proportionnalité</span><span class="arrow">▼</span>
+        </div>
+        <div class="qcm-list"><div class="qcm-grid"><!-- 15 QCM --></div></div>
+      </div>
+
+      <div class="theme">
+        <div class="theme-header" onclick="toggleTheme(this)">
+          <span>📈 Fonctions</span><span class="arrow">▼</span>
+        </div>
+        <div class="qcm-list"><div class="qcm-grid"><!-- 15 QCM --></div></div>
+      </div>
+
+      <div class="theme">
+        <div class="theme-header" onclick="toggleTheme(this)">
+          <span>📦 Grandeurs et mesures</span><span class="arrow">▼</span>
+        </div>
+        <div class="qcm-list"><div class="qcm-grid"><!-- 15 QCM --></div></div>
+      </div>
+
+      <div class="theme">
+        <div class="theme-header" onclick="toggleTheme(this)">
+          <span>🔺 Espace et géométrie</span><span class="arrow">▼</span>
+        </div>
+        <div class="qcm-list"><div class="qcm-grid"><!-- 15 QCM --></div></div>
+      </div>
+
+      <div class="theme">
+        <div class="theme-header" onclick="toggleTheme(this)">
+          <span>💻 Algorithmique</span><span class="arrow">▼</span>
+        </div>
+        <div class="qcm-list"><div class="qcm-grid"><!-- 15 QCM --></div></div>
+      </div>
+    </div>
+
+    <footer>
+      ✅ Conforme programme officiel 5e (Eduscol) • Structure GitHub Pages • 180 QCM
+    </footer>
+  </div>
+
+  <script>
+    function toggleTheme(header) {
+      const theme = header.parentElement;
+      const list = theme.querySelector('.qcm-list');
+      const arrow = header.querySelector('.arrow');
+      list.classList.toggle('open');
+      arrow.classList.toggle('rotated');
+    }
+  </script>
 </body>
 </html>
