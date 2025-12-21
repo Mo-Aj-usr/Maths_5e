@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths 5e--MoA-EIC: QCM - Fractions_5e_20251221_1</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #c8e6c9);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #00796b;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #004d40;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8ffd7;
+            border-radius: 10px;
+            border-left: 6px solid #8bc34a;
+        }
+        .question-number {
+            font-weight: bold;
+            color: #33691e;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0;
+            padding: 12px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        label:hover {
+            background: #c8e6c9;
+            transform: translateX(5px);
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        #submit {
+            display: block;
+            width: 200px;
+            margin: 40px auto;
+            padding: 15px;
+            font-size: 1.2em;
+            background: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255,87,34,0.4);
+            transition: all 0.3s;
+        }
+        #submit:hover {
+            background: #e64a19;
+            transform: scale(1.05);
+        }
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.4em;
+            text-align: center;
+            display: none;
+        }
+        .correct { background: #c8e6c9; color: #2e7d32; }
+        .incorrect { background: #ffcdd2; color: #c62828; }
+        .feedback {
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maths 5e MoA-EIC: QCM - Fractions 20251221:1</h1>
+        <p class="subtitle">20 questions</p>
+
+        <form id="quiz">
+            <!-- Question 1 -->
+            <div class="question">
+                <div class="question-number">Question 1</div>
+                <p>Écris le nombre 3,75 sous forme fractionnaire irréductible.</p>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="a"> 375/100</label>
+                    <label><input type="radio" name="q1" value="b"> 15/4</label>
+                    <label><input type="radio" name="q1" value="c"> 3/75</label>
+                    <label><input type="radio" name="q1" value="d"> 75/20</label>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question">
+                <div class="question-number">Question 2</div>
+                <p>Calcule 20 % de 85 €.</p>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="a"> 17 €</label>
+                    <label><input type="radio" name="q2" value="b"> 20 €</label>
+                    <label><input type="radio" name="q2" value="c"> 17,50 €</label>
+                    <label><input type="radio" name="q2" value="d"> 4,25 €</label>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question">
+                <div class="question-number">Question 3</div>
+                <p>Décompose 9 + 5/6 sous la forme d’une fraction unique.</p>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="a"> 59/6</label>
+                    <label><input type="radio" name="q3" value="b"> 54/6</label>
+                    <label><input type="radio" name="q3" value="c"> 50/6</label>
+                    <label><input type="radio" name="q3" value="d"> 60/6</label>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question">
+                <div class="question-number">Question 4</div>
+                <p>Quel est l’opposé de -7/12 ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="a"> 7/12</label>
+                    <label><input type="radio" name="q4" value="b"> -12/7</label>
+                    <label><input type="radio" name="q4" value="c"> -7/12</label>
+                    <label><input type="radio" name="q4" value="d"> 12/7</label>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question">
+                <div class="question-number">Question 5</div>
+                <p>Parmi ces fractions, entoure celle qui est égale à 4/10 : 2/5 ; 8/20 ; 3/7 ; 6/15.</p>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="a"> 3/7</label>
+                    <label><input type="radio" name="q5" value="b"> 2/5 et 8/20</label>
+                    <label><input type="radio" name="q5" value="c"> 6/15</label>
+                    <label><input type="radio" name="q5" value="d"> Aucune</label>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question">
+                <div class="question-number">Question 6</div>
+                <p>Range dans l’ordre croissant : 5/6 ; 3/4 ; 7/12 ; 2/3.</p>
+                <div class="options">
+                    <label><input type="radio" name="q6" value="a"> 7/12 < 2/3 < 3/4 < 5/6</label>
+                    <label><input type="radio" name="q6" value="b"> 5/6 < 3/4 < 2/3 < 7/12</label>
+                    <label><input type="radio" name="q6" value="c"> 7/12 < 2/3 < 5/6 < 3/4</label>
+                    <label><input type="radio" name="q6" value="d"> 3/4 < 5/6 < 2/3 < 7/12</label>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question">
+                <div class="question-number">Question 7</div>
+                <p>Encadre -11/8 par deux entiers consécutifs.</p>
+                <div class="options">
+                    <label><input type="radio" name="q7" value="a"> -2 < -11/8 < -1</label>
+                    <label><input type="radio" name="q7" value="b"> -1 < -11/8 < 0</label>
+                    <label><input type="radio" name="q7" value="c"> -11 < -11/8 < -8</label>
+                    <label><input type="radio" name="q7" value="d"> 0 < -11/8 < 1</label>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question">
+                <div class="question-number">Question 8</div>
+                <p>Calcule exactement : 3/5 + 7/10.</p>
+                <div class="options">
+                    <label><input type="radio" name="q8" value="a"> 10/15</label>
+                    <label><input type="radio" name="q8" value="b"> 13/10</label>
+                    <label><input type="radio" name="q8" value="c"> 6/10 + 7/10 = 13/10</label>
+                    <label><input type="radio" name="q8" value="d"> 21/50</label>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="question">
+                <div class="question-number">Question 9</div>
+                <p>Calcule : 4/9 - 1/6 (sans passer par l’écriture décimale).</p>
+                <div class="options">
+                    <label><input type="radio" name="q9" value="a"> 5/18</label>
+                    <label><input type="radio" name="q9" value="b"> 8/54 - 9/54 = -1/54</label>
+                    <label><input type="radio" name="q9" value="c"> 24/54 - 9/54 = 15/54 = 5/18</label>
+                    <label><input type="radio" name="q9" value="d"> 3/54</label>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="question">
+                <div class="question-number">Question 10</div>
+                <p>Calcule mentalement : -5,8 + 9,2.</p>
+                <div class="options">
+                    <label><input type="radio" name="q10" value="a"> 3,4</label>
+                    <label><input type="radio" name="q10" value="b"> 15</label>
+                    <label><input type="radio" name="q10" value="c"> -15</label>
+                    <label><input type="radio" name="q10" value="d"> 4,4</label>
+                </div>
+            </div>
+
+            <!-- Question 11 -->
+            <div class="question">
+                <div class="question-number">Question 11</div>
+                <p>Simplifie la fraction 72/120.</p>
+                <div class="options">
+                    <label><input type="radio" name="q11" value="a"> 6/10</label>
+                    <label><input type="radio" name="q11" value="b"> 3/5</label>
+                    <label><input type="radio" name="q11" value="c"> 12/20</label>
+                    <label><input type="radio" name="q11" value="d"> 8/15</label>
+                </div>
+            </div>
+
+            <!-- Question 12 -->
+            <div class="question">
+                <div class="question-number">Question 12</div>
+                <p>Quelle est la décomposition en facteurs premiers de 60 ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q12" value="a"> 2² × 3 × 5</label>
+                    <label><input type="radio" name="q12" value="b"> 2 × 3² × 5</label>
+                    <label><input type="radio" name="q12" value="c"> 2³ × 3 × 5</label>
+                    <label><input type="radio" name="q12" value="d"> 2 × 5 × 6</label>
+                </div>
+            </div>
+
+            <!-- Question 13 -->
+            <div class="question">
+                <div class="question-number">Question 13</div>
+                <p>Effectue la division euclidienne de 147 par 12.</p>
+                <div class="options">
+                    <label><input type="radio" name="q13" value="a"> Quotient 12, reste 3</label>
+                    <label><input type="radio" name="q13" value="b"> Quotient 12, reste 3</label>
+                    <label><input type="radio" name="q13" value="c"> Quotient 11, reste 15</label>
+                    <label><input type="radio" name="q13" value="d"> Quotient 13, reste -9</label>
+                </div>
+            </div>
+
+            <!-- Question 14 -->
+            <div class="question">
+                <div class="question-number">Question 14</div>
+                <p>Parmi 2, 3, 5, 10, lequel divise 450 ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q14" value="a"> Tous</label>
+                    <label><input type="radio" name="q14" value="b"> Seulement 2, 3 et 5</label>
+                    <label><input type="radio" name="q14" value="c"> Seulement 2 et 5</label>
+                    <label><input type="radio" name="q14" value="d"> Aucun</label>
+                </div>
+            </div>
+
+            <!-- Question 15 - Problème -->
+            <div class="question">
+                <div class="question-number">Question 15</div>
+                <p>Un magasin fait une remise de 30 % sur un article de 80 €. Quel est le prix soldé ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q15" value="a"> 56 €</label>
+                    <label><input type="radio" name="q15" value="b"> 24 €</label>
+                    <label><input type="radio" name="q15" value="c"> 50 €</label>
+                    <label><input type="radio" name="q15" value="d"> 104 €</label>
+                </div>
+            </div>
+
+            <!-- Question 16 - Problème -->
+            <div class="question">
+                <div class="question-number">Question 16</div>
+                <p>Dans une classe de 30 élèves, 2/5 sont des filles. Combien y a-t-il de garçons ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q16" value="a"> 12</label>
+                    <label><input type="radio" name="q16" value="b"> 18</label>
+                    <label><input type="radio" name="q16" value="c"> 15</label>
+                    <label><input type="radio" name="q16" value="d"> 20</label>
+                </div>
+            </div>
+
+            <!-- Question 17 - Problème -->
+            <div class="question">
+                <div class="question-number">Question 17</div>
+                <p>On veut ranger 48 bonbons et 36 chocolats dans des sachets identiques. Chaque sachet doit contenir le même nombre de bonbons et le même nombre de chocolats. Quel est le nombre maximal de sachets possibles ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q17" value="a"> 6</label>
+                    <label><input type="radio" name="q17" value="b"> 12</label>
+                    <label><input type="radio" name="q17" value="c"> 8</label>
+                    <label><input type="radio" name="q17" value="d"> 4</label>
+                </div>
+            </div>
+
+            <!-- Question 18 - Problème -->
+            <div class="question">
+                <div class="question-number">Question 18</div>
+                <p>Une recette pour 6 personnes nécessite 3/4 de litre de lait. Combien faut-il de lait pour 10 personnes ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q18" value="a"> 1,25 L</label>
+                    <label><input type="radio" name="q18" value="b"> 1,5 L</label>
+                    <label><input type="radio" name="q18" value="c"> 5/4 L</label>
+                    <label><input type="radio" name="q18" value="d"> Les deux réponses a et c</label>
+                </div>
+            </div>
+
+            <!-- Question 19 - Problème -->
+            <div class="question">
+                <div class="question-number">Question 19</div>
+                <p>Un terrain rectangulaire mesure 15 m de long et 10 m de large. On veut le diviser en carrés aussi grands que possible. Quelle est la longueur du côté de ces carrés ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q19" value="a"> 5 m</label>
+                    <label><input type="radio" name="q19" value="b"> 3 m</label>
+                    <label><input type="radio" name="q19" value="c"> 15 m</label>
+                    <label><input type="radio" name="q19" value="d"> 1 m</label>
+                </div>
+            </div>
+
+            <!-- Question 20 - Problème -->
+            <div class="question">
+                <div class="question-number">Question 20</div>
+                <p>Dans un réservoir contenant 60 L d’eau, on retire successivement 1/5 puis 1/4 du contenu restant. Combien reste-t-il d’eau ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q20" value="a"> 36 L</label>
+                    <label><input type="radio" name="q20" value="b"> 30 L</label>
+                    <label><input type="radio" name="q20" value="c"> 36 L</label>
+                    <label><input type="radio" name="q20" value="d"> 24 L</label>
+                </div>
+            </div>
+
+            <button type="button" id="submit">Voir mon score</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const answers = {
+            q1: "b",   // 15/4
+            q2: "a",   // 17 €
+            q3: "a",   // 59/6
+            q4: "a",   // 7/12
+            q5: "b",   // 2/5 et 8/20
+            q6: "a",   // 7/12 < 2/3 < 3/4 < 5/6
+            q7: "a",   // -2 < -11/8 < -1
+            q8: "c",   // 13/10
+            q9: "c",   // 15/54 = 5/18
+            q10: "a",  // 3,4
+            q11: "b",  // 3/5
+            q12: "a",  // 2² × 3 × 5
+            q13: "a",  // 147 = 12×12 + 3
+            q14: "a",  // Tous divisent 450
+            q15: "a",  // 80 × 0,7 = 56 €
+            q16: "b",  // 30 × 3/5 = 18 garçons
+            q17: "b",  // PGCD(48,36)=12
+            q18: "d",  // 3/4 × 10/6 = 5/4 = 1,25 L
+            q19: "a",  // PGCD(15,10)=5 m
+            q20: "a"   // 60 × 4/5 × 3/4 = 36 L
+        };
+
+        document.getElementById('submit').addEventListener('click', () => {
+            let score = 0;
+            let total = Object.keys(answers).length;
+
+            for (let key in answers) {
+                const selected = document.querySelector(`input[name="${key}"]:checked`);
+                if (selected && selected.value === answers[key]) {
+                    score++;
+                }
+            }
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = `Votre score : ${score} / ${total}`;
+            if (score === total) {
+                resultDiv.className = 'correct';
+                resultDiv.innerHTML += '<br>🎉 Bravo ! Parfait !';
+            } else if (score >= total * 0.75) {
+                resultDiv.className = 'correct';
+                resultDiv.innerHTML += '<br>👍 Très bien !';
+            } else if (score >= total * 0.5) {
+                resultDiv.className = 'incorrect';
+                resultDiv.innerHTML += '<br>😊 Pas mal, continuez !';
+            } else {
+                resultDiv.className = 'incorrect';
+                resultDiv.innerHTML += '<br>📚 Il faut réviser un peu plus !';
+            }
+        });
+    </script>
+</body>
+</html>

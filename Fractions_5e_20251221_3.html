@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Maths 5e--MoA-EIC: QCM - Fractions_5e_20251221_3</title>
+
+<style>
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #1d2671, #c33764);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    background: #ffffff;
+    margin: auto;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+h1 {
+    text-align: center;
+    color: #1d2671;
+}
+
+.question {
+    background: #f4f6ff;
+    border-left: 6px solid #1d2671;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.question p {
+    font-weight: bold;
+}
+
+.options label {
+    display: block;
+    background: #ffffff;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+
+.options label:hover {
+    background: #e0e7ff;
+}
+
+.correct {
+    background: #c8f7c5 !important;
+    border-color: #2ecc71;
+}
+
+.incorrect {
+    background: #f7c5c5 !important;
+    border-color: #e74c3c;
+}
+
+button {
+    display: block;
+    margin: 30px auto;
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: #1d2671;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #c33764;
+}
+
+#score {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>Maths 5e MoA-EIC: QCM - Fractions 20251221:3</h1>
+
+<div id="quiz"></div>
+
+<button onclick="corriger()">Corriger le QCM</button>
+<div id="score"></div>
+</div>
+
+<script>
+const questions = [
+{
+q: "1) Quelle fraction est égale à 6/14 ?",
+o: ["3/7", "7/15", "24/56", "Les réponses A et C"],
+a: 3
+},
+{
+q: "2) Quelle est l’écriture fractionnaire de 0,25 ?",
+o: ["1/25", "1/4", "25/1000", "2/5"],
+a: 1
+},
+{
+q: "3) 20 % de 70 € est égal à :",
+o: ["14 €", "7 €", "20 €", "35 €"],
+a: 0
+},
+{
+q: "4) Décomposition correcte de 15/7 :",
+o: ["2 + 1/7", "1 + 8/7", "3 - 6/7", "2 + 7/15"],
+a: 0
+},
+{
+q: "5) L’opposé de −3,5 est :",
+o: ["−3,5", "3,5", "0", "7"],
+a: 1
+},
+{
+q: "6) Quelle fraction est la plus grande ?",
+o: ["1/3", "2/5", "3/10", "1/4"],
+a: 1
+},
+{
+q: "7) Encadrement correct de 7/15 :",
+o: ["0 < 7/15 < 1", "1 < 7/15 < 2", "2 < 7/15 < 3", "−1 < 7/15 < 0"],
+a: 0
+},
+{
+q: "8) Simplification de 12/39 :",
+o: ["4/13", "6/13", "12/13", "3/13"],
+a: 0
+},
+{
+q: "9) Calcul exact : 5/2 + 1/5 =",
+o: ["6/7", "27/10", "11/5", "3"],
+a: 1
+},
+{
+q: "10) Calcul mental : −9 + 6 =",
+o: ["15", "−3", "3", "−15"],
+a: 1
+},
+{
+q: "11) Résultat de (7 + 3) × 9 − 5 =",
+o: ["85", "90", "80", "75"],
+a: 0
+},
+{
+q: "12) 456 est divisible par :",
+o: ["9", "5", "3", "10"],
+a: 2
+},
+{
+q: "13) Décomposition en facteurs premiers de 84 :",
+o: ["2 × 2 × 3 × 7", "2 × 42", "4 × 21", "3 × 28"],
+a: 0
+},
+{
+q: "14) Simplification de 85/153 :",
+o: ["5/9", "17/51", "25/45", "1/2"],
+a: 0
+},
+{
+q: "15) 36 croissants et 24 pains au chocolat : nombre maximum de corbeilles identiques ?",
+o: ["6", "12", "18", "24"],
+a: 1
+},
+{
+q: "16) 147 élèves par équipes de 16 → équipes complètes :",
+o: ["8", "9", "10", "11"],
+a: 1
+},
+{
+q: "17) Reste de la division euclidienne de 147 par 16 :",
+o: ["1", "2", "3", "4"],
+a: 2
+},
+{
+q: "18) Quelle écriture correspond à soustraire un nombre ?",
+o: ["Multiplier par l’opposé", "Ajouter l’opposé", "Diviser par −1", "Inverser la fraction"],
+a: 1
+},
+{
+q: "19) Fraction égale à 3/5 :",
+o: ["6/15", "9/10", "12/20", "15/18"],
+a: 2
+},
+{
+q: "20) Résultat vraisemblable pour la taille d’un adulte :",
+o: ["8,12 m", "1,72 m", "15 cm", "0,45 m"],
+a: 1
+}
+];
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, i) => {
+    const div = document.createElement("div");
+    div.className = "question";
+    div.innerHTML = `<p>${q.q}</p>`;
+    const options = document.createElement("div");
+    options.className = "options";
+
+    q.o.forEach((opt, j) => {
+        options.innerHTML += `
+        <label>
+            <input type="radio" name="q${i}" value="${j}">
+            ${opt}
+        </label>`;
+    });
+
+    div.appendChild(options);
+    quiz.appendChild(div);
+});
+
+function corriger() {
+    let score = 0;
+
+    questions.forEach((q, i) => {
+        const radios = document.getElementsByName(`q${i}`);
+        radios.forEach(r => {
+            const label = r.parentElement;
+            label.classList.remove("correct", "incorrect");
+
+            if (r.checked) {
+                if (parseInt(r.value) === q.a) {
+                    score++;
+                    label.classList.add("correct");
+                } else {
+                    label.classList.add("incorrect");
+                }
+            }
+        });
+    });
+
+    document.getElementById("score").innerHTML =
+        `Score final : ${score} / ${questions.length}`;
+}
+</script>
+</body>
+</html>

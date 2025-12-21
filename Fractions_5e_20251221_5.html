@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>QCM Fractions 5e Confirmé</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    margin: 20px;
+    color: #333;
+  }
+  h1 {
+    text-align: center;
+    color: #0066cc;
+  }
+  .question {
+    background-color: #e6f7ff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+  }
+  .question h2 {
+    margin-top: 0;
+    color: #005f99;
+  }
+  .choices {
+    margin-top: 10px;
+  }
+  .choice {
+    display: block;
+    background-color: #ffffff;
+    border: 2px solid #0099cc;
+    border-radius: 5px;
+    padding: 8px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  .choice:hover {
+    background-color: #b3e0f2;
+    transform: scale(1.02);
+  }
+  #submitBtn {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 24px;
+    font-size: 1.2em;
+    background-color: #0099cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  #submitBtn:hover {
+    background-color: #0077b6;
+  }
+  #result {
+    text-align: center;
+    font-size: 1.4em;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #d0f0c0;
+    border-radius: 8px;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<h1>Maths 5e MoA-EIC: QCM - Fractions 20251221:5</h1>
+
+<form id="qcmForm">
+
+<div class="question" id="question0">
+  <h2>1. Quelle est la forme simplifiée de la fraction 8/12 ?</h2>
+  <div class="choices">
+    <div class="choice" data-q="0" data-answer="A">A. 2/3</div>
+    <div class="choice" data-q="0" data-answer="B">B. 4/6</div>
+    <div class="choice" data-q="0" data-answer="A">C. 8/12</div>
+    <div class="choice" data-q="0" data-answer="A">D. 6/9</div>
+  </div>
+</div>
+
+<div class="question" id="question1">
+  <h2>2. Convertir 0,75 en fraction.</h2>
+  <div class="choices">
+    <div class="choice" data-q="1" data-answer="A">A. 3/4</div>
+    <div class="choice" data-q="1" data-answer="B">B. 75/100</div>
+    <div class="choice" data-q="1" data-answer="A">C. 7/4</div>
+    <div class="choice" data-q="1" data-answer="A">D. 4/3</div>
+  </div>
+</div>
+
+<div class="question" id="question2">
+  <h2>3. Quelle est la valeur de 1/2 + 1/4 ?</h2>
+  <div class="choices">
+    <div class="choice" data-q="2" data-answer="A">A. 3/4</div>
+    <div class="choice" data-q="2" data-answer="B">B. 2/4</div>
+    <div class="choice" data-q="2" data-answer="A">C. 1/4</div>
+    <div class="choice" data-q="2" data-answer="A">D. 1/1</div>
+  </div>
+</div>
+
+<div class="question" id="question3">
+  <h2>4. Que représente la fraction 7/10 en pourcentage ?</h2>
+  <div class="choices">
+    <div class="choice" data-q="3" data-answer="A">A. 70%</div>
+    <div class="choice" data-q="3" data-answer="B">B. 7%</div>
+    <div class="choice" data-q="3" data-answer="A">C. 17%</div>
+    <div class="choice" data-q="3" data-answer="A">D. 0,7%</div>
+  </div>
+</div>
+
+<div class="question" id="question4">
+  <h2>5. Si je divise 36 par 6, quel est le quotient ?</h2>
+  <div class="choices">
+    <div class="choice" data-q="4" data-answer="A">A. 6</div>
+    <div class="choice" data-q="4" data-answer="A">B. 5</div>
+    <div class="choice" data-q="4" data-answer="A">C. 7</div>
+    <div class="choice" data-q="4" data-answer="A">D. 12</div>
+  </div>
+</div>
+
+<!-- Ajoutons des questions de résolution de problème -->
+<div class="question" id="question15">
+  <h2>16. Un gâteau est coupé en 8 parts égales. Si j’en mange 3, quelle fraction du gâteau ai-je mangée ?</h2>
+  <div class="choices">
+    <div class="choice" data-q="15" data-answer="A">A. 3/8</div>
+    <div class="choice" data-q="15" data-answer="B">B. 5/8</div>
+    <div class="choice" data-q="15" data-answer="A">C. 3/5</div>
+    <div class="choice" data-q="15" data-answer="A">D. 1/2</div>
+  </div>
+</div>
+
+<div class="question" id="question16">
+  <h2>17. Si un élève a 60% de réussite à un contrôle, quelle fraction cela représente-t-il ?</h2>
+  <div class="choices">
+    <div class="choice" data-q="16" data-answer="A">A. 3/5</div>
+    <div class="choice" data-q="16" data-answer="B">B. 6/10</div>
+    <div class="choice" data-q="16" data-answer="A">C. 12/20</div>
+    <div class="choice" data-q="16" data-answer="A">D. Toutes ces réponses</div>
+  </div>
+</div>
+
+<!-- Ajout d’un bouton pour finir le QCM -->
+<button id="submitBtn">Terminer le QCM</button>
+<div id="result"></div>
+
+</form>
+
+<script>
+  const choices = document.querySelectorAll('.choice');
+  const answers = {
+    0: 'A', // 8/12 simplifié en 2/3
+    1: 'A', // 0,75 en fraction
+    2: 'A', // 1/2 + 1/4 = 3/4
+    3: 'A', // 7/10 en %
+    4: 'A', // division 36/6
+    15: 'A', // problème gâteau
+    16: 'A'  // pourcentage en fraction
+  };
+
+  choices.forEach(choice => {
+    choice.addEventListener('click', () => {
+      const q = choice.getAttribute('data-q');
+      const selectedAnswer = choice.getAttribute('data-answer');
+
+      // On peut ajouter une indication pour la sélection, par exemple changer la couleur
+      choices.forEach(c => c.style.backgroundColor = 'white'); // Reset
+      choice.style.backgroundColor = '#00cc66';
+
+      // On stocke la réponse sélectionnée dans l'objet answers pour vérification plus tard
+      answers[q] = selectedAnswer;
+    });
+  });
+
+  document.getElementById('submitBtn').addEventListener('click', () => {
+    let score = 0;
+    let total = Object.keys(answers).length;
+    for (let q in answers) {
+      if (answers[q] === answers[q]) {
+        score++;
+      }
+    }
+
+    // Vérification simple
+    let correctCount = 0;
+    for (let q in answers) {
+      if (answers[q] === answers[q]) {
+        correctCount++;
+      }
+    }
+
+    // Calcul du score
+    let totalQuestions = Object.keys(answers).length;
+    let scoreDisplay = Math.round((correctCount / totalQuestions) * 100);
+    document.getElementById('result').innerHTML = `Votre score : ${correctCount} / ${totalQuestions} (${scoreDisplay}%)`;
+    document.getElementById('result').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>

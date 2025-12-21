@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Fractions - Niveau 5ème</title>
+
+    <!-- MathJax pour afficher les fractions en LaTeX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 35px;
+            max-width: 850px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #1565c0;
+            font-size: 2.4em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #90caf9;
+            padding-bottom: 12px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 25px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #42a5f5, #1e88e5);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .question-counter {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            background: #f5fbff;
+            border-left: 6px solid #1e88e5;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: left;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .question-text {
+            font-size: 1.35em;
+            color: #1e3a8a;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            background: #eef7ff;
+            border: 2px solid #bbdefb;
+            border-radius: 10px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.15em;
+        }
+
+        .option-label:hover {
+            background: #e3f2fd;
+            border-color: #42a5f5;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.4);
+            accent-color: #1976d2;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .navigation-buttons button {
+            padding: 14px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        #prevBtn {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        #prevBtn:hover { background-color: #f57c00; transform: translateY(-3px); }
+
+        #nextBtn {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        #nextBtn:hover { background-color: #388e3c; transform: translateY(-3px); }
+
+        #submitBtn {
+            background-color: #1976d2;
+            color: white;
+            display: none;
+        }
+
+        #submitBtn:hover { background-color: #0d47a1; transform: translateY(-3px); }
+
+        .result-container {
+            display: none;
+            padding: 40px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 16px;
+            margin-top: 30px;
+            animation: slideIn 0.8s ease-out;
+            text-align: center;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-container h2 {
+            color: #2e7d32;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+
+        .result-container p {
+            font-size: 1.3em;
+            margin: 15px 0;
+        }
+
+        .restart-btn {
+            background-color: #00acc1;
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s;
+        }
+
+        .restart-btn:hover {
+            background-color: #00838f;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container" id="quizContainer">
+        <h1>Maths 5e MoA-EIC: QCM - Fractions 20251221:6</h1>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+
+        <div class="question-counter" id="questionCounter">Question 1 / 20</div>
+
+        <div class="question-container">
+            <div class="question-text" id="questionText"></div>
+            <div class="options-container" id="optionsContainer"></div>
+        </div>
+
+        <div class="navigation-buttons">
+            <button id="prevBtn">Précédent</button>
+            <button id="nextBtn">Suivant</button>
+            <button id="submitBtn">Terminer le quiz</button>
+        </div>
+    </div>
+
+    <div class="result-container" id="resultContainer">
+        <h2>Résultats du Quiz</h2>
+        <p id="scoreText"></p>
+        <p id="feedbackText"></p>
+        <button class="restart-btn" id="restartBtn">Recommencer le quiz</button>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Quelle fraction représente la partie colorée d’un cercle divisé en 8 parts égales dont 3 sont colorées ?", options: ["$\\frac{3}{8}$", "$\\frac{5}{8}$", "$\\frac{3}{5}$", "$\\frac{8}{3}$"], answer: "$\\frac{3}{8}$" },
+            { question: "Simplifiez la fraction $\\frac{12}{18}$ à sa forme irréductible.", options: ["$\\frac{2}{3}$", "$\\frac{6}{9}$", "$\\frac{4}{6}$", "$\\frac{1}{2}$"], answer: "$\\frac{2}{3}$" },
+            { question: "Comparez les fractions : $\\frac{3}{4}$ et $\\frac{5}{6}$.", options: ["$\\frac{3}{4} < \\frac{5}{6}$", "$\\frac{3}{4} > \\frac{5}{6}$", "$\\frac{3}{4} = \\frac{5}{6}$", "Impossible"], answer: "$\\frac{3}{4} < \\frac{5}{6}$" },
+            { question: "Calculez $\\frac{1}{3} + \\frac{1}{6}$.", options: ["$\\frac{2}{9}$", "$\\frac{1}{2}$", "$\\frac{2}{6}$", "$\\frac{3}{6}$"], answer: "$\\frac{1}{2}$" },
+            { question: "Calculez $\\frac{7}{10} - \\frac{2}{5}$.", options: ["$\\frac{3}{10}$", "$\\frac{5}{5}$", "$\\frac{1}{2}$", "$\\frac{9}{10}$"], answer: "$\\frac{3}{10}$" },
+            { question: "Calculez $\\frac{2}{3} \\times \\frac{4}{5}$.", options: ["$\\frac{8}{15}$", "$\\frac{6}{8}$", "$\\frac{2}{5}$", "$\\frac{4}{3}$"], answer: "$\\frac{8}{15}$" },
+            { question: "Calculez $\\frac{3}{4} \\div \\frac{1}{2}$.", options: ["$\\frac{3}{2}$", "$\\frac{3}{8}$", "$\\frac{6}{4}$", "$\\frac{1}{3}$"], answer: "$\\frac{3}{2}$" },
+            { question: "Convertissez $\\frac{15}{4}$ en nombre décimal.", options: ["3.75", "1.54", "4.15", "0.26"], answer: "3.75" },
+            { question: "Quel est l’inverse de $\\frac{5}{7}$ ?", options: ["$\\frac{7}{5}$", "$\\frac{1}{5}$", "$\\frac{1}{7}$", "$\\frac{5}{7}$"], answer: "$\\frac{7}{5}$" },
+            { question: "Un gâteau est partagé en 12 parts égales. Si vous mangez $\\frac{1}{4}$ du gâteau, combien de parts avez-vous mangées ?", options: ["3 parts", "4 parts", "6 parts", "2 parts"], answer: "3 parts" },
+            { question: "Dans une classe de 28 élèves, $\\frac{3}{7}$ sont des filles. Combien y a-t-il de filles ?", options: ["12 filles", "16 filles", "9 filles", "21 filles"], answer: "12 filles" },
+            { question: "Un jardinier a planté des fleurs sur $\\frac{2}{5}$ de son jardin de 150 m². Quelle surface est plantée ?", options: ["60 m²", "30 m²", "75 m²", "90 m²"], answer: "60 m²" },
+            { question: "Vous avez $\\frac{1}{2}$ litre de jus et vous en buvez $\\frac{1}{4}$ litre. Combien reste-t-il ?", options: ["$\\frac{1}{4}$ litre", "$\\frac{1}{8}$ litre", "$\\frac{3}{4}$ litre", "$\\frac{1}{2}$ litre"], answer: "$\\frac{1}{4}$ litre" },
+            { question: "Trois amis partagent une pizza. Le premier mange $\\frac{1}{3}$, le second $\\frac{1}{4}$. Quelle fraction reste pour le troisième ?", options: ["$\\frac{5}{12}$", "$\\frac{7}{12}$", "$\\frac{1}{2}$", "$\\frac{1}{4}$"], answer: "$\\frac{5}{12}$" },
+            { question: "Un coureur a parcouru $\\frac{3}{5}$ d’une course de 10 km. Quelle distance reste-t-il ?", options: ["4 km", "6 km", "2 km", "8 km"], answer: "4 km" },
+            { question: "Quelle fraction est équivalente à $\\frac{2}{5}$ avec dénominateur 20 ?", options: ["$\\frac{8}{20}$", "$\\frac{10}{20}$", "$\\frac{4}{20}$", "$\\frac{2}{20}$"], answer: "$\\frac{8}{20}$" },
+            { question: "Rangez par ordre croissant : $\\frac{1}{2}$, $\\frac{2}{3}$, $\\frac{1}{4}$.", options: ["$\\frac{1}{4}, \\frac{1}{2}, \\frac{2}{3}$", "$\\frac{1}{2}, \\frac{1}{4}, \\frac{2}{3}$", "$\\frac{2}{3}, \\frac{1}{2}, \\frac{1}{4}$", "$\\frac{1}{4}, \\frac{2}{3}, \\frac{1}{2}$"], answer: "$\\frac{1}{4}, \\frac{1}{2}, \\frac{2}{3}$" },
+            { question: "Un bidon contient 5 litres. On utilise $\\frac{3}{4}$ du contenu. Combien reste-t-il ?", options: ["1.25 litres", "3.75 litres", "2.5 litres", "0.75 litres"], answer: "1.25 litres" },
+            { question: "Si $\\frac{2}{3}$ d’un nombre vaut 18, quel est ce nombre ?", options: ["27", "12", "36", "9"], answer: "27" },
+            { question: "Un livre a 240 pages. J’ai lu $\\frac{5}{8}$ du livre. Combien de pages reste-t-il à lire ?", options: ["90 pages", "150 pages", "60 pages", "120 pages"], answer: "90 pages" }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const progressBar = document.getElementById('progressBar');
+        const questionCounter = document.getElementById('questionCounter');
+        const quizContainer = document.getElementById('quizContainer');
+        const resultContainer = document.getElementById('resultContainer');
+        const scoreText = document.getElementById('scoreText');
+        const feedbackText = document.getElementById('feedbackText');
+        const restartBtn = document.getElementById('restartBtn');
+
+        function loadQuestion() {
+            const q = questions[currentQuestionIndex];
+            questionText.innerHTML = q.question;
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach(option => {
+                const label = document.createElement('label');
+                label.className = 'option-label';
+
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = 'answer';
+                input.value = option;
+                if (userAnswers[currentQuestionIndex] === option) input.checked = true;
+
+                input.addEventListener('change', () => {
+                    userAnswers[currentQuestionIndex] = option;
+                });
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(option));
+                optionsContainer.appendChild(label);
+            });
+
+            // Rendu MathJax après insertion du contenu
+            MathJax.typesetPromise([questionText, optionsContainer]);
+
+            updateNavigationButtons();
+            updateProgressBar();
+            updateQuestionCounter();
+        }
+
+        function updateNavigationButtons() {
+            prevBtn.style.display = currentQuestionIndex === 0 ? 'none' : 'block';
+            nextBtn.style.display = currentQuestionIndex === questions.length - 1 ? 'none' : 'block';
+            submitBtn.style.display = currentQuestionIndex === questions.length - 1 ? 'block' : 'none';
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = progress + '%';
+            progressBar.textContent = Math.round(progress) + '%';
+        }
+
+        function updateQuestionCounter() {
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} / ${questions.length}`;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            userAnswers.forEach((ans, i) => {
+                if (ans === questions[i].answer) score++;
+            });
+
+            scoreText.textContent = `Votre score : ${score} / ${questions.length}`;
+
+            let feedback = '';
+            if (score === questions.length) {
+                feedback = "🎉 Félicitations ! Score parfait ! Vous maîtrisez les fractions !";
+                feedbackText.style.color = '#1b5e20';
+            } else if (score >= questions.length * 0.8) {
+                feedback = "🌟 Excellent travail ! Vous avez une très bonne maîtrise.";
+                feedbackText.style.color = '#2e7d32';
+            } else if (score >= questions.length * 0.6) {
+                feedback = "👍 Très bien ! Quelques petites révisions et ce sera parfait.";
+                feedbackText.style.color = '#388e3c';
+            } else if (score >= questions.length * 0.4) {
+                feedback = "😊 Pas mal ! Continuez à pratiquer les fractions.";
+                feedbackText.style.color = '#f57c00';
+            } else {
+                feedback = "📚 Courage ! Revoyez les bases et vous progresserez vite.";
+                feedbackText.style.color = '#c62828';
+            }
+
+            feedbackText.innerHTML = feedback;
+
+            quizContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers.fill(null);
+            quizContainer.style.display = 'block';
+            resultContainer.style.display = 'none';
+            loadQuestion();
+        }
+
+        // Écouteurs d'événements
+        prevBtn.addEventListener('click', prevQuestion);
+        nextBtn.addEventListener('click', nextQuestion);
+        submitBtn.addEventListener('click', submitQuiz);
+        restartBtn.addEventListener('click', restartQuiz);
+
+        // Chargement initial
+        loadQuestion();
+    </script>
+</body>
+</html>
