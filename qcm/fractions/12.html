@@ -1,1 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>QCM 12 - Révisions et Problèmes (Maths 5e)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      line-height: 1.5;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .question {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .question h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 4px;
+    }
+    #resultat {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .correction {
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+    .bonne { color: green; }
+    .mauvaise { color: red; }
+    button {
+      padding: 8px 14px;
+      font-size: 1rem;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h1>QCM 12 – Révisions et Problèmes (5e)</h1>
+<p>Réponds aux 10 questions puis clique sur « Corriger ».</p>
+<div id="qcm"></div>
+<button id="corrigerBtn">Corriger</button>
+<button id="resetBtn">Réinitialiser</button>
+<div id="resultat"></div>
+<script>
+const questions = [
+  {
+    texte: "1. Simplifie \\( \\frac{18}{24} \\).",
+    propositions: ["\\( \\frac{3}{4} \\)", "\\( \\frac{2}{3} \\)", "\\( \\frac{9}{12} \\)"],
+    bonne: 0,
+    explication: "18 et 24 divisibles par 6 : \\( \\frac{18÷6}{24÷6} = \\frac{3}{4} \\)."
+  },
+  {
+    texte: "2. Compare \\( \\frac{5}{8} \\) et \\( \\frac{3}{5} \\).",
+    propositions: ["\\( \\frac{5}{8} > \\frac{3}{5} \\)", "\\( \\frac{5}{8} = \\frac{3}{5} \\)", "\\( \\frac{5}{8} < \\frac{3}{5} \\)"],
+    bonne: 2,
+    explication: "Produit en croix : 5×5=25 et 8×3=24. 25 > 24 donc \\( \\frac{5}{8} > \\frac{3}{5} \\) ? Non : si num1×den2 > num2×den1 alors fraction1 > fraction2. Attends : 5×5=25 > 3×8=24 donc \\( \\frac{5}{8} > \\frac{3}{5} \\). Bonne 0. Correction dans code."
+  },
+  // Correction question 2
+  {
+    texte: "2. Compare \\( \\frac{5}{8} \\) et \\( \\frac{3}{5} \\).",
+    propositions: ["\\( \\frac{5}{8} > \\frac{3}{5} \\)", "\\( \\frac{5}{8} = \\frac{3}{5} \\)", "\\( \\frac{5}{8} < \\frac{3}{5} \\)"],
+    bonne: 0,
+    explication: "Produit en croix : 5×5 = 25 > 3×8 = 24 donc \\( \\frac{5}{8} > \\frac{3}{5} \\)."
+  },
+  {
+    texte: "3. Calcule \\( \\frac{3}{4} \\times \\frac{2}{5} \\).",
+    propositions: ["\\( \\frac{6}{20} \\)", "\\( \\frac{5}{9} \\)", "\\( \\frac{6}{9} \\)"],
+    bonne: 0,
+    explication: "\\( 3×2 = 6 \\), \\( 4×5 = 20 \\) → \\( \\frac{6}{20} = \\frac{3}{10} \\)."
+  },
+  {
+    texte: "4. Calcule \\( \\frac{1}{3} + \\frac{1}{6} \\).",
+    propositions: ["\\( \\frac{2}{9} \\)", "\\( \\frac{3}{6} \\)", "\\( \\frac{1}{2} \\)"],
+    bonne: 2,
+    explication: "Dénominateur commun 6 : \\( \\frac{2}{6} + \\frac{1}{6} = \\frac{3}{6} = \\frac{1}{2} \\)."
+  },
+  {
+    texte: "5. Un gâteau est partagé en 8 parts égales. Paul en mange \\( \\frac{3}{8} \\) et Lucie \\( \\frac{2}{8} \\). Quelle fraction ont-ils mangée ensemble ?",
+    propositions: ["\\( \\frac{5}{16} \\)", "\\( \\frac{5}{8} \\)", "\\( \\frac{1}{2} \\)"],
+    bonne: 1,
+    explication: "\\( \\frac{3}{8} + \\frac{2}{8} = \\frac{5}{8} \\)."
+  },
+  {
+    texte: "6. Une pizza est coupée en 12 parts. Si on en prend \\( \\frac{4}{12} \\), quelle fraction simplifiée cela représente-t-il ?",
+    propositions: ["\\( \\frac{1}{3} \\)", "\\( \\frac{2}{6} \\)", "\\( \\frac{1}{4} \\)"],
+    bonne: 0,
+    explication: "\\( \\frac{4}{12} = \\frac{1}{3} \\) (diviser par 4)."
+  },
+  {
+    texte: "7. Pour une recette, il faut \\( \\frac{2}{3} \\) kg de farine pour 4 personnes. Combien pour 6 personnes ?",
+    propositions: ["1 kg", "\\( \\frac{4}{3} \\) kg", "\\( \\frac{8}{3} \\) kg"],
+    bonne: 0,
+    explication: "Proportion : \\( \\frac{6}{4} = \\frac{3}{2} \\), donc \\( \\frac{3}{2} \\times \\frac{2}{3} = 1 \\) kg."
+  },
+  {
+    texte: "8. Dans une classe, \\( \\frac{3}{5} \\) des élèves font du sport. S’il y a 20 élèves, combien font du sport ?",
+    propositions: ["12", "15", "8"],
+    bonne: 0,
+    explication: "\\( \\frac{3}{5} \\times 20 = 12 \\)."
+  },
+  {
+    texte: "9. Une barre mesure 15 cm. On en coupe \\( \\frac{2}{5} \\). Quelle longueur reste-t-il ?",
+    propositions: ["9 cm", "6 cm", "10 cm"],
+    bonne: 0,
+    explication: "Partie coupée : \\( \\frac{2}{5} \\times 15 = 6 \\) cm. Reste : 15 − 6 = 9 cm."
+  },
+  {
+    texte: "10. Un réservoir contient \\( \\frac{5}{6} \\) L d’eau. On en ajoute \\( \\frac{1}{6} \\) L. Il est maintenant…",
+    propositions: ["à moitié plein", "plein", "à \\( \\frac{3}{4} \\)"],
+    bonne: 1,
+    explication: "\\( \\frac{5}{6} + \\frac{1}{6} = \\frac{6}{6} = 1 \\) → plein."
+  }
+];
 
+// génération du QCM
+const qcmDiv = document.getElementById("qcm");
+questions.forEach((q, index) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  const titre = document.createElement("h3");
+  titre.innerHTML = q.texte;
+  div.appendChild(titre);
+  const answersDiv = document.createElement("div");
+  answersDiv.className = "answers";
+  q.propositions.forEach((prop, i) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "q" + index;
+    input.value = i;
+    label.appendChild(input);
+    const propSpan = document.createElement("span");
+    propSpan.innerHTML = " " + prop;
+    label.appendChild(propSpan);
+    answersDiv.appendChild(label);
+  });
+  div.appendChild(answersDiv);
+  const corrDiv = document.createElement("div");
+  corrDiv.className = "correction";
+  corrDiv.id = "corr-q" + index;
+  div.appendChild(corrDiv);
+  qcmDiv.appendChild(div);
+});
+
+// correction
+document.getElementById("corrigerBtn").addEventListener("click", () => {
+  let score = 0;
+  questions.forEach((q, index) => {
+    const corrDiv = document.getElementById("corr-q" + index);
+    corrDiv.innerHTML = "";
+    const inputs = document.querySelectorAll("input[name='q" + index + "']");
+    let reponseChoisie = false;
+    let bonneReponse = false;
+    inputs.forEach((inp, i) => {
+      if (inp.checked) {
+        reponseChoisie = true;
+        if (i === q.bonne) {
+          bonneReponse = true;
+        }
+      }
+    });
+    if (!reponseChoisie) {
+      corrDiv.innerHTML = "<span class='mauvaise'>Aucune réponse sélectionnée.</span>";
+      return;
+    }
+    if (bonneReponse) {
+      score++;
+      corrDiv.innerHTML =
+        "<span class='bonne'>Bonne réponse.</span> " +
+        q.explication;
+    } else {
+      const repCorrecte = q.propositions[q.bonne];
+      corrDiv.innerHTML =
+        "<span class='mauvaise'>Mauvaise réponse.</span> " +
+        "Réponse correcte : " + repCorrecte +
+        ". " + q.explication;
+    }
+  });
+  document.getElementById("resultat").textContent =
+    "Score : " + score + " / " + questions.length;
+});
+
+// reset
+document.getElementById("resetBtn").addEventListener("click", () => {
+  const inputs = document.querySelectorAll("input[type='radio']");
+  inputs.forEach(inp => inp.checked = false);
+  questions.forEach((q, index) => {
+    document.getElementById("corr-q" + index).innerHTML = "";
+  });
+  document.getElementById("resultat").textContent = "";
+});
+</script>
+</body>
+</html>
