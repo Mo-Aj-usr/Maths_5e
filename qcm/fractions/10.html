@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>QCM 10 - Addition fractions (Maths 5e)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -33,6 +34,7 @@
     #resultat {
       margin-top: 15px;
       font-weight: bold;
+      font-size: 1.2rem;
     }
     .correction {
       margin-top: 5px;
@@ -58,64 +60,64 @@
 <script>
 const questions = [
   {
-    texte: "1. Calcule \\( \\frac{1}{4} + \\frac{2}{4} \\).",
-    propositions: ["\\( \\frac{3}{8} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{1}{2} \\)"],
+    texte: "1. Calcule $$ \\frac{1}{4} + \\frac{2}{4} $$.",
+    propositions: ["$$ \\frac{3}{8} $$", "$$ \\frac{3}{4} $$", "$$ \\frac{1}{2} $$"],
     bonne: 1,
-    explication: "Même dénominateur : \\( \\frac{1+2}{4} = \\frac{3}{4} \\)."
+    explication: "Même dénominateur : $$ \\frac{1+2}{4} = \\frac{3}{4} $$."
   },
   {
-    texte: "2. Calcule \\( \\frac{1}{5} + \\frac{3}{5} \\).",
-    propositions: ["\\( \\frac{4}{10} \\)", "\\( \\frac{4}{5} \\)", "\\( \\frac{2}{5} \\)"],
+    texte: "2. Calcule $$ \\frac{1}{5} + \\frac{3}{5} $$.",
+    propositions: ["$$ \\frac{4}{10} $$", "$$ \\frac{4}{5} $$", "$$ \\frac{2}{5} $$"],
     bonne: 1,
-    explication: "Même dénominateur : \\( \\frac{1+3}{5} = \\frac{4}{5} \\)."
+    explication: "Même dénominateur : $$ \\frac{1+3}{5} = \\frac{4}{5} $$."
   },
   {
-    texte: "3. Calcule \\( \\frac{1}{3} + \\frac{1}{6} \\).",
-    propositions: ["\\( \\frac{2}{9} \\)", "\\( \\frac{3}{6} \\)", "\\( \\frac{1}{2} \\)"],
+    texte: "3. Calcule $$ \\frac{1}{3} + \\frac{1}{6} $$.",
+    propositions: ["$$ \\frac{2}{9} $$", "$$ \\frac{3}{6} $$", "$$ \\frac{1}{2} $$"],
     bonne: 2,
-    explication: "Dénominateur commun 6 : \\( \\frac{2}{6} + \\frac{1}{6} = \\frac{3}{6} = \\frac{1}{2} \\)."
+    explication: "Dénominateur commun 6 : $$ \\frac{2}{6} + \\frac{1}{6} = \\frac{3}{6} = \\frac{1}{2} $$."
   },
   {
-    texte: "4. Calcule \\( \\frac{2}{5} + \\frac{1}{10} \\).",
-    propositions: ["\\( \\frac{3}{15} \\)", "\\( \\frac{5}{10} \\)", "\\( \\frac{4}{15} \\)"],
+    texte: "4. Calcule $$ \\frac{2}{5} + \\frac{1}{10} $$.",
+    propositions: ["$$ \\frac{3}{15} $$", "$$ \\frac{5}{10} $$", "$$ \\frac{4}{15} $$"],
     bonne: 1,
-    explication: "Dénominateur commun 10 : \\( \\frac{4}{10} + \\frac{1}{10} = \\frac{5}{10} = \\frac{1}{2} \\)."
+    explication: "Dénominateur commun 10 : $$ \\frac{4}{10} + \\frac{1}{10} = \\frac{5}{10} = \\frac{1}{2} $$."
   },
   {
-    texte: "5. Calcule \\( \\frac{3}{8} + \\frac{1}{8} \\).",
-    propositions: ["\\( \\frac{4}{8} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{5}{8} \\)"],
+    texte: "5. Calcule $$ \\frac{3}{8} + \\frac{1}{8} $$.",
+    propositions: ["$$ \\frac{4}{8} $$", "$$ \\frac{3}{4} $$", "$$ \\frac{5}{8} $$"],
     bonne: 0,
-    explication: "Même dénominateur : \\( \\frac{3+1}{8} = \\frac{4}{8} = \\frac{1}{2} \\)."
+    explication: "Même dénominateur : $$ \\frac{3+1}{8} = \\frac{4}{8} = \\frac{1}{2} $$."
   },
   {
-    texte: "6. Calcule \\( \\frac{1}{2} + \\frac{1}{4} \\).",
-    propositions: ["\\( \\frac{2}{6} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{1}{6} \\)"],
+    texte: "6. Calcule $$ \\frac{1}{2} + \\frac{1}{4} $$.",
+    propositions: ["$$ \\frac{2}{6} $$", "$$ \\frac{3}{4} $$", "$$ \\frac{1}{6} $$"],
     bonne: 1,
-    explication: "Dénominateur commun 4 : \\( \\frac{2}{4} + \\frac{1}{4} = \\frac{3}{4} \\)."
+    explication: "Dénominateur commun 4 : $$ \\frac{2}{4} + \\frac{1}{4} = \\frac{3}{4} $$."
   },
   {
-    texte: "7. Calcule \\( \\frac{5}{6} + \\frac{1}{6} \\).",
-    propositions: ["\\( \\frac{6}{12} \\)", "\\( 1 \\)", "\\( \\frac{5}{12} \\)"],
+    texte: "7. Calcule $$ \\frac{5}{6} + \\frac{1}{6} $$.",
+    propositions: ["$$ \\frac{6}{12} $$", "$$ 1 $$", "$$ \\frac{5}{12} $$"],
     bonne: 1,
-    explication: "Même dénominateur : \\( \\frac{5+1}{6} = \\frac{6}{6} = 1 \\)."
+    explication: "Même dénominateur : $$ \\frac{5+1}{6} = \\frac{6}{6} = 1 $$."
   },
   {
-    texte: "8. Calcule \\( \\frac{2}{3} + \\frac{1}{9} \\).",
-    propositions: ["\\( \\frac{3}{12} \\)", "\\( \\frac{7}{9} \\)", "\\( \\frac{3}{9} \\)"],
+    texte: "8. Calcule $$ \\frac{2}{3} + \\frac{1}{9} $$.",
+    propositions: ["$$ \\frac{3}{12} $$", "$$ \\frac{7}{9} $$", "$$ \\frac{3}{9} $$"],
     bonne: 1,
-    explication: "Dénominateur commun 9 : \\( \\frac{6}{9} + \\frac{1}{9} = \\frac{7}{9} \\)."
+    explication: "Dénominateur commun 9 : $$ \\frac{6}{9} + \\frac{1}{9} = \\frac{7}{9} $$."
   },
   {
-    texte: "9. Calcule \\( \\frac{3}{10} + \\frac{3}{10} \\).",
-    propositions: ["\\( \\frac{6}{20} \\)", "\\( \\frac{6}{10} \\)", "\\( \\frac{3}{5} \\)"],
+    texte: "9. Calcule $$ \\frac{3}{10} + \\frac{3}{10} $$.",
+    propositions: ["$$ \\frac{6}{20} $$", "$$ \\frac{6}{10} $$", "$$ \\frac{3}{5} $$"],
     bonne: 1,
-    explication: "Même dénominateur : \\( \\frac{3+3}{10} = \\frac{6}{10} = \\frac{3}{5} \\)."
+    explication: "Même dénominateur : $$ \\frac{3+3}{10} = \\frac{6}{10} = \\frac{3}{5} $$."
   },
   {
-    texte: "10. Calcule \\( \\frac{1}{5} + \\frac{2}{15} \\).",
-    propositions: ["\\( \\frac{5}{15} \\)", "\\( \\frac{3}{15} \\)", "\\( \\frac{1}{3} \\)"],
+    texte: "10. Calcule $$ \\frac{1}{5} + \\frac{2}{15} $$.",
+    propositions: ["$$ \\frac{5}{15} $$", "$$ \\frac{3}{15} $$", "$$ \\frac{1}{3} $$"],
     bonne: 0,
-    explication: "Dénominateur commun 15 : \\( \\frac{3}{15} + \\frac{2}{15} = \\frac{5}{15} = \\frac{1}{3} \\)."
+    explication: "Dénominateur commun 15 : $$ \\frac{3}{15} + \\frac{2}{15} = \\frac{5}{15} = \\frac{1}{3} $$."
   }
 ];
 
@@ -173,18 +175,23 @@ document.getElementById("corrigerBtn").addEventListener("click", () => {
     if (bonneReponse) {
       score++;
       corrDiv.innerHTML =
-        "<span class='bonne'>Bonne réponse.</span> " +
+        "<span class='bonne'>Bonne réponse.</span><br>" +
         q.explication;
     } else {
       const repCorrecte = q.propositions[q.bonne];
       corrDiv.innerHTML =
-        "<span class='mauvaise'>Mauvaise réponse.</span> " +
+        "<span class='mauvaise'>Mauvaise réponse.</span><br>" +
         "Réponse correcte : " + repCorrecte +
-        ". " + q.explication;
+        ".<br>" + q.explication;
     }
   });
   document.getElementById("resultat").textContent =
     "Score : " + score + " / " + questions.length;
+  
+  // Relancer MathJax après affichage des corrections
+  if (typeof MathJax !== "undefined") {
+    MathJax.typesetPromise([document.getElementById('resultat').parentNode]);
+  }
 });
 
 // reset
@@ -195,6 +202,11 @@ document.getElementById("resetBtn").addEventListener("click", () => {
     document.getElementById("corr-q" + index).innerHTML = "";
   });
   document.getElementById("resultat").textContent = "";
+  
+  // Relancer MathJax si nécessaire
+  if (typeof MathJax !== "undefined") {
+    MathJax.typesetPromise();
+  }
 });
 </script>
 </body>
