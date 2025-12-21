@@ -1,1 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>QCM 9 - Fraction d'un nombre (Maths 5e)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      line-height: 1.5;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .question {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .question h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 4px;
+    }
+    #resultat {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .correction {
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+    .bonne { color: green; }
+    .mauvaise { color: red; }
+    button {
+      padding: 8px 14px;
+      font-size: 1rem;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h1>QCM 9 – Fraction d'un nombre (5e)</h1>
+<p>Réponds aux 10 questions puis clique sur « Corriger ».</p>
+<div id="qcm"></div>
+<button id="corrigerBtn">Corriger</button>
+<button id="resetBtn">Réinitialiser</button>
+<div id="resultat"></div>
+<script>
+const questions = [
+  {
+    texte: "1. 1/2 de 24 =",
+    propositions: ["12", "48", "24"],
+    bonne: 0,
+    explication: "1/2 × 24 = 12."
+  },
+  {
+    texte: "2. 3/4 de 20 =",
+    propositions: ["15", "5", "60"],
+    bonne: 0,
+    explication: "3/4 × 20 = 15."
+  },
+  {
+    texte: "3. 2/5 de 25 =",
+    propositions: ["10", "12,5", "5"],
+    bonne: 0,
+    explication: "2/5 × 25 = 10."
+  },
+  {
+    texte: "4. 1/3 de 18 =",
+    propositions: ["6", "54", "9"],
+    bonne: 0,
+    explication: "1/3 × 18 = 6."
+  },
+  {
+    texte: "5. 3/5 de 20 =",
+    propositions: ["12", "3", "60"],
+    bonne: 0,
+    explication: "3/5 × 20 = 12."
+  },
+  {
+    texte: "6. 4/5 de 25 =",
+    propositions: ["20", "5", "100"],
+    bonne: 0,
+    explication: "4/5 × 25 = 20."
+  },
+  {
+    texte: "7. 2/3 de 30 =",
+    propositions: ["20", "10", "45"],
+    bonne: 0,
+    explication: "2/3 × 30 = 20."
+  },
+  {
+    texte: "8. 3/8 de 24 =",
+    propositions: ["9", "3", "72"],
+    bonne: 0,
+    explication: "3/8 × 24 = 9."
+  },
+  {
+    texte: "9. 5/6 de 18 =",
+    propositions: ["15", "3", "90"],
+    bonne: 0,
+    explication: "5/6 × 18 = 15."
+  },
+  {
+    texte: "10. 1/4 de 36 =",
+    propositions: ["9", "144", "12"],
+    bonne: 0,
+    explication: "1/4 × 36 = 9."
+  }
+];
+// génération du QCM
+const qcmDiv = document.getElementById("qcm");
+questions.forEach((q, index) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  const titre = document.createElement("h3");
+  titre.textContent = q.texte;
+  div.appendChild(titre);
+  const answersDiv = document.createElement("div");
+  answersDiv.className = "answers";
+  q.propositions.forEach((prop, i) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "q" + index;
+    input.value = i;
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(" " + prop));
+    answersDiv.appendChild(label);
+  });
+  div.appendChild(answersDiv);
+  const corrDiv = document.createElement("div");
+  corrDiv.className = "correction";
+  corrDiv.id = "corr-q" + index;
+  div.appendChild(corrDiv);
+  qcmDiv.appendChild(div);
+});
+// correction
+document.getElementById("corrigerBtn").addEventListener("click", () => {
+  let score = 0;
+  questions.forEach((q, index) => {
+    const corrDiv = document.getElementById("corr-q" + index);
+    corrDiv.innerHTML = "";
+    const inputs = document.querySelectorAll("input[name='q" + index + "']");
+    let bonneReponse = false;
+    inputs.forEach((inp, i) => {
+      if (inp.checked && i === q.bonne) {
+        bonneReponse = true;
+      }
+    });
+    if (bonneReponse) {
+      score++;
+      corrDiv.innerHTML =
+        "<span class='bonne'>Bonne réponse.</span> " +
+        q.explication;
+    } else {
+      const repCorrecte = q.propositions[q.bonne];
+      corrDiv.innerHTML =
+        "<span class='mauvaise'>Mauvaise réponse.</span> " +
+        "Réponse correcte : " + repCorrecte +
+        ". " + q.explication;
+    }
+  });
+  document.getElementById("resultat").textContent =
+    "Score : " + score + " / " + questions.length;
+});
+// reset
+document.getElementById("resetBtn").addEventListener("click", () => {
+  const inputs = document.querySelectorAll("input[type='radio']");
+  inputs.forEach(inp => inp.checked = false);
+  questions.forEach((q, index) => {
+    document.getElementById("corr-q" + index).innerHTML = "";
+  });
+  document.getElementById("resultat").textContent = "";
+});
+</script>
+</body>
+</html>
 
