@@ -33,6 +33,7 @@
     #resultat {
       margin-top: 15px;
       font-weight: bold;
+      font-size: 1.2rem;
     }
     .correction {
       margin-top: 5px;
@@ -46,6 +47,24 @@
       margin-right: 8px;
       cursor: pointer;
     }
+    /* Style simple pour les fractions inline */
+    .frac {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      font-size: 1.1em;
+    }
+    .frac > sup {
+      display: block;
+      font-size: 0.7em;
+      line-height: 1;
+    }
+    .frac > sub {
+      display: block;
+      font-size: 0.7em;
+      line-height: 1;
+      border-top: 1px solid #000;
+    }
   </style>
 </head>
 <body>
@@ -58,73 +77,71 @@
 <script>
 const questions = [
   {
-    texte: "1. Simplifie \\( \\frac{18}{24} \\).",
-    propositions: ["\\( \\frac{3}{4} \\)", "\\( \\frac{2}{3} \\)", "\\( \\frac{9}{12} \\)"],
+    texte: "1. Simplifie 18/24.",
+    propositions: ["3/4", "2/3", "9/12"],
     bonne: 0,
-    explication: "18 et 24 divisibles par 6 : \\( \\frac{18÷6}{24÷6} = \\frac{3}{4} \\)."
+    explication: "18 et 24 divisibles par 6 : (18÷6)/(24÷6) = 3/4."
   },
   {
-    texte: "2. Compare \\( \\frac{5}{8} \\) et \\( \\frac{3}{5} \\).",
-    propositions: ["\\( \\frac{5}{8} > \\frac{3}{5} \\)", "\\( \\frac{5}{8} = \\frac{3}{5} \\)", "\\( \\frac{5}{8} < \\frac{3}{5} \\)"],
+    texte: "2. Compare 5/8 et 3/5.",
+    propositions: ["5/8 > 3/5", "5/8 = 3/5", "5/8 < 3/5"],
+    bonne: 0,
+    explication: "Produit en croix : 5×5 = 25 > 3×8 = 24 donc 5/8 > 3/5."
+  },
+  {
+    texte: "3. Calcule 3/4 × 2/5.",
+    propositions: ["6/20", "5/9", "6/9"],
+    bonne: 0,
+    explication: "3×2 = 6, 4×5 = 20 → 6/20 = 3/10."
+  },
+  {
+    texte: "4. Calcule 1/3 + 1/6.",
+    propositions: ["2/9", "3/6", "1/2"],
     bonne: 2,
-    explication: "Produit en croix : 5×5=25 et 8×3=24. 25 > 24 donc \\( \\frac{5}{8} > \\frac{3}{5} \\) ? Non : si num1×den2 > num2×den1 alors fraction1 > fraction2. Attends : 5×5=25 > 3×8=24 donc \\( \\frac{5}{8} > \\frac{3}{5} \\). Bonne 0. Correction dans code."
-  },
-  // Correction question 2
-  {
-    texte: "2. Compare \\( \\frac{5}{8} \\) et \\( \\frac{3}{5} \\).",
-    propositions: ["\\( \\frac{5}{8} > \\frac{3}{5} \\)", "\\( \\frac{5}{8} = \\frac{3}{5} \\)", "\\( \\frac{5}{8} < \\frac{3}{5} \\)"],
-    bonne: 0,
-    explication: "Produit en croix : 5×5 = 25 > 3×8 = 24 donc \\( \\frac{5}{8} > \\frac{3}{5} \\)."
+    explication: "Dénominateur commun 6 : 2/6 + 1/6 = 3/6 = 1/2."
   },
   {
-    texte: "3. Calcule \\( \\frac{3}{4} \\times \\frac{2}{5} \\).",
-    propositions: ["\\( \\frac{6}{20} \\)", "\\( \\frac{5}{9} \\)", "\\( \\frac{6}{9} \\)"],
-    bonne: 0,
-    explication: "\\( 3×2 = 6 \\), \\( 4×5 = 20 \\) → \\( \\frac{6}{20} = \\frac{3}{10} \\)."
-  },
-  {
-    texte: "4. Calcule \\( \\frac{1}{3} + \\frac{1}{6} \\).",
-    propositions: ["\\( \\frac{2}{9} \\)", "\\( \\frac{3}{6} \\)", "\\( \\frac{1}{2} \\)"],
-    bonne: 2,
-    explication: "Dénominateur commun 6 : \\( \\frac{2}{6} + \\frac{1}{6} = \\frac{3}{6} = \\frac{1}{2} \\)."
-  },
-  {
-    texte: "5. Un gâteau est partagé en 8 parts égales. Paul en mange \\( \\frac{3}{8} \\) et Lucie \\( \\frac{2}{8} \\). Quelle fraction ont-ils mangée ensemble ?",
-    propositions: ["\\( \\frac{5}{16} \\)", "\\( \\frac{5}{8} \\)", "\\( \\frac{1}{2} \\)"],
+    texte: "5. Un gâteau est partagé en 8 parts égales. Paul en mange 3/8 et Lucie 2/8. Quelle fraction ont-ils mangée ensemble ?",
+    propositions: ["5/16", "5/8", "1/2"],
     bonne: 1,
-    explication: "\\( \\frac{3}{8} + \\frac{2}{8} = \\frac{5}{8} \\)."
+    explication: "3/8 + 2/8 = 5/8."
   },
   {
-    texte: "6. Une pizza est coupée en 12 parts. Si on en prend \\( \\frac{4}{12} \\), quelle fraction simplifiée cela représente-t-il ?",
-    propositions: ["\\( \\frac{1}{3} \\)", "\\( \\frac{2}{6} \\)", "\\( \\frac{1}{4} \\)"],
+    texte: "6. Une pizza est coupée en 12 parts. Si on en prend 4/12, quelle fraction simplifiée cela représente-t-il ?",
+    propositions: ["1/3", "2/6", "1/4"],
     bonne: 0,
-    explication: "\\( \\frac{4}{12} = \\frac{1}{3} \\) (diviser par 4)."
+    explication: "4/12 = 1/3 (diviser par 4)."
   },
   {
-    texte: "7. Pour une recette, il faut \\( \\frac{2}{3} \\) kg de farine pour 4 personnes. Combien pour 6 personnes ?",
-    propositions: ["1 kg", "\\( \\frac{4}{3} \\) kg", "\\( \\frac{8}{3} \\) kg"],
+    texte: "7. Pour une recette, il faut 2/3 kg de farine pour 4 personnes. Combien pour 6 personnes ?",
+    propositions: ["1 kg", "4/3 kg", "8/3 kg"],
     bonne: 0,
-    explication: "Proportion : \\( \\frac{6}{4} = \\frac{3}{2} \\), donc \\( \\frac{3}{2} \\times \\frac{2}{3} = 1 \\) kg."
+    explication: "Proportion : 6/4 = 3/2, donc (3/2) × (2/3) = 1 kg."
   },
   {
-    texte: "8. Dans une classe, \\( \\frac{3}{5} \\) des élèves font du sport. S’il y a 20 élèves, combien font du sport ?",
+    texte: "8. Dans une classe, 3/5 des élèves font du sport. S’il y a 20 élèves, combien font du sport ?",
     propositions: ["12", "15", "8"],
     bonne: 0,
-    explication: "\\( \\frac{3}{5} \\times 20 = 12 \\)."
+    explication: "(3/5) × 20 = 12."
   },
   {
-    texte: "9. Une barre mesure 15 cm. On en coupe \\( \\frac{2}{5} \\). Quelle longueur reste-t-il ?",
+    texte: "9. Une barre mesure 15 cm. On en coupe 2/5. Quelle longueur reste-t-il ?",
     propositions: ["9 cm", "6 cm", "10 cm"],
     bonne: 0,
-    explication: "Partie coupée : \\( \\frac{2}{5} \\times 15 = 6 \\) cm. Reste : 15 − 6 = 9 cm."
+    explication: "Partie coupée : (2/5) × 15 = 6 cm. Reste : 15 − 6 = 9 cm."
   },
   {
-    texte: "10. Un réservoir contient \\( \\frac{5}{6} \\) L d’eau. On en ajoute \\( \\frac{1}{6} \\) L. Il est maintenant…",
-    propositions: ["à moitié plein", "plein", "à \\( \\frac{3}{4} \\)"],
+    texte: "10. Un réservoir contient 5/6 L d’eau. On en ajoute 1/6 L. Il est maintenant…",
+    propositions: ["à moitié plein", "plein", "à 3/4"],
     bonne: 1,
-    explication: "\\( \\frac{5}{6} + \\frac{1}{6} = \\frac{6}{6} = 1 \\) → plein."
+    explication: "5/6 + 1/6 = 6/6 = 1 → plein."
   }
 ];
+
+// Fonction pour transformer les fractions a/b en <span class="frac"><sup>a</sup><sub>b</sub></span>
+function formatFractions(text) {
+  return text.replace(/\b(\d+)\/(\d+)\b/g, '<span class="frac"><sup>$1</sup><sub>$2</sub></span>');
+}
 
 // génération du QCM
 const qcmDiv = document.getElementById("qcm");
@@ -132,7 +149,7 @@ questions.forEach((q, index) => {
   const div = document.createElement("div");
   div.className = "question";
   const titre = document.createElement("h3");
-  titre.innerHTML = q.texte;
+  titre.innerHTML = formatFractions(q.texte);
   div.appendChild(titre);
   const answersDiv = document.createElement("div");
   answersDiv.className = "answers";
@@ -144,7 +161,7 @@ questions.forEach((q, index) => {
     input.value = i;
     label.appendChild(input);
     const propSpan = document.createElement("span");
-    propSpan.innerHTML = " " + prop;
+    propSpan.innerHTML = " " + formatFractions(prop);
     label.appendChild(propSpan);
     answersDiv.appendChild(label);
   });
@@ -180,14 +197,14 @@ document.getElementById("corrigerBtn").addEventListener("click", () => {
     if (bonneReponse) {
       score++;
       corrDiv.innerHTML =
-        "<span class='bonne'>Bonne réponse.</span> " +
-        q.explication;
+        "<span class='bonne'>Bonne réponse.</span><br>" +
+        formatFractions(q.explication);
     } else {
-      const repCorrecte = q.propositions[q.bonne];
+      const repCorrecte = questions[index].propositions[questions[index].bonne];
       corrDiv.innerHTML =
-        "<span class='mauvaise'>Mauvaise réponse.</span> " +
-        "Réponse correcte : " + repCorrecte +
-        ". " + q.explication;
+        "<span class='mauvaise'>Mauvaise réponse.</span><br>" +
+        "Réponse correcte : " + formatFractions(repCorrecte) +
+        ".<br>" + formatFractions(q.explication);
     }
   });
   document.getElementById("resultat").textContent =
