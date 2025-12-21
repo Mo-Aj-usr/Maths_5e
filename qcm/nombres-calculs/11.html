@@ -1,1 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>QCM 11 - Calculatrice (Fx 92 + Collège et TI College Plus) (Maths 5e)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      line-height: 1.5;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .question {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .question h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 4px;
+    }
+    #resultat {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .correction {
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+    .bonne { color: green; }
+    .mauvaise { color: red; }
+    button {
+      padding: 8px 14px;
+      font-size: 1rem;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h1>QCM 11 – Calculatrice (Fx 92 + Collège et TI College Plus) (5e)</h1>
+<p>Réponds aux 10 questions puis clique sur « Corriger ».</p>
+<div id="qcm"></div>
+<button id="corrigerBtn">Corriger</button>
+<button id="resetBtn">Réinitialiser</button>
+<div id="resultat"></div>
+<script>
+const questions = [
+  {
+    texte: "1. Sur Fx 92+ Collège, pour calculer 15,6 × 2,4, quelle touche après les nombres ?",
+    propositions: ["=", "×", "EXE"],
+    bonne: 2,
+    explication: "Sur Fx 92+ Collège : 15.6 × 2.4 EXE donne directement le résultat."
+  },
+  {
+    texte: "2. La touche pour passer en mode COMP sur Fx 92+ Collège est :",
+    propositions: ["SHIFT + MODE", "MODE 1", "ALPHA + C"],
+    bonne: 1,
+    explication: "MODE puis 1 pour le mode calculs (COMP). C'est le mode de base."
+  },
+  {
+    texte: "3. Sur TI College Plus, pour √25, on tape :",
+    propositions: ["√ 25 =", "SHIFT √ 25 =", "25 √ ="],
+    bonne: 1,
+    explication: "SHIFT + √ (x²) puis 25 puis = donne 5."
+  },
+  {
+    texte: "4. Fx 92+ Collège affiche combien de décimales par défaut ?",
+    propositions: ["6", "8", "12"],
+    bonne: 0,
+    explication: "Par défaut, 6 décimales (ex: 1÷3 = 0.333333)."
+  },
+  {
+    texte: "5. Pour effacer l'écran sur Fx 92+ Collège :",
+    propositions: ["CLEAR", "SHIFT + 9", "AC"],
+    bonne: 1,
+    explication: "SHIFT + 9 (CLR) puis 1 (All) puis = efface tout."
+  },
+  {
+    texte: "6. Sur TI College Plus, la touche pour π est :",
+    propositions: ["SHIFT + 3", "ALPHA + P", "2nd F π"],
+    bonne: 0,
+    explication: "SHIFT + 3 donne π (≈3,14159)."
+  },
+  {
+    texte: "7. Calculer 2^(3) sur Fx 92+ Collège :",
+    propositions: ["2 ^ 3 =", "2 x^y 3 EXE", "2 ↑ 3 ="],
+    bonne: 1,
+    explication: "SHIFT + x^y (puissance) : 2 x^y 3 EXE = 8."
+  },
+  {
+    texte: "8. Sur les deux calculatrices, 1÷3 donne approximativement :",
+    propositions: ["0,3", "0,333333", "1/3 exactement"],
+    bonne: 1,
+    explication: "Les deux affichent 0.333333 (6 décimales). Ce sont des approximations."
+  },
+  {
+    texte: "9. Pour la racine carrée sur TI College Plus :",
+    propositions: ["√", "x²", "SHIFT + x²"],
+    bonne: 2,
+    explication: "SHIFT + x² donne la fonction racine carrée (√)."
+  },
+  {
+    texte: "10. Quelle touche communique les résultats sur les deux calculatrices ?",
+    propositions: ["=", "EXE", "Les deux"],
+    bonne: 2,
+    explication: "= et EXE ont la même fonction : calculer et afficher le résultat."
+  }
+];
+// génération du QCM
+const qcmDiv = document.getElementById("qcm");
+questions.forEach((q, index) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  const titre = document.createElement("h3");
+  titre.textContent = q.texte;
+  div.appendChild(titre);
+  const answersDiv = document.createElement("div");
+  answersDiv.className = "answers";
+  q.propositions.forEach((prop, i) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "q" + index;
+    input.value = i;
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(" " + prop));
+    answersDiv.appendChild(label);
+  });
+  div.appendChild(answersDiv);
+  const corrDiv = document.createElement("div");
+  corrDiv.className = "correction";
+  corrDiv.id = "corr-q" + index;
+  div.appendChild(corrDiv);
+  qcmDiv.appendChild(div);
+});
+// correction
+document.getElementById("corrigerBtn").addEventListener("click", () => {
+  let score = 0;
+  questions.forEach((q, index) => {
+    const corrDiv = document.getElementById("corr-q" + index);
+    corrDiv.innerHTML = "";
+    const inputs = document.querySelectorAll("input[name='q" + index + "']");
+    let bonneReponse = false;
+    inputs.forEach((inp, i) => {
+      if (inp.checked && i === q.bonne) {
+        bonneReponse = true;
+      }
+    });
+    if (bonneReponse) {
+      score++;
+      corrDiv.innerHTML =
+        "<span class='bonne'>Bonne réponse.</span> " +
+        q.explication;
+    } else {
+      const repCorrecte = q.propositions[q.bonne];
+      corrDiv.innerHTML =
+        "<span class='mauvaise'>Mauvaise réponse.</span> " +
+        "Réponse correcte : " + repCorrecte +
+        ". " + q.explication;
+    }
+  });
+  document.getElementById("resultat").textContent =
+    "Score : " + score + " / " + questions.length;
+});
+// reset
+document.getElementById("resetBtn").addEventListener("click", () => {
+  const inputs = document.querySelectorAll("input[type='radio']");
+  inputs.forEach(inp => inp.checked = false);
+  questions.forEach((q, index) => {
+    document.getElementById("corr-q" + index).innerHTML = "";
+  });
+  document.getElementById("resultat").textContent = "";
+});
+</script>
+</body>
+</html>
 
