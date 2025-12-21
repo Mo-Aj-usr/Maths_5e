@@ -1,1 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>QCM 9 - Nombres rationnels (Maths 5e)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      line-height: 1.5;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .question {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .question h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 4px;
+    }
+    #resultat {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .correction {
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+    .bonne { color: green; }
+    .mauvaise { color: red; }
+    button {
+      padding: 8px 14px;
+      font-size: 1rem;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h1>QCM 9 – Nombres rationnels (5e)</h1>
+<p>Réponds aux 10 questions puis clique sur « Corriger ».</p>
+<div id="qcm"></div>
+<button id="corrigerBtn">Corriger</button>
+<button id="resetBtn">Réinitialiser</button>
+<div id="resultat"></div>
+<script>
+const questions = [
+  {
+    texte: "1. Le nombre −3 est :",
+    propositions: ["Un nombre entier positif", "Un nombre entier négatif", "Un nombre décimal"],
+    bonne: 1,
+    explication: "−3 est un nombre entier négatif (inférieur à 0)."
+  },
+  {
+    texte: "2. Le nombre opposé de +5 est :",
+    propositions: ["+5", "−5", "0"],
+    bonne: 1,
+    explication: "Le nombre opposé de +5 est −5."
+  },
+  {
+    texte: "3. −2 + 5 =",
+    propositions: ["−7", "3", "7"],
+    bonne: 1,
+    explication: "−2 + 5 = 3."
+  },
+  {
+    texte: "4. 7 + (−4) =",
+    propositions: ["11", "3", "−11"],
+    bonne: 1,
+    explication: "7 + (−4) = 7 − 4 = 3."
+  },
+  {
+    texte: "5. −6 − (−3) =",
+    propositions: ["−9", "−3", "3"],
+    bonne: 2,
+    explication: "−6 − (−3) = −6 + 3 = −3. (Soustraire un négatif équivaut à ajouter son opposé.)"
+  },
+  {
+    texte: "6. Le nombre −8 est compris entre :",
+    propositions: ["−10 et −9", "−9 et −7", "−7 et 0"],
+    bonne: 1,
+    explication: "−8 est compris entre −9 et −7 sur l’axe numérique."
+  },
+  {
+    texte: "7. Parmi ces nombres, le plus grand est :",
+    propositions: ["−5", "0", "−2"],
+    bonne: 1,
+    explication: "0 > −2 > −5. Donc 0 est le plus grand."
+  },
+  {
+    texte: "8. La fraction 3/6 simplifiée vaut :",
+    propositions: ["1/2", "3/3", "6/3"],
+    bonne: 0,
+    explication: "3/6 = 1/2 (diviser numérateur et dénominateur par 3)."
+  },
+  {
+    texte: "9. 2/5 + 1/5 =",
+    propositions: ["1/5", "3/5", "3/10"],
+    bonne: 1,
+    explication: "Même dénominateur : 2/5 + 1/5 = 3/5."
+  },
+  {
+    texte: "10. 3/4 − 1/4 =",
+    propositions: ["1/2", "2/4", "4/4"],
+    bonne: 0,
+    explication: "Même dénominateur : 3/4 − 1/4 = 2/4 = 1/2."
+  }
+];
+// génération du QCM
+const qcmDiv = document.getElementById("qcm");
+questions.forEach((q, index) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  const titre = document.createElement("h3");
+  titre.textContent = q.texte;
+  div.appendChild(titre);
+  const answersDiv = document.createElement("div");
+  answersDiv.className = "answers";
+  q.propositions.forEach((prop, i) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "q" + index;
+    input.value = i;
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(" " + prop));
+    answersDiv.appendChild(label);
+  });
+  div.appendChild(answersDiv);
+  const corrDiv = document.createElement("div");
+  corrDiv.className = "correction";
+  corrDiv.id = "corr-q" + index;
+  div.appendChild(corrDiv);
+  qcmDiv.appendChild(div);
+});
+// correction
+document.getElementById("corrigerBtn").addEventListener("click", () => {
+  let score = 0;
+  questions.forEach((q, index) => {
+    const corrDiv = document.getElementById("corr-q" + index);
+    corrDiv.innerHTML = "";
+    const inputs = document.querySelectorAll("input[name='q" + index + "']");
+    let bonneReponse = false;
+    inputs.forEach((inp, i) => {
+      if (inp.checked && i === q.bonne) {
+        bonneReponse = true;
+      }
+    });
+    if (bonneReponse) {
+      score++;
+      corrDiv.innerHTML =
+        "<span class='bonne'>Bonne réponse.</span> " +
+        q.explication;
+    } else {
+      const repCorrecte = q.propositions[q.bonne];
+      corrDiv.innerHTML =
+        "<span class='mauvaise'>Mauvaise réponse.</span> " +
+        "Réponse correcte : " + repCorrecte +
+        ". " + q.explication;
+    }
+  });
+  document.getElementById("resultat").textContent =
+    "Score : " + score + " / " + questions.length;
+});
+// reset
+document.getElementById("resetBtn").addEventListener("click", () => {
+  const inputs = document.querySelectorAll("input[type='radio']");
+  inputs.forEach(inp => inp.checked = false);
+  questions.forEach((q, index) => {
+    document.getElementById("corr-q" + index).innerHTML = "";
+  });
+  document.getElementById("resultat").textContent = "";
+});
+</script>
+</body>
+</html>
 
