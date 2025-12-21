@@ -1,326 +1,190 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maths 5e – QCM Fractions (20 questions)</title>
-
-  <!-- MathJax -->
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
+  <meta charset="UTF-8">
+  <title>QCM 7 - Ordres de grandeur (Maths 5e)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root {
-      --c-primary: #3f51b5;
-      --c-secondary: #ff9800;
-      --c-good: #4caf50;
-      --c-bad: #f44336;
-      --c-bg: #f4f7ff;
-      --c-card: #ffffff;
-      --c-muted: #666;
-    }
-
     body {
-      margin: 0;
-      font-family: "Segoe UI", system-ui, sans-serif;
-      background: radial-gradient(circle at top left, #e3f2fd, #fce4ec 60%, #f4f7ff);
-      padding: 20px;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      line-height: 1.5;
     }
-
-    .app {
-      max-width: 1100px;
-      margin: auto;
-      background: var(--c-card);
-      border-radius: 18px;
-      padding: 30px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.15);
-    }
-
     h1 {
-      color: var(--c-primary);
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      color: var(--c-muted);
-      margin-bottom: 20px;
-    }
-
-    .progress-track {
-      height: 12px;
-      background: #e0e7ff;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-bottom: 8px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--c-primary), var(--c-secondary));
-      transition: width 0.4s;
-    }
-
-    .progress-info {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      color: var(--c-muted);
-    }
-
-    .question-block {
-      background: #f8f9ff;
-      border: 1px solid #e0e7ff;
-      border-radius: 16px;
-      padding: 20px;
-      margin: 25px 0;
-    }
-
-    .question-title {
-      font-weight: 600;
-      color: #1a237e;
-      margin-bottom: 10px;
-    }
-
-    .meta {
-      font-size: 0.8rem;
-      color: var(--c-muted);
-      margin-bottom: 12px;
-    }
-
-    .answers {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 10px;
-    }
-
-    .answer input { display: none; }
-
-    .answer label {
-      display: flex;
-      gap: 10px;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #d1d9ff;
-      background: #fff;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .answer input:checked + label {
-      background: #e8eaf6;
-      border-color: var(--c-primary);
-    }
-
-    .bullet {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      border: 2px solid #c5cae9;
-      margin-top: 2px;
-    }
-
-    .answer input:checked + label .bullet {
-      background: var(--c-primary);
-      border-color: var(--c-primary);
-    }
-
-    .feedback {
-      margin-top: 10px;
-      font-weight: 500;
-    }
-
-    .good { color: var(--c-good); }
-    .bad { color: var(--c-bad); }
-
-    .correct-btn {
-      margin-top: 12px;
-      padding: 8px 16px;
-      border-radius: 999px;
-      border: none;
-      background: var(--c-primary);
-      color: white;
-      cursor: pointer;
-    }
-
-    .indexes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin: 30px 0;
-    }
-
-    .idx {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 1px solid #c5cae9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .idx.correct { background: var(--c-good); color: white; }
-    .idx.wrong { background: var(--c-bad); color: white; }
-
-    .score {
       text-align: center;
-      font-size: 1.4rem;
-      color: var(--c-primary);
-      margin: 20px 0;
+      color: #333;
+    }
+    .question {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .question h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 4px;
+    }
+    #resultat {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .correction {
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+    .bonne { color: green; }
+    .mauvaise { color: red; }
+    button {
+      padding: 8px 14px;
+      font-size: 1rem;
+      margin-right: 8px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-
-<div class="app">
-  <h1>Maths 5e – QCM Fractions</h1>
-  <p class="subtitle">20 questions – programme officiel EduScol – niveau confirmé</p>
-
-  <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
-  <div class="progress-info">
-    <span id="answeredText">0 question répondue</span>
-    <span id="scoreText">Score : 0 / 20</span>
-  </div>
-
-  <div class="score" id="scoreFinal">Score final : 0 / 20</div>
-
-  <div class="indexes" id="indexes"></div>
-  <div id="questions"></div>
-</div>
-
+<h1>QCM 7 – Ordres de grandeur (5e)</h1>
+<p>Réponds aux 10 questions puis clique sur « Corriger ».</p>
+<div id="qcm"></div>
+<button id="corrigerBtn">Corriger</button>
+<button id="resetBtn">Réinitialiser</button>
+<div id="resultat"></div>
 <script>
 const questions = [
   {
-    text: "Quelle écriture décimale correspond à \\(\\dfrac{23}{10}\\) ?",
-    options: ["2,3", "0,23", "23,0", "2,03"],
-    correct: 0,
-    good: "23 ÷ 10 = 2,3.",
-    bad: "Diviser par 10 décale la virgule d’un rang vers la gauche."
+    texte: "1. Quel est l’ordre de grandeur de 450 000 ?",
+    propositions: ["10³", "10⁴", "10⁵"],
+    bonne: 2,
+    explication: "450 000 = 4,5 × 10⁵, donc l’ordre de grandeur est 10⁵."
   },
   {
-    text: "Quelle fraction est égale à 0,75 ?",
-    options: ["\\(\\dfrac{3}{4}\\)", "\\(\\dfrac{75}{10}\\)", "\\(\\dfrac{7}{5}\\)", "\\(\\dfrac{4}{3}\\)"],
-    correct: 0,
-    good: "0,75 = 75/100 = 3/4.",
-    bad: "Écris 0,75 sous forme fractionnaire puis simplifie."
+    texte: "2. Quel est l’ordre de grandeur de 3 200 ?",
+    propositions: ["10²", "10³", "10⁴"],
+    bonne: 1,
+    explication: "3 200 = 3,2 × 10³, donc l’ordre de grandeur est 10³."
   },
   {
-    text: "Simplifie la fraction \\(\\dfrac{18}{24}\\).",
-    options: ["\\(\\dfrac{3}{4}\\)", "\\(\\dfrac{2}{3}\\)", "\\(\\dfrac{9}{12}\\)", "\\(\\dfrac{6}{8}\\)"],
-    correct: 0,
-    good: "18 et 24 sont divisibles par 6.",
-    bad: "Cherche le plus grand diviseur commun."
+    texte: "3. L’ordre de grandeur de 78 000 000 est :",
+    propositions: ["10⁷", "10⁸", "10⁹"],
+    bonne: 0,
+    explication: "78 000 000 = 7,8 × 10⁷, donc l’ordre de grandeur est 10⁷."
   },
   {
-    text: "Quelle est la plus grande fraction ?",
-    options: ["\\(\\dfrac{3}{5}\\)", "\\(\\dfrac{4}{7}\\)", "\\(\\dfrac{5}{9}\\)", "\\(\\dfrac{2}{3}\\)"],
-    correct: 3,
-    good: "2/3 ≈ 0,67 est la plus grande.",
-    bad: "Compare les valeurs décimales."
+    texte: "4. Quel nombre a un ordre de grandeur de 10⁴ ?",
+    propositions: ["850", "12 000", "750 000"],
+    bonne: 1,
+    explication: "12 000 = 1,2 × 10⁴, donc ordre de grandeur 10⁴."
   },
   {
-    text: "Calcule : \\(\\dfrac{5}{6}+\\dfrac{1}{6}\\)",
-    options: ["\\(\\dfrac{1}{2}\\)", "\\(\\dfrac{6}{6}\\)", "\\(\\dfrac{5}{12}\\)", "\\(\\dfrac{1}{6}\\)"],
-    correct: 1,
-    good: "5 + 1 = 6 donc 6/6.",
-    bad: "Les dénominateurs sont déjà égaux."
+    texte: "5. L’ordre de grandeur de 0,0037 est :",
+    propositions: ["10⁻²", "10⁻³", "10⁻⁴"],
+    bonne: 1,
+    explication: "0,0037 = 3,7 × 10⁻³, donc l’ordre de grandeur est 10⁻³."
   },
   {
-    text: "Calcule : \\(\\dfrac{2}{3}+\\dfrac{1}{6}\\)",
-    options: ["\\(\\dfrac{3}{6}\\)", "\\(\\dfrac{5}{6}\\)", "\\(\\dfrac{2}{9}\\)", "\\(\\dfrac{1}{2}\\)"],
-    correct: 1,
-    good: "2/3 = 4/6 → 4/6 + 1/6 = 5/6.",
-    bad: "Commence par mettre au même dénominateur."
+    texte: "6. Quel est l’ordre de grandeur de 0,00056 ?",
+    propositions: ["10⁻³", "10⁻⁴", "10⁻⁵"],
+    bonne: 1,
+    explication: "0,00056 = 5,6 × 10⁻⁴, donc l’ordre de grandeur est 10⁻⁴."
   },
   {
-    text: "Calcule 20 % de 45 €.",
-    options: ["9 €", "90 €", "4,5 €", "0,9 €"],
-    correct: 0,
-    good: "0,2 × 45 = 9.",
-    bad: "20 % = 0,2."
+    texte: "7. Combien d’ordres de grandeur séparent 10⁶ et 10² ?",
+    propositions: ["2", "4", "6"],
+    bonne: 1,
+    explication: "10⁶ / 10² = 10⁴, il y a 4 ordres de grandeur d’écart."
   },
   {
-    text: "Un élève lit \\(\\dfrac{3}{5}\\) de 200 pages. Combien a-t-il lu ?",
-    options: ["80", "100", "120", "60"],
-    correct: 2,
-    good: "3/5 de 200 = 120.",
-    bad: "Commence par calculer 1/5."
+    texte: "8. L’ordre de grandeur de la distance Terre-Soleil (environ 150 millions de km) est :",
+    propositions: ["10⁸ km", "10⁹ km", "10¹⁰ km"],
+    bonne: 0,
+    explication: "150 000 000 km = 1,5 × 10⁸ km, donc ordre de grandeur 10⁸ km."
+  },
+  {
+    texte: "9. Quel est l’ordre de grandeur de la masse d’un éléphant (environ 5 000 kg) ?",
+    propositions: ["10² kg", "10³ kg", "10⁴ kg"],
+    bonne: 2,
+    explication: "5 000 kg = 5 × 10³ kg, donc ordre de grandeur 10³ kg."
+  },
+  {
+    texte: "10. L’ordre de grandeur de la taille d’une bactérie (environ 0,000001 m) est :",
+    propositions: ["10⁻⁵ m", "10⁻⁶ m", "10⁻⁷ m"],
+    bonne: 1,
+    explication: "0,000001 m = 1 × 10⁻⁶ m, donc ordre de grandeur 10⁻⁶ m."
   }
 ];
-
-// État
-const answers = new Array(questions.length).fill(null);
-const checked = new Array(questions.length).fill(false);
-
-const qDiv = document.getElementById("questions");
-const progressFill = document.getElementById("progressFill");
-const answeredText = document.getElementById("answeredText");
-const scoreText = document.getElementById("scoreText");
-const scoreFinal = document.getElementById("scoreFinal");
-const indexes = document.getElementById("indexes");
-
-function updateGlobal() {
-  const answered = answers.filter(a => a !== null).length;
-  const score = answers.reduce((s,a,i)=> checked[i] && a===questions[i].correct ? s+1 : s,0);
-
-  progressFill.style.width = (answered/questions.length*100)+"%";
-  answeredText.textContent = `${answered} question(s) répondue(s)`;
-  scoreText.textContent = `Score : ${score} / ${questions.length}`;
-  scoreFinal.textContent = `Score final : ${score} / ${questions.length}`;
-
-  indexes.innerHTML = "";
-  questions.forEach((_,i)=>{
-    const d=document.createElement("div");
-    d.className="idx";
-    d.textContent=i+1;
-    if(checked[i]) d.classList.add(answers[i]===questions[i].correct?"correct":"wrong");
-    d.onclick=()=>document.getElementById("q"+i).scrollIntoView({behavior:"smooth"});
-    indexes.appendChild(d);
+// génération du QCM
+const qcmDiv = document.getElementById("qcm");
+questions.forEach((q, index) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  const titre = document.createElement("h3");
+  titre.textContent = q.texte;
+  div.appendChild(titre);
+  const answersDiv = document.createElement("div");
+  answersDiv.className = "answers";
+  q.propositions.forEach((prop, i) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "q" + index;
+    input.value = i;
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(" " + prop));
+    answersDiv.appendChild(label);
   });
-}
-
-questions.forEach((q,i)=>{
-  const block=document.createElement("div");
-  block.className="question-block";
-  block.id="q"+i;
-  block.innerHTML=`<div class="question-title">${i+1}. ${q.text}</div>
-    <div class="answers"></div>
-    <div class="feedback"></div>`;
-
-  const answersDiv=block.querySelector(".answers");
-  const fb=block.querySelector(".feedback");
-
-  q.options.forEach((opt,j)=>{
-    const a=document.createElement("div");
-    a.className="answer";
-    a.innerHTML=`<input type="radio" name="q${i}" id="q${i}_${j}">
-    <label for="q${i}_${j}"><div class="bullet"></div><div>${opt}</div></label>`;
-    a.querySelector("input").onchange=()=>{
-      answers[i]=j; checked[i]=false; fb.textContent=""; updateGlobal();
-    };
-    answersDiv.appendChild(a);
-  });
-
-  const btn=document.createElement("button");
-  btn.className="correct-btn";
-  btn.textContent="Corriger";
-  btn.onclick=()=>{
-    if(answers[i]==null){fb.textContent="Choisis une réponse."; fb.className="feedback bad"; return;}
-    checked[i]=true;
-    fb.textContent=answers[i]===q.correct?q.good:q.bad;
-    fb.className="feedback "+(answers[i]===q.correct?"good":"bad");
-    updateGlobal();
-  };
-  block.appendChild(btn);
-  qDiv.appendChild(block);
+  div.appendChild(answersDiv);
+  const corrDiv = document.createElement("div");
+  corrDiv.className = "correction";
+  corrDiv.id = "corr-q" + index;
+  div.appendChild(corrDiv);
+  qcmDiv.appendChild(div);
 });
-
-MathJax.typesetPromise();
-updateGlobal();
+// correction
+document.getElementById("corrigerBtn").addEventListener("click", () => {
+  let score = 0;
+  questions.forEach((q, index) => {
+    const corrDiv = document.getElementById("corr-q" + index);
+    corrDiv.innerHTML = "";
+    const inputs = document.querySelectorAll("input[name='q" + index + "']");
+    let bonneReponse = false;
+    inputs.forEach((inp, i) => {
+      if (inp.checked && i === q.bonne) {
+        bonneReponse = true;
+      }
+    });
+    if (bonneReponse) {
+      score++;
+      corrDiv.innerHTML =
+        "<span class='bonne'>Bonne réponse.</span> " +
+        q.explication;
+    } else {
+      const repCorrecte = q.propositions[q.bonne];
+      corrDiv.innerHTML =
+        "<span class='mauvaise'>Mauvaise réponse.</span> " +
+        "Réponse correcte : " + repCorrecte +
+        ". " + q.explication;
+    }
+  });
+  document.getElementById("resultat").textContent =
+    "Score : " + score + " / " + questions.length;
+});
+// reset
+document.getElementById("resetBtn").addEventListener("click", () => {
+  const inputs = document.querySelectorAll("input[type='radio']");
+  inputs.forEach(inp => inp.checked = false);
+  questions.forEach((q, index) => {
+    document.getElementById("corr-q" + index).innerHTML = "";
+  });
+  document.getElementById("resultat").textContent = "";
+});
 </script>
 </body>
 </html>
+```
