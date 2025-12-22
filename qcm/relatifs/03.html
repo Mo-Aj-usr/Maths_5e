@@ -1,1 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM 3 - Repérage dans le plan orthogonal (Maths 5e)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .question h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .correction {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
 
+    <h1>QCM 3 – Repérage dans le plan cartésien (5e)</h1>
+    <p>Réponds aux 10 questions puis clique sur « Corriger ».</p>
+
+    <div id="qcm"></div>
+
+    <button id="corrigerBtn">Corriger</button>
+    <button id="resetBtn">Réinitialiser</button>
+
+    <div id="resultat"></div>
+
+    <script>
+        const questions = [
+            {
+                texte: "1. Dans un repère (O ; x ; y), quel est le point d’abscisse –3 et d’ordonnée +5 ?",
+                propositions: ["A(–3 ; 5)", "A(5 ; –3)", "A(3 ; –5)", "A(–5 ; 3)"],
+                bonne: 0,
+                explication: "L’abscisse est la coordonnée horizontale (première) et l’ordonnée la verticale (seconde) : A(–3 ; +5)."
+            },
+            {
+                texte: "2. Dans quel quadrant se trouve le point B(–4 ; –2) ?",
+                propositions: ["1er quadrant", "2e quadrant", "3e quadrant", "4e quadrant"],
+                bonne: 2,
+                explication: "Abscisse négative et ordonnée négative → 3e quadrant."
+            },
+            {
+                texte: "3. Le point C(+6 ; –1) se trouve :",
+                propositions: ["sur l’axe des abscisses", "sur l’axe des ordonnées", "dans le 4e quadrant", "dans le 1er quadrant"],
+                bonne: 2,
+                explication: "Abscisse positive et ordonnée négative → 4e quadrant."
+            },
+            {
+                texte: "4. Quel est le point symétrique de A(–5 ; 3) par rapport à l’origine O ?",
+                propositions: ["(5 ; –3)", "(–5 ; –3)", "(5 ; 3)", "(3 ; –5)"],
+                bonne: 0,
+                explication: "La symétrie centrale par rapport à l’origine change le signe des deux coordonnées : (–(–5) ; –3) = (5 ; –3)."
+            },
+            {
+                texte: "5. Deux points ont la même abscisse. Ils se trouvent :",
+                propositions: ["sur une horizontale", "sur une verticale", "sur l’origine", "sur une diagonale"],
+                bonne: 1,
+                explication: "Même abscisse → même position horizontale → ils sont alignés sur une droite verticale."
+            },
+            {
+                texte: "6. Un bateau part du point (0 ; 0). Il avance de 4 unités vers la droite, puis de 3 unités vers le haut. Quelles sont les coordonnées d’arrivée ?",
+                propositions: ["(4 ; 3)", "(3 ; 4)", "(–4 ; 3)", "(4 ; –3)"],
+                bonne: 0,
+                explication: "Droite = +x → +4 ; haut = +y → +3. Arrivée : (4 ; 3)."
+            },
+            {
+                texte: "7. Une température est de +8 °C. Elle descend de 12 °C. Quelle est la température finale ? (modélisation sur l’axe vertical : haut = positif)",
+                propositions: ["+20 °C", "–4 °C", "+4 °C", "–20 °C"],
+                bonne: 1,
+                explication: "Départ +8, descente = –12 → +8 + (–12) = –4 °C."
+            },
+            {
+                texte: "8. Un ascenseur est au niveau 0. Il monte de 5 étages (+5), puis descend de 9 étages (–9). À quel étage arrive-t-il ?",
+                propositions: ["+14", "–14", "+4", "–4"],
+                bonne: 3,
+                explication: "0 + 5 – 9 = 5 – 9 = –4 (4 étages en dessous du niveau 0)."
+            },
+            {
+                texte: "9. Sur un axe gradué horizontal (positif vers la droite), un mobile part de la position –6. Il se déplace de +10 unités. Où arrive-t-il ?",
+                propositions: ["–16", "–4", "+4", "+16"],
+                bonne: 2,
+                explication: "–6 + 10 = +4."
+            },
+            {
+                texte: "10. Dans le plan, le point M(2 ; –5) est symétrique du point N par rapport à l’axe des abscisses. Quelles sont les coordonnées de N ?",
+                propositions: ["(2 ; 5)", "(–2 ; –5)", "(–2 ; 5)", "(2 ; –5)"],
+                bonne: 0,
+                explication: "Symétrie par rapport à l’axe des x (abscisses) : on change le signe de l’ordonnée → (2 ; –(–5)) = (2 ; 5)."
+            }
+        ];
+
+        // Génération du QCM
+        const qcmDiv = document.getElementById("qcm");
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+
+            const titre = document.createElement("h3");
+            titre.textContent = q.texte;
+            div.appendChild(titre);
+
+            const answersDiv = document.createElement("div");
+            answersDiv.className = "answers";
+
+            q.propositions.forEach((prop, i) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "q" + index;
+                input.value = i;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(" " + prop));
+                answersDiv.appendChild(label);
+            });
+
+            div.appendChild(answersDiv);
+
+            const corrDiv = document.createElement("div");
+            corrDiv.className = "correction";
+            corrDiv.id = "corr-q" + index;
+            div.appendChild(corrDiv);
+
+            qcmDiv.appendChild(div);
+        });
+
+        // Correction
+        document.getElementById("corrigerBtn").addEventListener("click", () => {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const corrDiv = document.getElementById("corr-q" + index);
+                corrDiv.innerHTML = "";
+                const inputs = document.querySelectorAll("input[name='q" + index + "']");
+                let bonneReponse = false;
+
+                inputs.forEach((inp, i) => {
+                    if (inp.checked && i === q.bonne) {
+                        bonneReponse = true;
+                    }
+                });
+
+                if (bonneReponse) {
+                    score++;
+                    corrDiv.innerHTML = "<span class='bonne'>Bonne réponse.</span> " + q.explication;
+                } else {
+                    const repCorrecte = q.propositions[q.bonne];
+                    corrDiv.innerHTML = "<span class='mauvaise'>Mauvaise réponse.</span> " +
+                                       "Réponse correcte : " + repCorrecte + ". " + q.explication;
+                }
+            });
+            document.getElementById("resultat").textContent = "Score : " + score + " / " + questions.length;
+        });
+
+        // Réinitialisation
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            const inputs = document.querySelectorAll("input[type='radio']");
+            inputs.forEach(inp => inp.checked = false);
+
+            questions.forEach((q, index) => {
+                document.getElementById("corr-q" + index).innerHTML = "";
+            });
+            document.getElementById("resultat").textContent = "";
+        });
+    </script>
+</body>
+</html>
