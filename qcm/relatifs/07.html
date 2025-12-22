@@ -1,1 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM 7 - Mélange avancé : comparaison, calculs et problèmes (Maths 5e)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .question h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .correction {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
 
+    <h1>QCM 7 – Mélange avancé : comparaison, calculs et problèmes (5e)</h1>
+    <p>Réponds aux 10 questions puis clique sur « Corriger ».</p>
+
+    <div id="qcm"></div>
+
+    <button id="corrigerBtn">Corriger</button>
+    <button id="resetBtn">Réinitialiser</button>
+
+    <div id="resultat"></div>
+
+    <script>
+        const questions = [
+            {
+                texte: "1. Complète avec le signe correct : –3,5 … –3,6",
+                propositions: ["<", ">", "="],
+                bonne: 1,
+                explication: "–3,5 est plus à droite que –3,6 sur la droite graduée donc –3,5 > –3,6."
+            },
+            {
+                texte: "2. Range par ordre croissant : –8,2 ; 6,1 ; 0 ; –7",
+                propositions: ["–8,2 ; –7 ; 0 ; 6,1", "6,1 ; 0 ; –7 ; –8,2", "–7 ; –8,2 ; 0 ; 6,1", "0 ; –8,2 ; –7 ; 6,1"],
+                bonne: 0,
+                explication: "Ordre croissant : –8,2 (le plus petit) ; –7 ; 0 ; 6,1."
+            },
+            {
+                texte: "3. Calcule : (+26) + (–6,5)",
+                propositions: ["+32,5", "+19,5", "–19,5", "–32,5"],
+                bonne: 1,
+                explication: "26 – 6,5 = 19,5."
+            },
+            {
+                texte: "4. Calcule : (–24,7) + (–15,3)",
+                propositions: ["–40", "–9,4", "+9,4", "+40"],
+                bonne: 0,
+                explication: "Addition de deux négatifs : –(24,7 + 15,3) = –40."
+            },
+            {
+                texte: "5. Calcule : –47 – (–22)",
+                propositions: ["–69", "–25", "+25", "+69"],
+                bonne: 1,
+                explication: "Soustraire un négatif = ajouter le positif : –47 + 22 = –25."
+            },
+            {
+                texte: "6. Calcule la somme algébrique : +37 – 23,5 + 12 – 8",
+                propositions: ["+29,5", "+17,5", "+41,5", "–17,5"],
+                bonne: 1,
+                explication: "Positifs : 37 + 12 = 49 ; négatifs : –23,5 – 8 = –31,5 ; 49 – 31,5 = +17,5."
+            },
+            {
+                texte: "7. Complète l’égalité : … + (+5) = –8",
+                propositions: ["–13", "–3", "+3", "+13"],
+                bonne: 0,
+                explication: "x + 5 = –8 donc x = –8 – 5 = –13."
+            },
+            {
+                texte: "8. La température moyenne sur Mars est –63 °C et sur Jupiter –145 °C. Quelle planète est la plus froide ?",
+                propositions: ["Mars", "Jupiter", "Elles sont à la même température"],
+                bonne: 1,
+                explication: "–145 °C < –63 °C donc Jupiter est plus froide."
+            },
+            {
+                texte: "9. Un plongeur est à –15 m. Il descend encore de 8 m, puis remonte de 12 m. À quelle profondeur finale est-il ?",
+                propositions: ["–11 m", "–35 m", "+5 m", "–3 m"],
+                bonne: 0,
+                explication: "–15 + (–8) + 12 = –23 + 12 = –11 m."
+            },
+            {
+                texte: "10. Calcule : –6,75 + (–6,9)",
+                propositions: ["–13,65", "+0,15", "–0,15", "+13,65"],
+                bonne: 0,
+                explication: "Addition de deux négatifs : –(6,75 + 6,9) = –13,65."
+            }
+        ];
+
+        // Génération du QCM
+        const qcmDiv = document.getElementById("qcm");
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+
+            const titre = document.createElement("h3");
+            titre.textContent = q.texte;
+            div.appendChild(titre);
+
+            const answersDiv = document.createElement("div");
+            answersDiv.className = "answers";
+
+            q.propositions.forEach((prop, i) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "q" + index;
+                input.value = i;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(" " + prop));
+                answersDiv.appendChild(label);
+            });
+
+            div.appendChild(answersDiv);
+
+            const corrDiv = document.createElement("div");
+            corrDiv.className = "correction";
+            corrDiv.id = "corr-q" + index;
+            div.appendChild(corrDiv);
+
+            qcmDiv.appendChild(div);
+        });
+
+        // Correction
+        document.getElementById("corrigerBtn").addEventListener("click", () => {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const corrDiv = document.getElementById("corr-q" + index);
+                corrDiv.innerHTML = "";
+                const inputs = document.querySelectorAll("input[name='q" + index + "']");
+                let bonneReponse = false;
+
+                inputs.forEach((inp, i) => {
+                    if (inp.checked && i === q.bonne) {
+                        bonneReponse = true;
+                    }
+                });
+
+                if (bonneReponse) {
+                    score++;
+                    corrDiv.innerHTML = "<span class='bonne'>Bonne réponse.</span> " + q.explication;
+                } else {
+                    const repCorrecte = q.propositions[q.bonne];
+                    corrDiv.innerHTML = "<span class='mauvaise'>Mauvaise réponse.</span> " +
+                                       "Réponse correcte : " + repCorrecte + ". " + q.explication;
+                }
+            });
+            document.getElementById("resultat").textContent = "Score : " + score + " / " + questions.length;
+        });
+
+        // Réinitialisation
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            const inputs = document.querySelectorAll("input[type='radio']");
+            inputs.forEach(inp => inp.checked = false);
+
+            questions.forEach((q, index) => {
+                document.getElementById("corr-q" + index).innerHTML = "";
+            });
+            document.getElementById("resultat").textContent = "";
+        });
+    </script>
+</body>
+</html>
