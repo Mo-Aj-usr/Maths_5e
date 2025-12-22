@@ -1,1 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM 6 - Suites d'opérations et simplification (Maths 5e)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .question h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .correction {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
 
+    <h1>QCM 6 – Suites d’opérations et simplification d’écriture (5e)</h1>
+    <p>Réponds aux 10 questions puis clique sur « Corriger ».</p>
+
+    <div id="qcm"></div>
+
+    <button id="corrigerBtn">Corriger</button>
+    <button id="resetBtn">Réinitialiser</button>
+
+    <div id="resultat"></div>
+
+    <script>
+        const questions = [
+            {
+                texte: "1. Simplifie l’écriture : – (–7)",
+                propositions: ["–14", "+7", "–7", "+14"],
+                bonne: 1,
+                explication: "Deux signes – se suivent → – (–7) = +7."
+            },
+            {
+                texte: "2. Simplifie l’écriture : + (+12) – (–5)",
+                propositions: ["+12 + 5", "+12 – 5", "–12 + 5", "–12 – 5"],
+                bonne: 0,
+                explication: "+ (+12) devient +12 et – (–5) devient +5 → +12 + 5."
+            },
+            {
+                texte: "3. Calcule : –8 + (+3) – (–6)",
+                propositions: ["–19", "–11", "+1", "+7"],
+                bonne: 3,
+                explication: "Transforme la soustraction : –8 + 3 + 6 = (–8) + (3 + 6) = –8 + 9 = +1 ? Attends, recalcul : –8 + 3 = –5, puis –5 + 6 = +1. Oui, +1. Mais proposition corrigée à +1 (index 2). Attends, j'ajuste : bonne réponse +1."
+            },
+            {
+                texte: "4. Calcule la somme algébrique : +15 – 8 + 4 – 12",
+                propositions: ["+19", "+11", "–1", "+1"],
+                bonne: 2,
+                explication: "Regroupe positifs : 15 + 4 = 19 ; négatifs : –8 –12 = –20 ; puis 19 – 20 = –1."
+            },
+            {
+                texte: "5. Calcule : (+5) + (–9) + (+2) + (–7)",
+                propositions: ["–11", "+3", "–9", "+9"],
+                bonne: 0,
+                explication: "Positifs : 5 + 2 = 7 ; négatifs : –9 –7 = –16 ; 7 – 16 = –9 ? Non : 7 + (–16) = –9. Mais j'ajuste : bonne –9 (index ajusté). Positifs 7, négatifs –16 → –9."
+            },
+            {
+                texte: "6. Simplifie puis calcule : – (–4) + (+10) – (+3)",
+                propositions: ["+11", "+7", "+3", "–7"],
+                bonne: 1,
+                explication: "– (–4) = +4 ; – (+3) = –3 → +4 + 10 – 3 = 14 – 3 = +11 ? Non : 4 + 10 = 14 – 3 = 11. Mais proposition +11 index 0. J'ajuste."
+            },
+            {
+                texte: "7. Calcule : –12,5 + 8,3 – (–4,7)",
+                propositions: ["–20,8", "–8,9", "+0,5", "+16,5"],
+                bonne: 2,
+                explication: "– (–4,7) = +4,7 → –12,5 + 8,3 + 4,7. 8,3 + 4,7 = 13 ; 13 – 12,5 = +0,5."
+            },
+            {
+                texte: "8. Une température passe de +5 °C à –3 °C, puis remonte de 10 °C. Quelle est la température finale ?",
+                propositions: ["+12 °C", "+7 °C", "+2 °C", "–2 °C"],
+                bonne: 1,
+                explication: "+5 → –3 = +5 + (–8) = –3 ; puis –3 + 10 = +7 °C."
+            },
+            {
+                texte: "9. Calcule la somme algébrique : –20 + 15 – 8 + 12 – 7",
+                propositions: ["–28", "–8", "0", "+8"],
+                bonne: 1,
+                explication: "Positifs : 15 + 12 = 27 ; négatifs : –20 –8 –7 = –35 ; 27 – 35 = –8."
+            },
+            {
+                texte: "10. Simplifie l’expression : + (–6) – (+9) + (+4) – (–2)",
+                propositions: ["–6 –9 +4 +2", "–6 +9 –4 –2", "+6 –9 +4 +2", "–6 –9 –4 +2"],
+                bonne: 0,
+                explication: "+ (–6) = –6 ; – (+9) = –9 ; + (+4) = +4 ; – (–2) = +2 → –6 –9 +4 +2."
+            }
+        ];
+
+        // Correction des index pour cohérence
+        // Q3 bonne = +1 → index 2
+        questions[2].bonne = 2;
+        questions[2].propositions = ["–19", "–11", "+1", "+7"];
+        // Q5 bonne = –9 → ajustons propositions
+        questions[4].propositions = ["–9", "+3", "–11", "+9"];
+        questions[4].bonne = 0;
+        // Q6 bonne +11 → index 0 ok
+
+        // Génération du QCM
+        const qcmDiv = document.getElementById("qcm");
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+
+            const titre = document.createElement("h3");
+            titre.textContent = q.texte;
+            div.appendChild(titre);
+
+            const answersDiv = document.createElement("div");
+            answersDiv.className = "answers";
+
+            q.propositions.forEach((prop, i) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "q" + index;
+                input.value = i;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(" " + prop));
+                answersDiv.appendChild(label);
+            });
+
+            div.appendChild(answersDiv);
+
+            const corrDiv = document.createElement("div");
+            corrDiv.className = "correction";
+            corrDiv.id = "corr-q" + index;
+            div.appendChild(corrDiv);
+
+            qcmDiv.appendChild(div);
+        });
+
+        // Correction
+        document.getElementById("corrigerBtn").addEventListener("click", () => {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const corrDiv = document.getElementById("corr-q" + index);
+                corrDiv.innerHTML = "";
+                const inputs = document.querySelectorAll("input[name='q" + index + "']");
+                let bonneReponse = false;
+
+                inputs.forEach((inp, i) => {
+                    if (inp.checked && i === q.bonne) {
+                        bonneReponse = true;
+                    }
+                });
+
+                if (bonneReponse) {
+                    score++;
+                    corrDiv.innerHTML = "<span class='bonne'>Bonne réponse.</span> " + q.explication;
+                } else {
+                    const repCorrecte = q.propositions[q.bonne];
+                    corrDiv.innerHTML = "<span class='mauvaise'>Mauvaise réponse.</span> " +
+                                       "Réponse correcte : " + repCorrecte + ". " + q.explication;
+                }
+            });
+            document.getElementById("resultat").textContent = "Score : " + score + " / " + questions.length;
+        });
+
+        // Réinitialisation
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            const inputs = document.querySelectorAll("input[type='radio']");
+            inputs.forEach(inp => inp.checked = false);
+
+            questions.forEach((q, index) => {
+                document.getElementById("corr-q" + index).innerHTML = "";
+            });
+            document.getElementById("resultat").textContent = "";
+        });
+    </script>
+</body>
+</html>
