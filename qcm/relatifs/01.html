@@ -1,1 +1,188 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>QCM 1 - Introduction aux nombres relatifs (Maths 5e)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      line-height: 1.5;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .question {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .question h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 4px;
+    }
+    #resultat {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .correction {
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+    .bonne { color: green; }
+    .mauvaise { color: red; }
+    button {
+      padding: 8px 14px;
+      font-size: 1rem;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h1>QCM 1 – Introduction aux nombres relatifs (5e)</h1>
+<p>Réponds aux 10 questions puis clique sur « Corriger ».</p>
+<div id="qcm"></div>
+<button id="corrigerBtn">Corriger</button>
+<button id="resetBtn">Réinitialiser</button>
+<div id="resultat"></div>
+<script>
+const questions = [
+  {
+    texte: "1. Quel est le signe d’un nombre relatif positif ?",
+    propositions: ["–", "+", "Aucun signe"],
+    bonne: 1,
+    explication: "Les nombres positifs portent le signe « + » (par exemple +5)."
+  },
+  {
+    texte: "2. Quel est le signe d’un nombre relatif négatif ?",
+    propositions: ["+", "–", "Aucun signe"],
+    bonne: 1,
+    explication: "Les nombres négatifs portent le signe « – » (par exemple –3)."
+  },
+  {
+    texte: "3. Quelle est la distance à zéro du nombre –7 ?",
+    propositions: ["–7", "0", "7"],
+    bonne: 2,
+    explication: "La distance à zéro est toujours positive : pour –7, elle vaut 7."
+  },
+  {
+    texte: "4. Quel est l’opposé de +4 ?",
+    propositions: ["+4", "–4", "0"],
+    bonne: 1,
+    explication: "Deux nombres opposés ont la même distance à zéro et des signes contraires : l’opposé de +4 est –4."
+  },
+  {
+    texte: "5. Quel est l’opposé de –9 ?",
+    propositions: ["–9", "+9", "0"],
+    bonne: 1,
+    explication: "L’opposé de –9 est +9."
+  },
+  {
+    texte: "6. Sur une droite graduée orientée de gauche à droite, quel nombre est le plus à droite entre –5 et +2 ?",
+    propositions: ["–5", "+2", "Ils sont au même endroit"],
+    bonne: 1,
+    explication: "Le nombre le plus à droite est le plus grand : +2 > –5."
+  },
+  {
+    texte: "7. Parmi ces nombres relatifs, lequel est le plus grand ? –12 ; –3 ; +8 ; –20",
+    propositions: ["–12", "–3", "+8", "–20"],
+    bonne: 2,
+    explication: "Le nombre positif +8 est le plus grand. Entre négatifs, –3 est plus grand que –12 et –20 car il est le plus proche de zéro."
+  },
+  {
+    texte: "8. Classe ces nombres dans l’ordre croissant : –6 ; +1 ; –10 ; +4",
+    propositions: ["–10 ; –6 ; +1 ; +4", "+4 ; +1 ; –6 ; –10", "–6 ; –10 ; +1 ; +4"],
+    bonne: 0,
+    explication: "Ordre croissant : –10 (le plus petit), puis –6, puis +1, puis +4."
+  },
+  {
+    texte: "9. Zéro (0) est-il un nombre positif ou négatif ?",
+    propositions: ["Positif", "Négatif", "Ni l’un ni l’autre"],
+    bonne: 2,
+    explication: "0 n’a pas de signe : il n’est ni positif ni négatif."
+  },
+  {
+    texte: "10. Sur une droite graduée, la distance entre les points d’abscisse –3 et +5 est :",
+    propositions: ["2", "8", "–8"],
+    bonne: 1,
+    explication: "La distance est toujours positive : |+5 – (–3)| = |5 + 3| = 8."
+  }
+];
+// génération du QCM
+const qcmDiv = document.getElementById("qcm");
+questions.forEach((q, index) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  const titre = document.createElement("h3");
+  titre.textContent = q.texte;
+  div.appendChild(titre);
+  const answersDiv = document.createElement("div");
+  answersDiv.className = "answers";
+  q.propositions.forEach((prop, i) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "q" + index;
+    input.value = i;
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(" " + prop));
+    answersDiv.appendChild(label);
+  });
+  div.appendChild(answersDiv);
+  const corrDiv = document.createElement("div");
+  corrDiv.className = "correction";
+  corrDiv.id = "corr-q" + index;
+  div.appendChild(corrDiv);
+  qcmDiv.appendChild(div);
+});
+// correction
+document.getElementById("corrigerBtn").addEventListener("click", () => {
+  let score = 0;
+  questions.forEach((q, index) => {
+    const corrDiv = document.getElementById("corr-q" + index);
+    corrDiv.innerHTML = "";
+    const inputs = document.querySelectorAll("input[name='q" + index + "']");
+    let bonneReponse = false;
+    inputs.forEach((inp, i) => {
+      if (inp.checked && i === q.bonne) {
+        bonneReponse = true;
+      }
+    });
+    if (bonneReponse) {
+      score++;
+      corrDiv.innerHTML =
+        "<span class='bonne'>Bonne réponse.</span> " +
+        q.explication;
+    } else {
+      const repCorrecte = q.propositions[q.bonne];
+      corrDiv.innerHTML =
+        "<span class='mauvaise'>Mauvaise réponse.</span> " +
+        "Réponse correcte : " + repCorrecte +
+        ". " + q.explication;
+    }
+  });
+  document.getElementById("resultat").textContent =
+    "Score : " + score + " / " + questions.length;
+});
+// reset
+document.getElementById("resetBtn").addEventListener("click", () => {
+  const inputs = document.querySelectorAll("input[type='radio']");
+  inputs.forEach(inp => inp.checked = false);
+  questions.forEach((q, index) => {
+    document.getElementById("corr-q" + index).innerHTML = "";
+  });
+  document.getElementById("resultat").textContent = "";
+});
+</script>
+</body>
+</html>
