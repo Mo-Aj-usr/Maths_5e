@@ -19,16 +19,38 @@
             border: 1px solid #ccc;
             border-radius: 6px;
             background: #fff;
-            padding: 10px 12px;
+            padding: 12px;
             margin-bottom: 10px;
         }
-        .question h3 {
-            margin: 0 0 8px 0;
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            flex-wrap: nowrap;     /* Empêche le passage à la ligne trop tôt */
+            margin-bottom: 10px;   /* Espace minimal sous le header */
+        }
+        .question-header h3 {
+            margin: 0;
+            flex: 1;
             font-size: 1rem;
+            line-height: 1.4;
+        }
+        .question-header img {
+            max-height: 180px;     /* Limite la hauteur pour éviter l'espace excessif */
+            width: auto;
+            max-width: 300px;
+            flex-shrink: 0;
+            border: 2px solid #aaa;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .answers {
+            margin-top: 0;
+            padding-top: 0;
         }
         .answers label {
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
         #resultat {
             margin-top: 15px;
@@ -51,23 +73,34 @@
             margin: 10px auto;
             max-width: 300px;
         }
+        /* Responsive : image en dessous sur petits écrans */
+        @media (max-width: 850px) {
+            .question-header {
+                flex-direction: column;
+                align-items: center;
+            }
+            .question-header img {
+                max-height: 200px;
+                margin-top: 10px;
+            }
+            .question-header h3 {
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
     <h1>QCM Symétrie 1 – Introduction et définitions (5e)</h1>
     <p>Réponds aux 10 questions puis clique sur « Corriger ».<br>Programme officiel Eduscol : symétrie centrale et axiale – définition, construction, propriétés de conservation.</p>
-
     <div id="qcm"></div>
-
     <button id="corrigerBtn">Corriger</button>
     <button id="resetBtn">Réinitialiser</button>
-
     <div id="resultat"></div>
 
     <script>
         const questions = [
             {
-                texte: "1. Deux figures sont symétriques par rapport à un point O lorsqu’elles…",
+                texte: "Deux figures sont symétriques par rapport à un point O lorsqu’elles…",
                 propositions: [
                     "se superposent après une translation",
                     "se superposent après un demi-tour autour de O",
@@ -75,8 +108,10 @@
                     "restent inchangées quel que soit le mouvement"
                 ],
                 bonne: 1,
-                explication: "Définition : deux figures sont symétriques par rapport à un point O (centre de symétrie) si elles se superposent après un demi-tour autour de O."
+                explication: "Définition : deux figures sont symétriques par rapport à un point O (centre de symétrie) si elles se superposent après un demi-tour autour de O.",
+                image: "fig_sym_centrale_1.jpg"  // TON image dans le même dossier
             },
+            // Les autres questions restent exactement comme avant
             {
                 texte: "2. Le symétrique du point M par rapport au centre O est le point M' tel que…",
                 propositions: [
@@ -164,9 +199,22 @@
             const div = document.createElement("div");
             div.className = "question";
 
+            const headerDiv = document.createElement("div");
+            headerDiv.className = "question-header";
+
             const titre = document.createElement("h3");
-            titre.innerHTML = q.texte;  // innerHTML pour afficher les images
-            div.appendChild(titre);
+            titre.textContent = (index + 1) + ". " + q.texte;
+            headerDiv.appendChild(titre);
+
+            // Image à droite uniquement pour la question 1
+            if (index === 0 && q.image) {
+                const img = document.createElement("img");
+                img.src = q.image;
+                img.alt = "Illustration de la symétrie centrale";
+                headerDiv.appendChild(img);
+            }
+
+            div.appendChild(headerDiv);
 
             const answersDiv = document.createElement("div");
             answersDiv.className = "answers";
@@ -177,7 +225,6 @@
                 input.type = "radio";
                 input.name = "q" + index;
                 input.value = i;
-
                 label.appendChild(input);
                 label.appendChild(document.createTextNode(" " + prop));
                 answersDiv.appendChild(label);
@@ -193,7 +240,7 @@
             qcmDiv.appendChild(div);
         });
 
-        // Correction
+        // Correction et réinitialisation (inchangées)
         document.getElementById("corrigerBtn").addEventListener("click", () => {
             let score = 0;
             questions.forEach((q, index) => {
@@ -201,13 +248,11 @@
                 corrDiv.innerHTML = "";
                 const inputs = document.querySelectorAll("input[name='q" + index + "']");
                 let bonneReponse = false;
-
                 inputs.forEach((inp, i) => {
                     if (inp.checked && i === q.bonne) {
                         bonneReponse = true;
                     }
                 });
-
                 if (bonneReponse) {
                     score++;
                     corrDiv.innerHTML = "<span class='bonne'>✓ Bonne réponse.</span> " + q.explication;
@@ -220,11 +265,9 @@
             document.getElementById("resultat").innerHTML = "<strong>Score : " + score + " / " + questions.length + "</strong>";
         });
 
-        // Réinitialisation
         document.getElementById("resetBtn").addEventListener("click", () => {
             const inputs = document.querySelectorAll("input[type='radio']");
             inputs.forEach(inp => inp.checked = false);
-
             questions.forEach((q, index) => {
                 document.getElementById("corr-q" + index).innerHTML = "";
             });
