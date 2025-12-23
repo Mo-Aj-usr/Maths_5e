@@ -19,32 +19,35 @@
             border: 1px solid #ccc;
             border-radius: 6px;
             background: #fff;
-            padding: 10px 12px;
+            padding: 12px;
             margin-bottom: 10px;
         }
         .question-header {
             display: flex;
-            align-items: center;
-            gap: 25px;
-            flex-wrap: wrap; /* image passe en dessous sur petit écran */
-            margin-bottom: 12px;
+            align-items: flex-start;   /* Alignement en haut */
+            gap: 20px;
+            margin-bottom: 8px;        /* Espace réduit sous le header */
         }
         .question-header h3 {
             margin: 0;
             flex: 1;
-            min-width: 300px;
             font-size: 1rem;
+            line-height: 1.4;
         }
         .question-header img {
-            max-width: 320px;
+            max-width: 280px;          /* Taille raisonnable */
             height: auto;
+            flex-shrink: 0;            /* Empêche l'image de trop rétrécir */
             border: 2px solid #aaa;
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
+        .answers {
+            margin-top: 0;             /* Pas d'espace supplémentaire */
+        }
         .answers label {
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         #resultat {
             margin-top: 15px;
@@ -66,6 +69,16 @@
             display: block;
             margin: 10px auto;
             max-width: 300px;
+        }
+        /* Responsive : sur petit écran, image en dessous */
+        @media (max-width: 768px) {
+            .question-header {
+                flex-direction: column;
+            }
+            .question-header img {
+                max-width: 100%;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -89,9 +102,9 @@
                 ],
                 bonne: 1,
                 explication: "Définition : deux figures sont symétriques par rapport à un point O (centre de symétrie) si elles se superposent après un demi-tour autour de O.",
-                image: "fig_sym_centrale_1.jpg"  // TON image dans le même dossier
+                image: "fig_sym_centrale_1.jpg"  // Ton image locale
             },
-            // Les autres questions (inchangées)
+            // Autres questions (inchangées)
             {
                 texte: "2. Le symétrique du point M par rapport au centre O est le point M' tel que…",
                 propositions: [
@@ -179,7 +192,6 @@
             const div = document.createElement("div");
             div.className = "question";
 
-            // En-tête flex pour texte + image côte à côte (uniquement question 1)
             const headerDiv = document.createElement("div");
             headerDiv.className = "question-header";
 
@@ -187,17 +199,15 @@
             titre.textContent = (index + 1) + ". " + q.texte;
             headerDiv.appendChild(titre);
 
-            // Ajout de TON image à droite pour la première question uniquement
             if (index === 0 && q.image) {
                 const img = document.createElement("img");
-                img.src = q.image;  // Chemin relatif : même dossier que le HTML
+                img.src = q.image;
                 img.alt = "Illustration de la symétrie centrale";
                 headerDiv.appendChild(img);
             }
 
             div.appendChild(headerDiv);
 
-            // Propositions
             const answersDiv = document.createElement("div");
             answersDiv.className = "answers";
             q.propositions.forEach((prop, i) => {
@@ -212,7 +222,6 @@
             });
             div.appendChild(answersDiv);
 
-            // Correction
             const corrDiv = document.createElement("div");
             corrDiv.className = "correction";
             corrDiv.id = "corr-q" + index;
@@ -221,7 +230,7 @@
             qcmDiv.appendChild(div);
         });
 
-        // Correction
+        // Correction et reset (inchangés)
         document.getElementById("corrigerBtn").addEventListener("click", () => {
             let score = 0;
             questions.forEach((q, index) => {
@@ -246,7 +255,6 @@
             document.getElementById("resultat").innerHTML = "<strong>Score : " + score + " / " + questions.length + "</strong>";
         });
 
-        // Réinitialisation
         document.getElementById("resetBtn").addEventListener("click", () => {
             const inputs = document.querySelectorAll("input[type='radio']");
             inputs.forEach(inp => inp.checked = false);
