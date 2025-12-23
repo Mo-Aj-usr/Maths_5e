@@ -1,1 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM Triangles 7 - Casse-têtes (Maths 5e)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .question h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .correction {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>QCM Triangles 7 – Casse-têtes (5e)</h1>
+    <p>Réponds aux 10 questions puis clique sur « Corriger ».<br>Série complète Eduscol 5e : problèmes complexes triangles.[page:1]</p>
+
+    <div id="qcm"></div>
+
+    <button id="corrigerBtn">Corriger</button>
+    <button id="resetBtn">Réinitialiser</button>
+
+    <div id="resultat"></div>
+
+    <script>
+        const questions = [
+            {
+                texte: "1. Côtés 5,5,9. Inégalité ? 5+5 ? 9",
+                propositions: ["10>9 ✓ triangle", "10<9 ✗ impossible", "10=9 dégenéré", "indéterminé"],
+                bonne: 0,
+                explication: "5+5=10>9 ✓ ; 5+9>5 ✓ → triangle isocèle possible."
+            },
+            {
+                texte: "2. △ABC : AB=7, BC=8, CA=4. Plus grand côté ?",
+                propositions: ["AB=7", "BC=8", "CA=4", "tous égaux"],
+                bonne: 1,
+                explication: "BC=8 >7>4 → BC plus grand (face plus grand angle)."
+            },
+            {
+                texte: "3. Â=20°, B̂=30°, Ĉ=? Puis type triangle ?",
+                propositions: ["130° obtus", "130° aigu", "50° rectangle", "90° droit"],
+                bonne: 0,
+                explication: "Ĉ=180-20-30=130° >90° → triangle obtus en C."
+            },
+            {
+                texte: "4. Isocèle AB=AC, B̂=Ĉ=70°. Â=?",
+                propositions: ["40°", "70°", "110°", "40° rectangle"],
+                bonne: 0,
+                explication: "Â=180-70-70=40° (angle sommet plus petit)."
+            },
+            {
+                texte: "5. Construction : 2 côtés + angle OPPOSÉ. Résultat ?",
+                propositions: ["0,1 ou 2 triangles (ambigu)", "Toujours 1", "Impossible", "Équilatéral"],
+                bonne: 0,
+                explication: "SSA ambigu : dépend position angle (0,1,2 solutions possibles)."
+            },
+            {
+                texte: "6. Rectangle Â=90°, autres angles somme à :",
+                propositions: ["90°", "180°", "270°", "360°"],
+                bonne: 0,
+                explication: "Â+ B̂+Ĉ=180° → B̂+Ĉ=90° (complémentaires)."
+            },
+            {
+                texte: "7. Médiane AM, hauteur AH, M=H ? Quand ?",
+                propositions: ["Isocèle base BC", "Équilatéral", "Rectangle", "Scalène"],
+                bonne: 0,
+                explication: "Isocèle AB=AC : médiane=hauteur=médiatrice (symétrie)."
+            },
+            {
+                texte: "8. Côtés x,x,10. Inégalité → x min/max ?",
+                propositions: ["x>5, x<20? Non : 5<x<15", "x=10", "x>10", "x<5"],
+                bonne: 0,
+                explication: "x+x>10 → x>5 ; 10<x+x → toujours ; x< x+10 → toujours. x>5."
+            },
+            {
+                texte: "9. △ABC équilatéral. Médiatrice [BC] passe par :",
+                propositions: ["A (sommet opposé)", "Milieu [AB]", "B uniquement", "C uniquement"],
+                bonne: 0,
+                explication: "Équilatéral : médiatrice [BC] = hauteur = médiane = AM vers A."
+            },
+            {
+                texte: "10. Â=45°, B̂=45°, Ĉ=90°. Type triangle ?",
+                propositions: ["Isocèle rectangle", "Équilatéral", "Scalène aigu", "Obtus"],
+                bonne: 0,
+                explication: "Â=B̂=45° → isocèle ; Ĉ=90° → rectangle (30-60-90 variante)."
+            }
+        ];
+
+        // Génération du QCM
+        const
 
