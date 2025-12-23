@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM Triangles 3 - Hauteurs, Médianes, Médiatrices (Maths 5e)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .question h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .correction {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>QCM Triangles 3 – Hauteurs, Médianes, Médiatrices (5e)</h1>
+    <p>Réponds aux 10 questions puis clique sur « Corriger ».<br>Programme officiel Eduscol : droites remarquables (hauteur, médiane, médiatrice).[page:1][web:12][web:17]</p>
+
+    <div id="qcm"></div>
+
+    <button id="corrigerBtn">Corriger</button>
+    <button id="resetBtn">Réinitialiser</button>
+
+    <div id="resultat"></div>
+
+    <script>
+        const questions = [
+            {
+                texte: "1. La HAUTEUR d'un triangle depuis A vers [BC] est :",
+                propositions: ["la bissectrice de l'angle A", "la perpendiculaire de A à [BC]", "la droite passant par le milieu de [BC]", "le segment [AB]"],
+                bonne: 1,
+                explication: "Hauteur : perpendiculaire du sommet à la base (droite perpendiculaire).[web:12][web:17]"
+            },
+            {
+                texte: "2. La MÉDIANE d'un triangle ABC va de :",
+                propositions: ["A au milieu de [BC]", "A à B", "milieu [AB] à milieu [AC]", "A à l'angle droit"],
+                bonne: 0,
+                explication: "Médiane : sommet → milieu du côté opposé (M milieu [BC], médiane [AM]).[page:1][web:12]"
+            },
+            {
+                texte: "3. La MÉDIATRICE de [BC] est :",
+                propositions: ["la perpendiculaire à [BC] en son milieu", "la droite passant par B et C", "la hauteur depuis A", "la bissectrice de ∠B"],
+                bonne: 0,
+                explication: "Médiatrice : perpendiculaire bissectrice (milieu M de [BC], ⊥ à [BC]).[web:12][web:17]"
+            },
+            {
+                texte: "4. Dans △ABC, H pied de la hauteur [AH] sur [BC] :",
+                propositions: ["AH ⊥ [BC]", "AH // [BC]", "H = milieu [BC]", "AH bissectrice"],
+                bonne: 0,
+                explication: "Définition hauteur : AH ⊥ [BC] (angle droit en H).[web:17]"
+            },
+            {
+                texte: "5. Les 3 médianes d'un triangle se rencontrent en :",
+                propositions: ["le centroïde", "l'orthocentre", "le circumcentre", "l'incentre"],
+                bonne: 0,
+                explication: "Propriété : concurrence au centroïde (point barycentre des sommets).[page:1][web:12]"
+            },
+            {
+                texte: "6. La médiatrice de [AB] passe par :",
+                propositions: ["le milieu de [AB]", "les sommets A et B", "le pied de la hauteur", "l'angle C"],
+                bonne: 0,
+                explication: "Par définition : passe par milieu M de [AB] et ⊥ à [AB].[web:17]"
+            },
+            {
+                texte: "7. Quelle droite relie A au milieu M de [BC] ?",
+                propositions: ["Hauteur", "Médiane", "Médiatrice", "Bissectrice"],
+                bonne: 1,
+                explication: "Médiane AM : sommet A → milieu M du côté opposé [BC].[web:12]"
+            },
+            {
+                texte: "8. Les 3 hauteurs d'un triangle se rencontrent en :",
+                propositions: ["centroïde", "orthocentre", "circumcentre", "incentre"],
+                bonne: 1,
+                explication: "Propriété fondamentale : concurrence à l'orthocentre.[page:1][web:17]"
+            },
+            {
+                texte: "9. Quelle est la propriété de la médiatrice ?",
+                propositions: ["Équidistante des extrémités", "Perpendiculaire au sommet", "Passe par l'angle droit", "Parallèle à la base"],
+                bonne: 0,
+                explication: "Théorème : tout point de la médiatrice ≡ distance aux extrémités (A ≡ B).[web:12]"
+            },
+            {
+                texte: "10. Dans △ABC, M milieu [BC], N pied hauteur AH=[BC] :",
+                propositions: ["[AM] = médiane", "[AN] = hauteur", "les deux", "aucune"],
+                bonne: 2,
+                explication: "AM = médiane (milieu) ; AN = hauteur (⊥). Les deux droites remarquables.[page:1][web:17]"
+            }
+        ];
+
+        // Génération du QCM
+        const qcmDiv = document.getElementById("qcm");
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+
+            const titre = document.createElement("h3");
+            titre.textContent = q.texte;
+            div.appendChild(titre);
+
+            const answersDiv = document.createElement("div");
+            answersDiv.className = "answers";
+
+            q.propositions.forEach((prop, i) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "q" + index;
+                input.value = i;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(" " + prop));
+                answersDiv.appendChild(label);
+            });
+
+            div.appendChild(answersDiv);
+
+            const corrDiv = document.createElement("div");
+            corrDiv.className = "correction";
+            corrDiv.id = "corr-q" + index;
+            div.appendChild(corrDiv);
+
+            qcmDiv.appendChild(div);
+        });
+
+        // Correction
+        document.getElementById("corrigerBtn").addEventListener("click", () => {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const corrDiv = document.getElementById("corr-q" + index);
+                corrDiv.innerHTML = "";
+                const inputs = document.querySelectorAll("input[name='q" + index + "']");
+                let bonneReponse = false;
+
+                inputs.forEach((inp, i) => {
+                    if (inp.checked && i === q.bonne) {
+                        bonneReponse = true;
+                    }
+                });
+
+                if (bonneReponse) {
+                    score++;
+                    corrDiv.innerHTML = "<span class='bonne'>✓ Bonne réponse.</span> " + q.explication;
+                } else {
+                    const repCorrecte = q.propositions[q.bonne];
+                    corrDiv.innerHTML = "<span class='mauvaise'>✗ Mauvaise réponse.</span> " +
+                                       "Correcte : <strong>" + repCorrecte + "</strong>. " + q.explication;
+                }
+            });
+            document.getElementById("resultat").innerHTML = "<strong>Score : " + score + " / " + questions.length + "</strong>";
+        });
+
+        // Réinitialisation
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            const inputs = document.querySelectorAll("input[type='radio']");
+            inputs.forEach(inp => inp.checked = false);
+
+            questions.forEach((q, index) => {
+                document.getElementById("corr-q" + index).innerHTML = "";
+            });
+            document.getElementById("resultat").innerHTML = "";
+        });
+    </script>
+</body>
+</html>
 
