@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM Triangles 1 - Introduction et définitions (Maths 5e)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .question h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .correction {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>QCM Triangles 1 – Introduction et définitions (5e)</h1>
+    <p>Réponds aux 10 questions puis clique sur « Corriger ».<br>Programme officiel Eduscol : codage des figures, propriétés élémentaires des triangles.[page:1][web:11]</p>
+
+    <div id="qcm"></div>
+
+    <button id="corrigerBtn">Corriger</button>
+    <button id="resetBtn">Réinitialiser</button>
+
+    <div id="resultat"></div>
+
+    <script>
+        const questions = [
+            {
+                texte: "1. Un triangle possède combien de côtés ?",
+                propositions: ["2", "3", "4", "5"],
+                bonne: 1,
+                explication: "Un triangle est une figure plane délimitée par 3 côtés droits (codage [AB], [BC], [CA]).[page:1]"
+            },
+            {
+                texte: "2. Un triangle possède combien d'angles ?",
+                propositions: ["2", "3", "4", "illimité"],
+                bonne: 1,
+                explication: "Triangle ABC possède 3 angles : Â, B̂, Ĉ (somme = 180°).[page:1][web:15]"
+            },
+            {
+                texte: "3. Le sommet A d'un triangle ABC est :",
+                propositions: ["le milieu du côté [BC]", "l'extrémité commune des côtés [AB] et [AC]", "le milieu du côté [AB]", "un angle"],
+                bonne: 1,
+                explication: "Sommet A : point commun aux côtés [AB] et [AC].[page:1]"
+            },
+            {
+                texte: "4. Le côté [BC] d'un triangle ABC est :",
+                propositions: ["un angle", "le côté opposé au sommet A", "une hauteur", "une médiane"],
+                bonne: 1,
+                explication: "Côté opposé au sommet A = base du triangle en A.[web:14]"
+            },
+            {
+                texte: "5. La somme des angles d'un triangle vaut :",
+                propositions: ["90°", "180°", "360°", "variable"],
+                bonne: 1,
+                explication: "Propriété fondamentale : Â + B̂ + Ĉ = 180° (utilisée pour démontrer).[page:1][web:15]"
+            },
+            {
+                texte: "6. Dans le triangle ABC, quel est le codage correct d'un angle ?",
+                propositions: ["[ABC]", "angle ABC", "Â", "B̂C"],
+                bonne: 2,
+                explication: "Codage officiel : Â (angle en A), B̂ (angle en B), Ĉ (angle en C).[page:1]"
+            },
+            {
+                texte: "7. Un triangle est délimité par :",
+                propositions: ["3 droites concourantes", "3 segments de droites", "3 cercles", "3 parallèles"],
+                bonne: 1,
+                explication: "Triangle = polygone à 3 côtés (segments [AB], [BC], [CA]).[web:12]"
+            },
+            {
+                texte: "8. Le côté opposé à l'angle B̂ est :",
+                propositions: ["[AB]", "[BC]", "[AC]", "[BA]"],
+                bonne: 2,
+                explication: "Côté opposé à B̂ = [AC] (ne touche pas B).[web:14]"
+            },
+            {
+                texte: "9. Dans △ABC, les sommets sont :",
+                propositions: ["A, B, C", "[AB], [BC], [CA]", "Â, B̂, Ĉ", "les milieux des côtés"],
+                bonne: 0,
+                explication: "Sommets = points A, B, C. Côtés = [AB], [BC], [CA].[page:1]"
+            },
+            {
+                texte: "10. Quelle propriété permet de démontrer en 5e ?",
+                propositions: ["Somme des angles = 180°", "Théorème de Pythagore", "Théorème de Thalès", "Somme des côtés égale"],
+                bonne: 0,
+                explication: "En 5e : somme angles, inégalité triangulaire, codage figures (programme officiel).[page:1][web:11]"
+            }
+        ];
+
+        // Génération du QCM
+        const qcmDiv = document.getElementById("qcm");
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+
+            const titre = document.createElement("h3");
+            titre.textContent = q.texte;
+            div.appendChild(titre);
+
+            const answersDiv = document.createElement("div");
+            answersDiv.className = "answers";
+
+            q.propositions.forEach((prop, i) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "q" + index;
+                input.value = i;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(" " + prop));
+                answersDiv.appendChild(label);
+            });
+
+            div.appendChild(answersDiv);
+
+            const corrDiv = document.createElement("div");
+            corrDiv.className = "correction";
+            corrDiv.id = "corr-q" + index;
+            div.appendChild(corrDiv);
+
+            qcmDiv.appendChild(div);
+        });
+
+        // Correction
+        document.getElementById("corrigerBtn").addEventListener("click", () => {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const corrDiv = document.getElementById("corr-q" + index);
+                corrDiv.innerHTML = "";
+                const inputs = document.querySelectorAll("input[name='q" + index + "']");
+                let bonneReponse = false;
+
+                inputs.forEach((inp, i) => {
+                    if (inp.checked && i === q.bonne) {
+                        bonneReponse = true;
+                    }
+                });
+
+                if (bonneReponse) {
+                    score++;
+                    corrDiv.innerHTML = "<span class='bonne'>✓ Bonne réponse.</span> " + q.explication;
+                } else {
+                    const repCorrecte = q.propositions[q.bonne];
+                    corrDiv.innerHTML = "<span class='mauvaise'>✗ Mauvaise réponse.</span> " +
+                                       "Correcte : <strong>" + repCorrecte + "</strong>. " + q.explication;
+                }
+            });
+            document.getElementById("resultat").innerHTML = "<strong>Score : " + score + " / " + questions.length + "</strong>";
+        });
+
+        // Réinitialisation
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            const inputs = document.querySelectorAll("input[type='radio']");
+            inputs.forEach(inp => inp.checked = false);
+
+            questions.forEach((q, index) => {
+                document.getElementById("corr-q" + index).innerHTML = "";
+            });
+            document.getElementById("resultat").innerHTML = "";
+        });
+    </script>
+</body>
+</html>
 
