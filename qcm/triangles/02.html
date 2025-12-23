@@ -1,1 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM Triangles 2 - Inégalité triangulaire (Maths 5e)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .question h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .correction {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>QCM Triangles 2 – Inégalité triangulaire (5e)</h1>
+    <p>Réponds aux 10 questions puis clique sur « Corriger ».<br>Programme officiel Eduscol : inégalité triangulaire stricte (tout côté < somme des 2 autres).[page:1][web:11]</p>
+
+    <div id="qcm"></div>
+
+    <button id="corrigerBtn">Corriger</button>
+    <button id="resetBtn">Réinitialiser</button>
+
+    <div id="resultat"></div>
+
+    <script>
+        const questions = [
+            {
+                texte: "1. Dans un triangle, tout côté est...",
+                propositions: ["supérieur à la somme des 2 autres", "égal à la somme des 2 autres", "inférieur à la somme des 2 autres", "multiple des 2 autres"],
+                bonne: 2,
+                explication: "Inégalité triangulaire : AB < AC + BC (stricte).[page:1]"
+            },
+            {
+                texte: "2. Peut-on former un triangle de côtés 3, 4, 8 ?",
+                propositions: ["Oui", "Non", "Oui si angles droits", "Seulement si isocèle"],
+                bonne: 1,
+                explication: "8 ≮ 3 + 4 = 7 → impossible (3+4 < 8).[page:1][web:15]"
+            },
+            {
+                texte: "3. Peut-on former un triangle de côtés 5, 5, 9 ?",
+                propositions: ["Oui", "Non", "Oui si équilatéral", "Seulement si rectangle"],
+                bonne: 1,
+                explication: "9 ≮ 5 + 5 = 10 → faux (9 < 10 vrai), vérifions autres : 5 < 5+9 ✓, 5 < 5+9 ✓. Erreur ! 9 < 10 ✓ donc OUI. Correction :",
+                explication: "ATTENTION : 5+5=10 > 9 ✓ ; 5+9=14 > 5 ✓ ; 5+9=14 > 5 ✓ → Oui possible."
+            },
+            {
+                texte: "4. Dans △ABC, AB = 6 cm, BC = 7 cm, CA = 8 cm. Vérifions :",
+                propositions: ["6 < 7+8 ✓ ; 7 < 6+8 ✓ ; 8 < 6+7 ✓", "6 > 7+8 ✗", "7 = 6+8", "8 > 6+7 ✗"],
+                bonne: 0,
+                explication: "6 < 15 ✓ ; 7 < 14 ✓ ; 8 < 13 ✓ → triangle possible.[web:15]"
+            },
+            {
+                texte: "5. La plus longue longueur dans un triangle est :",
+                propositions: ["un angle", "un sommet", "un côté", "une hauteur"],
+                bonne: 2,
+                explication: "Le plus grand côté est en face du plus grand angle (réciproque inégalité).[page:1]"
+            },
+            {
+                texte: "6. Peut-on former △ de côtés 2, 3, 6 ? Test :",
+                propositions: ["2+3=5 < 6 ✗", "2+6=8 > 3 ✓", "3+6=9 > 2 ✓", "Tous ✓"],
+                bonne: 0,
+                explication: "2 + 3 = 5 < 6 → impossible (dégénère en segment).[page:1]"
+            },
+            {
+                texte: "7. Triangle 4 cm, 5 cm, 10 cm ?",
+                propositions: ["Possible", "Impossible 4+5 < 10", "Possible si plat", "Seulement si droit"],
+                bonne: 1,
+                explication: "4 + 5 = 9 < 10 → impossible.[web:15]"
+            },
+            {
+                texte: "8. Dans △ABC avec AB = 12, BC = 5, CA = 8 :",
+                propositions: ["AB est le plus grand côté", "BC est le plus grand", "CA est le plus grand", "tous égaux"],
+                bonne: 0,
+                explication: "12 > 8 > 5 → AB le plus grand (face plus grand angle).[page:1]"
+            },
+            {
+                texte: "9. Condition pour △ 7, 8, x :",
+                propositions: ["x < 15 et x > 1", "x = 15", "x > 15", "x < 1"],
+                bonne: 0,
+                explication: "x < 7+8=15 ; 8 < 7+x → x > 1 ; 7 < 8+x → x > –1 (toujours). Donc 1 < x < 15.[page:1]"
+            },
+            {
+                texte: "10. Parmi ces triplets, lequel ne forme PAS triangle ?",
+                propositions: ["(3,4,5)", "(5,5,9)", "(2,3,4)", "(6,8,10)"],
+                bonne: 1,
+                explication: "5+5=10 ≯ 9 ✓ wait : 5+5 > 9 ✓ ; erreur. Vérifions : (3,4,5)✓ (6,8,10)✓ (2,3,4):2+3=5>4✓. Aucun ? Correction précise :",
+                explication: "Tous forment triangle ! Mauvaise question. Reformulons : (1,1,3) impossible 1+1<3."
+            }
+        ];
+
+        // Corrections des erreurs dans les questions 3 et 10
+        questions[2].propositions = ["Non", "Oui", "Non si plat", "Seulement rectangle"];
+        questions[2].bonne = 1;
+        questions[2].explication = "5+5=10 > 9 ✓ ; 5+9=14 > 5 ✓ → Oui possible.";
+
+        questions[9].propositions = ["(3,4,5)", "(1,1,3)", "(2,3,4)", "(6,8,10)"];
+        questions[9].bonne = 1;
+        questions[9].explication = "1+1=2 < 3 → impossible (les autres ✓).[page:1][web:15]";
+
+        // Génération du QCM
+        const qcmDiv = document.getElementById("qcm");
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+
+            const titre = document.createElement("h3");
+            titre.textContent = q.texte;
+            div.appendChild(titre);
+
+            const answersDiv = document.createElement("div");
+            answersDiv.className = "answers";
+
+            q.propositions.forEach((prop, i) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "q" + index;
+                input.value = i;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(" " + prop));
+                answersDiv.appendChild(label);
+            });
+
+            div.appendChild(answersDiv);
+
+            const corrDiv = document.createElement("div");
+            corrDiv.className = "correction";
+            corrDiv.id = "corr-q" + index;
+            div.appendChild(corrDiv);
+
+            qcmDiv.appendChild(div);
+        });
+
+        // Correction
+        document.getElementById("corrigerBtn").addEventListener("click", () => {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const corrDiv = document.getElementById("corr-q" + index);
+                corrDiv.innerHTML = "";
+                const inputs = document.querySelectorAll("input[name='q" + index + "']");
+                let bonneReponse = false;
+
+                inputs.forEach((inp, i) => {
+                    if (inp.checked && i === q.bonne) {
+                        bonneReponse = true;
+                    }
+                });
+
+                if (bonneReponse) {
+                    score++;
+                    corrDiv.innerHTML = "<span class='bonne'>✓ Bonne réponse.</span> " + q.explication;
+                } else {
+                    const repCorrecte = q.propositions[q.bonne];
+                    corrDiv.innerHTML = "<span class='mauvaise'>✗ Mauvaise réponse.</span> " +
+                                       "Correcte : <strong>" + repCorrecte + "</strong>. " + q.explication;
+                }
+            });
+            document.getElementById("resultat").innerHTML = "<strong>Score : " + score + " / " + questions.length + "</strong>";
+        });
+
+        // Réinitialisation
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            const inputs = document.querySelectorAll("input[type='radio']");
+            inputs.forEach(inp => inp.checked = false);
+
+            questions.forEach((q, index) => {
+                document.getElementById("corr-q" + index).innerHTML = "";
+            });
+            document.getElementById("resultat").innerHTML = "";
+        });
+    </script>
+</body>
+</html>
 
