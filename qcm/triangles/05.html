@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM Triangles 5 - Triangles particuliers (Maths 5e)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .question h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .correction {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>QCM Triangles 5 – Triangles particuliers (5e)</h1>
+    <p>Réponds aux 10 questions puis clique sur « Corriger ».<br>Programme officiel Eduscol : équilatéral (3 côtés=), isocèle (2 côtés=), rectangle (90°).[page:1][web:14][web:19]</p>
+
+    <div id="qcm"></div>
+
+    <button id="corrigerBtn">Corriger</button>
+    <button id="resetBtn">Réinitialiser</button>
+
+    <div id="resultat"></div>
+
+    <script>
+        const questions = [
+            {
+                texte: "1. Triangle ÉQUILATÉRAL :",
+                propositions: ["3 côtés égaux, 3 angles 60°", "2 côtés égaux", "1 angle 90°", "3 angles droits"],
+                bonne: 0,
+                explication: "Équilatéral : AB = BC = CA ; Â = B̂ = Ĉ = 60°.[web:14]"
+            },
+            {
+                texte: "2. Triangle ISOCÈLE ABC avec AB = AC :",
+                propositions: ["Â = B̂", "B̂ = Ĉ", "Â = Ĉ", "tous angles égaux"],
+                bonne: 2,
+                explication: "Isocèle base BC : angles au sommet Â ; angles à la base B̂ = Ĉ.[page:1][web:14]"
+            },
+            {
+                texte: "3. Triangle RECTANGLE :",
+                propositions: ["1 angle droit 90°", "3 angles 60°", "2 angles droits", "somme 360°"],
+                bonne: 0,
+                explication: "Rectangle : 1 angle = 90° (les 2 autres complémentaires : somme 90°).[web:14]"
+            },
+            {
+                texte: "4. Dans △ABC équilatéral de côté 5 cm :",
+                propositions: ["Â = 60°", "Â = 90°", "Â = 45°", "Â = 120°"],
+                bonne: 0,
+                explication: "Tous angles = 60° (somme 180° / 3).[web:14]"
+            },
+            {
+                texte: "5. Isocèle AB = BC = 7 cm, base AC = 4 cm. Angles égaux :",
+                propositions: ["Â et B̂", "B̂ et Ĉ", "Â et Ĉ", "tous"],
+                bonne: 1,
+                explication: "Côtés AB = BC → angles opposés égaux : Â (opp. BC) = Ĉ (opp. AB).[web:14]"
+            },
+            {
+                texte: "6. Rectangle ABC, B̂ = 90°. Les autres angles :",
+                propositions: ["Â + Ĉ = 90°", "Â = Ĉ = 90°", "Â = 60°", "Â + Ĉ = 180°"],
+                bonne: 0,
+                explication: "Somme totale 180° → Â + Ĉ = 180° - 90° = 90° (complémentaires).[page:1][web:14]"
+            },
+            {
+                texte: "7. Côtés 6, 6, 6 → quel triangle ?",
+                propositions: ["Équilatéral", "Isocèle", "Rectangle", "Scalène"],
+                bonne: 0,
+                explication: "3 côtés égaux = équilatéral (cas particulier isocèle).[web:14]"
+            },
+            {
+                texte: "8. Côtés 5, 5, 7 → quel triangle ?",
+                propositions: ["Équilatéral", "Isocèle", "Rectangle", "impossible"],
+                bonne: 1,
+                explication: "2 côtés égaux = isocèle (base 7 < 5+5=10 ✓).[web:14][page:1]"
+            },
+            {
+                texte: "9. Rectangle Â = 40°, B̂ = 90° : Ĉ =",
+                propositions: ["50°", "40°", "130°", "90°"],
+                bonne: 0,
+                explication: "Ĉ = 180° - 90° - 40° = 50°.[page:1]"
+            },
+            {
+                texte: "10. Propriété isocèle ABC (AB = AC) :",
+                propositions: ["B̂ = Ĉ (angles à la base)", "Â = 90°", "médiane = hauteur = médiatrice", "tous côtés égaux"],
+                bonne: 0,
+                explication: "Isocèle : B̂ = Ĉ ; AM (médiane vers base) = hauteur = médiatrice.[web:14][web:12]"
+            }
+        ];
+
+        // Génération du QCM
+        const qcmDiv = document.getElementById("qcm");
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+
+            const titre = document.createElement("h3");
+            titre.textContent = q.texte;
+            div.appendChild(titre);
+
+            const answersDiv = document.createElement("div");
+            answersDiv.className = "answers";
+
+            q.propositions.forEach((prop, i) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "q" + index;
+                input.value = i;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(" " + prop));
+                answersDiv.appendChild(label);
+            });
+
+            div.appendChild(answersDiv);
+
+            const corrDiv = document.createElement("div");
+            corrDiv.className = "correction";
+            corrDiv.id = "corr-q" + index;
+            div.appendChild(corrDiv);
+
+            qcmDiv.appendChild(div);
+        });
+
+        // Correction
+        document.getElementById("corrigerBtn").addEventListener("click", () => {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const corrDiv = document.getElementById("corr-q" + index);
+                corrDiv.innerHTML = "";
+                const inputs = document.querySelectorAll("input[name='q" + index + "']");
+                let bonneReponse = false;
+
+                inputs.forEach((inp, i) => {
+                    if (inp.checked && i === q.bonne) {
+                        bonneReponse = true;
+                    }
+                });
+
+                if (bonneReponse) {
+                    score++;
+                    corrDiv.innerHTML = "<span class='bonne'>✓ Bonne réponse.</span> " + q.explication;
+                } else {
+                    const repCorrecte = q.propositions[q.bonne];
+                    corrDiv.innerHTML = "<span class='mauvaise'>✗ Mauvaise réponse.</span> " +
+                                       "Correcte : <strong>" + repCorrecte + "</strong>. " + q.explication;
+                }
+            });
+            document.getElementById("resultat").innerHTML = "<strong>Score : " + score + " / " + questions.length + "</strong>";
+        });
+
+        // Réinitialisation
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            const inputs = document.querySelectorAll("input[type='radio']");
+            inputs.forEach(inp => inp.checked = false);
+
+            questions.forEach((q, index) => {
+                document.getElementById("corr-q" + index).innerHTML = "";
+            });
+            document.getElementById("resultat").innerHTML = "";
+        });
+    </script>
+</body>
+</html>
 
