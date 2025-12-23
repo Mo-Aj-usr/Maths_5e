@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM Triangles 4 - Construction et Angles (Maths 5e)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .question h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .correction {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>QCM Triangles 4 – Construction et Angles (5e)</h1>
+    <p>Réponds aux 10 questions puis clique sur « Corriger ».<br>Programme officiel Eduscol : construction de triangles (SAS, SSS, SAA), propriétés angles.[page:1][web:13]</p>
+
+    <div id="qcm"></div>
+
+    <button id="corrigerBtn">Corriger</button>
+    <button id="resetBtn">Réinitialiser</button>
+
+    <div id="resultat"></div>
+
+    <script>
+        const questions = [
+            {
+                texte: "1. Pour construire un triangle, SAS signifie :",
+                propositions: ["2 côtés + angle entre eux", "3 côtés", "2 angles + côté", "1 côté + 2 angles"],
+                bonne: 0,
+                explication: "SAS : Côté - Angle adjacent - Côté (détermine le triangle univoquement).[web:13]"
+            },
+            {
+                texte: "2. SSS permet de construire un triangle avec :",
+                propositions: ["3 côtés", "2 côtés + angle", "2 angles + côté", "1 côté + angle droit"],
+                bonne: 0,
+                explication: "SSS : 3 côtés respectant l'inégalité triangulaire → unique triangle.[page:1][web:13]"
+            },
+            {
+                texte: "3. SAA correspond à :",
+                propositions: ["2 angles + côté non inclus", "3 angles", "2 côtés + angle opposé", "côté + bissectrice"],
+                bonne: 0,
+                explication: "SAA : 2 angles + côté adjacent à l'un d'eux (3e angle = 180° - somme).[web:13]"
+            },
+            {
+                texte: "4. Dans △ABC avec Â = 40°, B̂ = 60°, calculer Ĉ :",
+                propositions: ["80°", "100°", "180°", "20°"],
+                bonne: 0,
+                explication: "Ĉ = 180° - (40° + 60°) = 80° (somme angles = 180°).[page:1]"
+            },
+            {
+                texte: "5. Construction avec 2 côtés et angle OPPOSÉ :",
+                propositions: ["2 triangles possibles (ambigu)", "1 seul triangle", "Impossible", "Triangle rectangle"],
+                bonne: 0,
+                explication: "SSA ambigu : 0, 1 ou 2 triangles possibles (cas de l'ambiguïté).[web:13]"
+            },
+            {
+                texte: "6. Pour construire △ABC avec AB = 5 cm, Â = 50°, AC = 6 cm :",
+                propositions: ["SAS", "SSS", "SAA", "ASA"],
+                bonne: 0,
+                explication: "AB - Â - AC = SAS (côté-angle-côté adjacent).[web:13]"
+            },
+            {
+                texte: "7. Dans △ABC, Â = 70°, B̂ = 55°, alors Ĉ =",
+                propositions: ["125°", "55°", "70°", "180°"],
+                bonne: 0,
+                explication: "Ĉ = 180° - 70° - 55° = 55° (isosceles ? B̂ = Ĉ).[page:1]"
+            },
+            {
+                texte: "8. Quelle condition pour construction unique ?",
+                propositions: ["SAS, SSS, SAA", "3 angles seuls", "2 côtés opposés", "1 côté seul"],
+                bonne: 0,
+                explication: "En 5e : SAS, SSS, SAA déterminent un triangle unique.[web:13]"
+            },
+            {
+                texte: "9. △ABC : B̂ = 90°, Â = 30°, alors Ĉ =",
+                propositions: ["60°", "90°", "120°", "45°"],
+                bonne: 0,
+                explication: "Ĉ = 180° - 90° - 30° = 60° (triangle rectangle 30-60-90).[page:1][web:14]"
+            },
+            {
+                texte: "10. Construction impossible si :",
+                propositions: ["Somme angles > 180°", "3 côtés égaux", "2 angles aigus", "SAS avec angle 90°"],
+                bonne: 0,
+                explication: "Somme angles doit = 180° exactement pour tout triangle.[page:1]"
+            }
+        ];
+
+        // Génération du QCM
+        const qcmDiv = document.getElementById("qcm");
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+
+            const titre = document.createElement("h3");
+            titre.textContent = q.texte;
+            div.appendChild(titre);
+
+            const answersDiv = document.createElement("div");
+            answersDiv.className = "answers";
+
+            q.propositions.forEach((prop, i) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "q" + index;
+                input.value = i;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(" " + prop));
+                answersDiv.appendChild(label);
+            });
+
+            div.appendChild(answersDiv);
+
+            const corrDiv = document.createElement("div");
+            corrDiv.className = "correction";
+            corrDiv.id = "corr-q" + index;
+            div.appendChild(corrDiv);
+
+            qcmDiv.appendChild(div);
+        });
+
+        // Correction
+        document.getElementById("corrigerBtn").addEventListener("click", () => {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const corrDiv = document.getElementById("corr-q" + index);
+                corrDiv.innerHTML = "";
+                const inputs = document.querySelectorAll("input[name='q" + index + "']");
+                let bonneReponse = false;
+
+                inputs.forEach((inp, i) => {
+                    if (inp.checked && i === q.bonne) {
+                        bonneReponse = true;
+                    }
+                });
+
+                if (bonneReponse) {
+                    score++;
+                    corrDiv.innerHTML = "<span class='bonne'>✓ Bonne réponse.</span> " + q.explication;
+                } else {
+                    const repCorrecte = q.propositions[q.bonne];
+                    corrDiv.innerHTML = "<span class='mauvaise'>✗ Mauvaise réponse.</span> " +
+                                       "Correcte : <strong>" + repCorrecte + "</strong>. " + q.explication;
+                }
+            });
+            document.getElementById("resultat").innerHTML = "<strong>Score : " + score + " / " + questions.length + "</strong>";
+        });
+
+        // Réinitialisation
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            const inputs = document.querySelectorAll("input[type='radio']");
+            inputs.forEach(inp => inp.checked = false);
+
+            questions.forEach((q, index) => {
+                document.getElementById("corr-q" + index).innerHTML = "";
+            });
+            document.getElementById("resultat").innerHTML = "";
+        });
+    </script>
+</body>
+</html>
 
