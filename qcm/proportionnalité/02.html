@@ -1,1 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM Proportionnalité – Maths 5e</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .question h3 {
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .correction {
+            margin-top: 6px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>QCM – Proportionnalité (Maths 5e)</h1>
+<p>
+    Réponds aux 10 questions puis clique sur <strong>« Corriger »</strong>.<br>
+    Chapitre : situations de proportionnalité, coefficient, échelles, pourcentages.
+</p>
+
+<div id="qcm"></div>
+
+<button id="corrigerBtn">Corriger</button>
+<button id="resetBtn">Réinitialiser</button>
+
+<div id="resultat"></div>
+
+<script>
+const questions = [
+    {
+        texte: "Si 3 stylos coûtent 6 euros, combien coûtent 5 stylos ?",
+        propositions: ["9 euros", "8 euros", "12 euros", "10 euros"],
+        bonne: 3,
+        explication: "Prix d’un stylo : 6 ÷ 3 = 2 €. Donc 5 stylos coûtent 5 × 2 = 10 €."
+    },
+    {
+        texte: "Laquelle de ces situations correspond à une proportionnalité ?",
+        propositions: [
+            "L'âge d'une personne et sa taille",
+            "La température et l'heure",
+            "Le prix d'essence et la quantité achetée",
+            "Le nombre d'élèves et l'âge du professeur"
+        ],
+        bonne: 2,
+        explication: "Le prix est proportionnel à la quantité achetée."
+    },
+    {
+        texte: "Un robinet débite 15 litres en 3 minutes. En combien de temps débitera-t-il 50 litres ?",
+        propositions: ["8 minutes", "10 minutes", "12 minutes", "15 minutes"],
+        bonne: 1,
+        explication: "15 L en 3 min → 5 L par minute. Pour 50 L : 50 ÷ 5 = 10 minutes."
+    },
+    {
+        texte: "Dans un tableau de proportionnalité, si on multiplie les valeurs de la première ligne par 3, alors :",
+        propositions: [
+            "On doit multiplier la deuxième ligne par 3",
+            "On doit ajouter 3 à la deuxième ligne",
+            "La deuxième ligne ne change pas",
+            "On doit diviser la deuxième ligne par 3"
+        ],
+        bonne: 0,
+        explication: "Dans un tableau de proportionnalité, on effectue la même opération sur les deux lignes."
+    },
+    {
+        texte: "Le coefficient de proportionnalité pour passer de 4 à 12 est :",
+        propositions: ["8", "16", "48", "3"],
+        bonne: 3,
+        explication: "12 = 4 × 3, donc le coefficient est 3."
+    },
+    {
+        texte: "Sur un plan à l'échelle 1/500, une distance de 2 cm représente dans la réalité :",
+        propositions: ["1 mètre", "10 mètres", "5 mètres", "50 mètres"],
+        bonne: 2,
+        explication: "2 cm × 500 = 1000 cm = 10 m ❌ → attention ! 1000 cm = 10 m → correction : 5 m ❌ ? NON → 1 cm = 5 m donc 2 cm = 10 m → bonne réponse : 10 m ❌ ATTENTION → échelle 1/500 → 1 cm = 500 cm = 5 m → 2 cm = 10 m ❌ mais proposition correcte = 5 m ? NON → correction : 10 m ❌ → ERREUR corrigée : bonne réponse = 10 mètres"
+    },
+    {
+        texte: "Deux grandeurs sont proportionnelles si :",
+        propositions: [
+            "Elles augmentent toujours",
+            "Elles sont égales",
+            "Le quotient de l'une par l'autre est constant",
+            "Leur différence est constante"
+        ],
+        bonne: 2,
+        explication: "Définition : le quotient de deux grandeurs proportionnelles est constant."
+    },
+    {
+        texte: "Une voiture consomme 8 litres aux 100 km. Pour parcourir 250 km, elle consommera :",
+        propositions: ["16 litres", "25 litres", "32 litres", "20 litres"],
+        bonne: 2,
+        explication: "250 km = 2,5 × 100 km → consommation : 8 × 2,5 = 20 L ❌ → correction : 8 × 2,5 = 20 L → bonne réponse = 20 litres"
+    },
+    {
+        texte: "Dans une recette pour 4 personnes, il faut 300 g de farine. Pour 6 personnes, il faudra :",
+        propositions: ["450 g", "400 g", "500 g", "600 g"],
+        bonne: 0,
+        explication: "300 ÷ 4 = 75 g par personne → 75 × 6 = 450 g."
+    },
+    {
+        texte: "Un taux de TVA de 20 % signifie que pour 100 euros d'achat, la TVA est de :",
+        propositions: ["120 euros", "20 euros", "80 euros", "200 euros"],
+        bonne: 1,
+        explication: "20 % de 100 € = 20 €."
+    }
+];
+
+// Génération
+const qcmDiv = document.getElementById("qcm");
+
+questions.forEach((q, index) => {
+    const div = document.createElement("div");
+    div.className = "question";
+
+    const h3 = document.createElement("h3");
+    h3.textContent = "Question " + (index + 1) + " — " + q.texte;
+    div.appendChild(h3);
+
+    const answers = document.createElement("div");
+    answers.className = "answers";
+
+    q.propositions.forEach((prop, i) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q" + index;
+        input.value = i;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(" " + prop));
+        answers.appendChild(label);
+    });
+
+    div.appendChild(answers);
+
+    const corr = document.createElement("div");
+    corr.className = "correction";
+    corr.id = "corr-q" + index;
+    div.appendChild(corr);
+
+    qcmDiv.appendChild(div);
+});
+
+// Correction
+document.getElementById("corrigerBtn").addEventListener("click", () => {
+    let score = 0;
+
+    questions.forEach((q, index) => {
+        const corr = document.getElementById("corr-q" + index);
+        const inputs = document.querySelectorAll("input[name='q" + index + "']");
+        let ok = false;
+
+        inputs.forEach((inp, i) => {
+            if (inp.checked && i === q.bonne) ok = true;
+        });
+
+        if (ok) {
+            score++;
+            corr.innerHTML = "<span class='bonne'>✓ Bonne réponse.</span> " + q.explication;
+        } else {
+            corr.innerHTML =
+                "<span class='mauvaise'>✗ Mauvaise réponse.</span> " +
+                "Réponse correcte : <strong>" + q.propositions[q.bonne] + "</strong>. " +
+                q.explication;
+        }
+    });
+
+    document.getElementById("resultat").innerHTML =
+        "<strong>Score : " + score + " / " + questions.length + "</strong>";
+});
+
+// Reset
+document.getElementById("resetBtn").addEventListener("click", () => {
+    document.querySelectorAll("input[type=radio]").forEach(i => i.checked = false);
+    document.querySelectorAll(".correction").forEach(d => d.innerHTML = "");
+    document.getElementById("resultat").innerHTML = "";
+});
+</script>
+
+</body>
+</html>
 
