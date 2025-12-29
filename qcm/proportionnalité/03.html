@@ -1,1 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>QCM 3 – La proportionnalité (Maths 5e)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+        }
+        .question h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        button {
+            padding: 8px 14px;
+            font-size: 1rem;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        #resultat {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .correction {
+            margin-top: 6px;
+            font-size: 0.9rem;
+        }
+        .bonne { color: green; }
+        .mauvaise { color: red; }
+    </style>
+</head>
+<body>
+
+<h1>QCM 3 – La proportionnalité (5e)</h1>
+<p>Réponds aux 10 questions puis clique sur « Corriger ».</p>
+
+<div id="qcm"></div>
+
+<button id="corrigerBtn">Corriger</button>
+<button id="resetBtn">Réinitialiser</button>
+
+<div id="resultat"></div>
+
+<script>
+const questions = [
+    {
+        texte: "Deux grandeurs sont proportionnelles lorsque :",
+        propositions: [
+            "leur somme est constante",
+            "leur différence est constante",
+            "le quotient de l’une par l’autre est constant",
+            "elles augmentent toujours en même temps"
+        ],
+        bonne: 2,
+        explication: "Deux grandeurs sont proportionnelles si le quotient de l’une par l’autre est constant."
+    },
+    {
+        texte: "Lequel de ces tableaux est un tableau de proportionnalité ?",
+        propositions: [
+            "a",
+            "b",
+            "c"
+        ],
+        bonne: 0,
+        explication: "Dans le premier tableau, on multiplie toujours par 3 : c’est un tableau de proportionnalité."
+    },
+    {
+        texte: "Dans un tableau de proportionnalité, si on multiplie une valeur par 4, que fait-on à la valeur correspondante ?",
+        propositions: [
+            "On ajoute 4",
+            "On divise par 4",
+            "On multiplie aussi par 4",
+            "On ne change rien"
+        ],
+        bonne: 2,
+        explication: "Les opérations effectuées sur une ligne doivent être identiques sur l’autre."
+    },
+    {
+        texte: "Chez le primeur, 5 barquettes de fraises coûtent 5,75 €. Quel est le prix d’une barquette ?",
+        propositions: [
+            "0,95 €",
+            "1,05 €",
+            "1,15 €",
+            "1,25 €"
+        ],
+        bonne: 2,
+        explication: "5,75 ÷ 5 = 1,15 € par barquette."
+    },
+    {
+        texte: "Dans un tableau de proportionnalité, 4 correspond à 12. Quel est le coefficient de proportionnalité ?",
+        propositions: [
+            "3",
+            "4",
+            "8",
+            "16"
+        ],
+        bonne: 0,
+        explication: "12 = 4 × 3, donc le coefficient est 3."
+    },
+    {
+        texte: "Sur un plan à l’échelle 1/15 000, 1 cm représente :",
+        propositions: [
+            "150 m",
+            "15 m",
+            "1 500 m",
+            "15 km"
+        ],
+        bonne: 0,
+        explication: "1 cm représente 15 000 cm, soit 150 m."
+    },
+    {
+        texte: "Un automobiliste parcourt 120 km en 1 h 30 min. Quelle distance parcourt-il en 1 h ?",
+        propositions: [
+            "60 km",
+            "80 km",
+            "90 km",
+            "120 km"
+        ],
+        bonne: 2,
+        explication: "1 h 30 = 1,5 h ; 120 ÷ 1,5 = 80 km/h, donc en 1 h il parcourt 80 km."
+    },
+    {
+        texte: "Dans une recette, il faut 300 g de farine pour 4 personnes. Combien pour 6 personnes ?",
+        propositions: [
+            "400 g",
+            "450 g",
+            "500 g",
+            "600 g"
+        ],
+        bonne: 1,
+        explication: "300 ÷ 4 = 75 g par personne, donc 75 × 6 = 450 g."
+    },
+    {
+        texte: "Un salaire augmente de 1,5 %. Que signifie cette augmentation ?",
+        propositions: [
+            "On ajoute 1,5 €",
+            "On multiplie par 1,015",
+            "On multiplie par 0,015",
+            "On divise par 1,5"
+        ],
+        bonne: 1,
+        explication: "Une augmentation de 1,5 % revient à multiplier par 1,015."
+    },
+    {
+        texte: "Dans un collège de 650 élèves, 195 sont inscrits à l’AS. Quel est le pourcentage d’élèves inscrits ?",
+        propositions: [
+            "15 %",
+            "25 %",
+            "30 %",
+            "35 %"
+        ],
+        bonne: 2,
+        explication: "195 ÷ 650 = 0,3 soit 30 %."
+    }
+];
+
+// Génération du QCM
+const qcmDiv = document.getElementById("qcm");
+
+questions.forEach((q, index) => {
+    const div = document.createElement("div");
+    div.className = "question";
+
+    const titre = document.createElement("h3");
+    titre.textContent = q.texte;
+    div.appendChild(titre);
+
+    const answersDiv = document.createElement("div");
+    answersDiv.className = "answers";
+
+    q.propositions.forEach((prop, i) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q" + index;
+        input.value = i;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(" " + prop));
+        answersDiv.appendChild(label);
+    });
+
+    div.appendChild(answersDiv);
+
+    const corrDiv = document.createElement("div");
+    corrDiv.className = "correction";
+    corrDiv.id = "corr-q" + index;
+    div.appendChild(corrDiv);
+
+    qcmDiv.appendChild(div);
+});
+
+// Correction
+document.getElementById("corrigerBtn").addEventListener("click", () => {
+    let score = 0;
+
+    questions.forEach((q, index) => {
+        const corrDiv = document.getElementById("corr-q" + index);
+        corrDiv.innerHTML = "";
+        const inputs = document.querySelectorAll("input[name='q" + index + "']");
+        let bonne = false;
+
+        inputs.forEach((inp, i) => {
+            if (inp.checked && i === q.bonne) {
+                bonne = true;
+            }
+        });
+
+        if (bonne) {
+            score++;
+            corrDiv.innerHTML = "<span class='bonne'>Bonne réponse.</span> " + q.explication;
+        } else {
+            corrDiv.innerHTML = "<span class='mauvaise'>Mauvaise réponse.</span> Réponse correcte : " +
+                q.propositions[q.bonne] + ". " + q.explication;
+        }
+    });
+
+    document.getElementById("resultat").textContent =
+        "Score : " + score + " / " + questions.length;
+});
+
+// Réinitialisation
+document.getElementById("resetBtn").addEventListener("click", () => {
+    document.querySelectorAll("input[type='radio']").forEach(i => i.checked = false);
+    questions.forEach((q, index) => {
+        document.getElementById("corr-q" + index).innerHTML = "";
+    });
+    document.getElementById("resultat").textContent = "";
+});
+</script>
+
+</body>
+</html>
 
