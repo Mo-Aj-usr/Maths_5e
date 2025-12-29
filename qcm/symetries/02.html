@@ -26,8 +26,7 @@
             display: flex;
             align-items: flex-start;
             gap: 20px;
-            flex-wrap: nowrap;     /* Empêche le passage à la ligne trop tôt */
-            margin-bottom: 10px;   /* Espace minimal sous le header */
+            margin-bottom: 10px;
         }
         .question-header h3 {
             margin: 0;
@@ -36,25 +35,22 @@
             line-height: 1.4;
         }
         .question-header img {
-            max-height: 180px;     /* Limite la hauteur pour éviter l'espace excessif */
-            width: auto;
+            max-height: 180px;
             max-width: 300px;
-            flex-shrink: 0;
             border: 2px solid #aaa;
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        .answers {
-            margin-top: 0;
-            padding-top: 0;
         }
         .answers label {
             display: block;
             margin-bottom: 8px;
         }
-        #resultat {
-            margin-top: 15px;
-            font-weight: bold;
+        img.figure {
+            display: block;
+            margin: 10px auto;
+            max-width: 300px;
+            border: 2px solid #aaa;
+            border-radius: 8px;
         }
         .correction {
             margin-top: 5px;
@@ -68,20 +64,10 @@
             margin-right: 8px;
             cursor: pointer;
         }
-        img.figure {
-            display: block;
-            margin: 10px auto;
-            max-width: 300px;
-        }
-        /* Responsive : image en dessous sur petits écrans */
         @media (max-width: 850px) {
             .question-header {
                 flex-direction: column;
                 align-items: center;
-            }
-            .question-header img {
-                max-height: 200px;
-                margin-top: 10px;
             }
             .question-header h3 {
                 text-align: center;
@@ -90,189 +76,214 @@
     </style>
 </head>
 <body>
-    <h1>QCM Symétrie 1 – Introduction et définitions (5e)</h1>
-    <p>Réponds aux 10 questions puis clique sur « Corriger ».<br>Programme officiel Eduscol : symétrie centrale et axiale – définition, construction, propriétés de conservation.</p>
-    <div id="qcm"></div>
-    <button id="corrigerBtn">Corriger</button>
-    <button id="resetBtn">Réinitialiser</button>
-    <div id="resultat"></div>
 
-    <script>
-        const questions = [
-            {
-                texte: "Deux figures sont symétriques par rapport à un point O lorsqu’elles…",
-                propositions: [
-                    "se superposent après une translation",
-                    "se superposent après un demi-tour autour de O",
-                    "se superposent après un pliage selon une droite passant par O",
-                    "restent inchangées quel que soit le mouvement"
-                ],
-                bonne: 1,
-                explication: "Définition : deux figures sont symétriques par rapport à un point O (centre de symétrie) si elles se superposent après un demi-tour autour de O.",
-                image: "fig_sym_centrale_1.jpg"  // TON image dans le même dossier
-            },
-            // Les autres questions restent exactement comme avant
-            {
-                texte: "2. Le symétrique du point M par rapport au centre O est le point M' tel que…",
-                propositions: [
-                    "O est sur la perpendiculaire à [MM']",
-                    "O est le milieu du segment [MM']",
-                    "MM' est parallèle à une droite donnée",
-                    "M et M' sont à la même distance d’une droite"
-                ],
-                bonne: 1,
-                explication: "Définition fondamentale : O est le milieu du segment [MM']."
-            },
-            {
-                texte: "3. Quel est le symétrique du centre de symétrie O lui-même ?",
-                propositions: ["Un autre point", "Aucun point", "O lui-même", "Le point à l’infini"],
-                bonne: 2,
-                explication: "Le centre O est invariant : son symétrique est O lui-même."
-            },
-            {
-                texte: "4. La symétrie par rapport à un point est aussi appelée…",
-                propositions: ["symétrie axiale", "symétrie centrale", "symétrie de translation", "symétrie rotationnelle"],
-                bonne: 1,
-                explication: "Vocabulaire officiel : symétrie par rapport à un point = symétrie centrale."
-            },
-            {
-                texte: "5. <img src='https://www.maths-et-tiques.fr/images/5e/symetries/centrale_def1.png' alt='Figure : point M, centre O, point M' alignés avec O milieu' class='figure'> Sur cette figure, O est-il le milieu de [MM'] ?",
-                propositions: ["Oui", "Non"],
-                bonne: 0,
-                explication: "Oui, par définition de la symétrie centrale."
-            },
-            {
-                texte: "6. Une figure possède un centre de symétrie si…",
-                propositions: [
-                    "elle se superpose à elle-même après un quart de tour",
-                    "son symétrique par rapport à ce centre est la figure elle-même",
-                    "elle a un axe de symétrie",
-                    "elle est invariante par translation"
-                ],
-                bonne: 1,
-                explication: "Définition : une figure admet un centre de symétrie O si elle coïncide avec son symétrique de centre O."
-            },
-            {
-                texte: "7. <img src='https://www.maths-et-tiques.fr/images/5e/symetries/centrale_segment.png' alt='Segment AB avec centre O milieu' class='figure'> Sur cette figure, quel est le symétrique du segment [AB] par rapport à O ?",
-                propositions: [
-                    "Un segment plus long",
-                    "Un segment de même longueur passant par O",
-                    "Le segment [A'B'] où O est milieu de [AA'] et [BB']",
-                    "Le même segment [AB]"
-                ],
-                bonne: 2,
-                explication: "Le symétrique d’un segment est un segment de même longueur dont les extrémités sont les symétriques des extrémités initiales."
-            },
-            {
-                texte: "8. La symétrie centrale conserve-t-elle les longueurs ?",
-                propositions: ["Non", "Oui"],
-                bonne: 1,
-                explication: "Propriété de conservation : la symétrie centrale conserve les longueurs, les angles, le parallélisme, les aires…"
-            },
-            {
-                texte: "9. Le symétrique d’une droite par symétrie centrale de centre O est…",
-                propositions: [
-                    "une droite perpendiculaire",
-                    "une droite parallèle à la droite initiale",
-                    "la même droite",
-                    "une droite passant toujours par O"
-                ],
-                bonne: 1,
-                explication: "Propriété : le symétrique d’une droite est une droite parallèle."
-            },
-            {
-                texte: "10. <img src='https://www.maths-et-tiques.fr/images/5e/symetries/centrale_cercle.png' alt='Cercle avec centre O et son symétrique' class='figure'> Le symétrique d’un cercle par symétrie centrale de centre O est…",
-                propositions: [
-                    "un cercle de rayon différent",
-                    "un cercle de même rayon",
-                    "une droite",
-                    "deux points"
-                ],
-                bonne: 1,
-                explication: "Le symétrique d’un cercle est un cercle de même rayon (centre symétrique du centre initial)."
-            }
-        ];
+<h1>QCM Symétrie 1 – Introduction et définitions (5e)</h1>
+<p>
+    Réponds aux 10 questions puis clique sur « Corriger ».<br>
+    Programme officiel Eduscol : symétrie centrale – définition et propriétés.
+</p>
 
-        // Génération du QCM
-        const qcmDiv = document.getElementById("qcm");
-        questions.forEach((q, index) => {
-            const div = document.createElement("div");
-            div.className = "question";
+<div id="qcm"></div>
 
-            const headerDiv = document.createElement("div");
-            headerDiv.className = "question-header";
+<button id="corrigerBtn">Corriger</button>
+<button id="resetBtn">Réinitialiser</button>
 
-            const titre = document.createElement("h3");
-            titre.textContent = (index + 1) + ". " + q.texte;
-            headerDiv.appendChild(titre);
+<div id="resultat"></div>
 
-            // Image à droite uniquement pour la question 1
-            if (index === 0 && q.image) {
-                const img = document.createElement("img");
-                img.src = q.image;
-                img.alt = "Illustration de la symétrie centrale";
-                headerDiv.appendChild(img);
-            }
+<script>
+const questions = [
+    {
+        texte: "Deux figures sont symétriques par rapport à un point O lorsqu’elles…",
+        propositions: [
+            "se superposent après une translation",
+            "se superposent après un demi-tour autour de O",
+            "se superposent après un pliage selon une droite",
+            "restent inchangées quel que soit le mouvement"
+        ],
+        bonne: 1,
+        explication: "Deux figures sont symétriques par rapport à un point si elles se superposent après un demi-tour autour de ce point.",
+        image: "fig_sym_centrale_1.jpg"
+    },
+    {
+        texte: "Le symétrique du point M par rapport au centre O est le point M' tel que…",
+        propositions: [
+            "O est sur la perpendiculaire à [MM']",
+            "O est le milieu du segment [MM']",
+            "MM' est parallèle à une droite",
+            "M et M' sont à la même distance d’une droite"
+        ],
+        bonne: 1,
+        explication: "Dans une symétrie centrale, O est le milieu du segment [MM’]."
+    },
+    {
+        texte: "Quel est le symétrique du centre de symétrie O lui-même ?",
+        propositions: [
+            "Un autre point",
+            "Aucun point",
+            "O lui-même",
+            "Le point à l’infini"
+        ],
+        bonne: 2,
+        explication: "Le centre de symétrie est invariant."
+    },
+    {
+        texte: "La symétrie par rapport à un point est aussi appelée…",
+        propositions: [
+            "symétrie axiale",
+            "symétrie centrale",
+            "symétrie de translation",
+            "symétrie rotationnelle"
+        ],
+        bonne: 1,
+        explication: "Symétrie par rapport à un point = symétrie centrale."
+    },
+    {
+        texte: "Sur cette figure, O est-il le milieu de [MM'] ?",
+        propositions: ["Oui", "Non"],
+        bonne: 0,
+        explication: "Oui, par définition de la symétrie centrale.",
+        imageSous: "sym_MM_O.jpg"
+    },
+    {
+        texte: "Une figure possède un centre de symétrie si…",
+        propositions: [
+            "elle se superpose après un quart de tour",
+            "son symétrique est la figure elle-même",
+            "elle possède un axe de symétrie",
+            "elle est invariante par translation"
+        ],
+        bonne: 1,
+        explication: "Une figure admet un centre de symétrie si elle coïncide avec son symétrique."
+    },
+    {
+        texte: "La symétrie centrale conserve-t-elle les longueurs ?",
+        propositions: ["Non", "Oui"],
+        bonne: 1,
+        explication: "La symétrie centrale conserve les longueurs, angles et aires."
+    },
+    {
+        texte: "Le symétrique d’une droite par symétrie centrale est…",
+        propositions: [
+            "une droite perpendiculaire",
+            "une droite parallèle",
+            "la même droite",
+            "une droite passant par le centre"
+        ],
+        bonne: 1,
+        explication: "Le symétrique d’une droite est une droite parallèle."
+    },
+    {
+        texte: "Le symétrique d’un cercle par symétrie centrale est…",
+        propositions: [
+            "un cercle plus petit",
+            "un cercle de même rayon",
+            "une droite",
+            "deux points"
+        ],
+        bonne: 1,
+        explication: "Le symétrique d’un cercle est un cercle de même rayon."
+    },
+    {
+        texte: "Le centre de symétrie d’un segment est…",
+        propositions: [
+            "une extrémité",
+            "le milieu",
+            "un point extérieur",
+            "n’importe quel point"
+        ],
+        bonne: 1,
+        explication: "Le centre de symétrie d’un segment est son milieu."
+    }
+];
 
-            div.appendChild(headerDiv);
+// Génération du QCM
+const qcmDiv = document.getElementById("qcm");
 
-            const answersDiv = document.createElement("div");
-            answersDiv.className = "answers";
+questions.forEach((q, index) => {
+    const div = document.createElement("div");
+    div.className = "question";
 
-            q.propositions.forEach((prop, i) => {
-                const label = document.createElement("label");
-                const input = document.createElement("input");
-                input.type = "radio";
-                input.name = "q" + index;
-                input.value = i;
-                label.appendChild(input);
-                label.appendChild(document.createTextNode(" " + prop));
-                answersDiv.appendChild(label);
-            });
+    const header = document.createElement("div");
+    header.className = "question-header";
 
-            div.appendChild(answersDiv);
+    const h3 = document.createElement("h3");
+    h3.textContent = (index + 1) + ". " + q.texte;
+    header.appendChild(h3);
 
-            const corrDiv = document.createElement("div");
-            corrDiv.className = "correction";
-            corrDiv.id = "corr-q" + index;
-            div.appendChild(corrDiv);
+    if (index === 0 && q.image) {
+        const img = document.createElement("img");
+        img.src = q.image;
+        img.alt = "Illustration symétrie centrale";
+        header.appendChild(img);
+    }
 
-            qcmDiv.appendChild(div);
+    div.appendChild(header);
+
+    if (q.imageSous) {
+        const imgSous = document.createElement("img");
+        imgSous.src = q.imageSous;
+        imgSous.alt = "Figure de symétrie centrale";
+        imgSous.className = "figure";
+        div.appendChild(imgSous);
+    }
+
+    const answers = document.createElement("div");
+    answers.className = "answers";
+
+    q.propositions.forEach((prop, i) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q" + index;
+        input.value = i;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(" " + prop));
+        answers.appendChild(label);
+    });
+
+    div.appendChild(answers);
+
+    const corr = document.createElement("div");
+    corr.className = "correction";
+    corr.id = "corr-q" + index;
+    div.appendChild(corr);
+
+    qcmDiv.appendChild(div);
+});
+
+// Correction
+document.getElementById("corrigerBtn").addEventListener("click", () => {
+    let score = 0;
+    questions.forEach((q, index) => {
+        const corr = document.getElementById("corr-q" + index);
+        const inputs = document.querySelectorAll("input[name='q" + index + "']");
+        let ok = false;
+
+        inputs.forEach((inp, i) => {
+            if (inp.checked && i === q.bonne) ok = true;
         });
 
-        // Correction et réinitialisation (inchangées)
-        document.getElementById("corrigerBtn").addEventListener("click", () => {
-            let score = 0;
-            questions.forEach((q, index) => {
-                const corrDiv = document.getElementById("corr-q" + index);
-                corrDiv.innerHTML = "";
-                const inputs = document.querySelectorAll("input[name='q" + index + "']");
-                let bonneReponse = false;
-                inputs.forEach((inp, i) => {
-                    if (inp.checked && i === q.bonne) {
-                        bonneReponse = true;
-                    }
-                });
-                if (bonneReponse) {
-                    score++;
-                    corrDiv.innerHTML = "<span class='bonne'>✓ Bonne réponse.</span> " + q.explication;
-                } else {
-                    const repCorrecte = q.propositions[q.bonne];
-                    corrDiv.innerHTML = "<span class='mauvaise'>✗ Mauvaise réponse.</span> " +
-                                       "Correcte : <strong>" + repCorrecte + "</strong>. " + q.explication;
-                }
-            });
-            document.getElementById("resultat").innerHTML = "<strong>Score : " + score + " / " + questions.length + "</strong>";
-        });
+        if (ok) {
+            score++;
+            corr.innerHTML = "<span class='bonne'>✓ Bonne réponse.</span> " + q.explication;
+        } else {
+            corr.innerHTML = "<span class='mauvaise'>✗ Mauvaise réponse.</span> " +
+                             "Réponse correcte : <strong>" + q.propositions[q.bonne] + "</strong>. " +
+                             q.explication;
+        }
+    });
 
-        document.getElementById("resetBtn").addEventListener("click", () => {
-            const inputs = document.querySelectorAll("input[type='radio']");
-            inputs.forEach(inp => inp.checked = false);
-            questions.forEach((q, index) => {
-                document.getElementById("corr-q" + index).innerHTML = "";
-            });
-            document.getElementById("resultat").innerHTML = "";
-        });
-    </script>
+    document.getElementById("resultat").innerHTML =
+        "<strong>Score : " + score + " / " + questions.length + "</strong>";
+});
+
+// Reset
+document.getElementById("resetBtn").addEventListener("click", () => {
+    document.querySelectorAll("input[type=radio]").forEach(i => i.checked = false);
+    document.querySelectorAll(".correction").forEach(d => d.innerHTML = "");
+    document.getElementById("resultat").innerHTML = "";
+});
+</script>
+
 </body>
 </html>
