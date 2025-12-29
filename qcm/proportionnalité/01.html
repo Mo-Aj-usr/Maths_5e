@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>QCM Proportionnalité – Maths 5e</title>
+    <title>QCM – Découvrir la proportionnalité (Maths 5e)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -50,10 +50,10 @@
 </head>
 <body>
 
-<h1>QCM – Proportionnalité (Maths 5e)</h1>
+<h1>QCM – Découvrir la proportionnalité (5e)</h1>
 <p>
-    Réponds aux 10 questions puis clique sur <strong>« Corriger »</strong>.<br>
-    Chapitre : situations de proportionnalité, coefficient, échelles, pourcentages.
+    Ce QCM permet de découvrir la notion de <strong>proportionnalité</strong> :
+    définition, reconnaissance et calculs simples.
 </p>
 
 <div id="qcm"></div>
@@ -66,83 +66,88 @@
 <script>
 const questions = [
     {
-        texte: "Si 3 stylos coûtent 6 euros, combien coûtent 5 stylos ?",
-        propositions: ["9 euros", "8 euros", "12 euros", "10 euros"],
-        bonne: 3,
-        explication: "Prix d’un stylo : 6 ÷ 3 = 2 €. Donc 5 stylos coûtent 5 × 2 = 10 €."
-    },
-    {
-        texte: "Laquelle de ces situations correspond à une proportionnalité ?",
+        texte: "Deux grandeurs sont proportionnelles lorsque :",
         propositions: [
-            "L'âge d'une personne et sa taille",
-            "La température et l'heure",
-            "Le prix d'essence et la quantité achetée",
-            "Le nombre d'élèves et l'âge du professeur"
+            "leur différence est constante",
+            "leur somme est toujours la même",
+            "le quotient de l’une par l’autre est constant",
+            "elles augmentent toujours"
         ],
         bonne: 2,
-        explication: "Le prix est proportionnel à la quantité achetée."
+        explication: "Définition : deux grandeurs sont proportionnelles si le quotient de l’une par l’autre est constant."
     },
     {
-        texte: "Un robinet débite 15 litres en 3 minutes. En combien de temps débitera-t-il 50 litres ?",
-        propositions: ["8 minutes", "10 minutes", "12 minutes", "15 minutes"],
+        texte: "Laquelle de ces situations est une situation de proportionnalité ?",
+        propositions: [
+            "L’âge d’un élève et sa taille",
+            "La distance parcourue et le temps à vitesse constante",
+            "La température et l’heure de la journée",
+            "Le numéro d’une maison et sa surface"
+        ],
         bonne: 1,
-        explication: "15 L en 3 min → 5 L par minute. Pour 50 L : 50 ÷ 5 = 10 minutes."
+        explication: "À vitesse constante, la distance est proportionnelle au temps."
     },
     {
-        texte: "Dans un tableau de proportionnalité, si on multiplie les valeurs de la première ligne par 3, alors :",
+        texte: "Dans un tableau de proportionnalité, on peut passer d’une ligne à l’autre en :",
         propositions: [
-            "On doit multiplier la deuxième ligne par 3",
-            "On doit ajouter 3 à la deuxième ligne",
-            "La deuxième ligne ne change pas",
-            "On doit diviser la deuxième ligne par 3"
+            "ajoutant toujours le même nombre",
+            "multipliant ou divisant par un même nombre",
+            "changeant les nombres au hasard",
+            "additionnant les deux lignes"
         ],
-        bonne: 0,
-        explication: "Dans un tableau de proportionnalité, on effectue la même opération sur les deux lignes."
-    },
-    {
-        texte: "Le coefficient de proportionnalité pour passer de 4 à 12 est :",
-        propositions: ["8", "16", "48", "3"],
-        bonne: 3,
-        explication: "12 = 4 × 3, donc le coefficient est 3."
-    },
-    {
-        texte: "Sur un plan à l'échelle 1/500, une distance de 2 cm représente dans la réalité :",
-        propositions: ["1 mètre", "10 mètres", "5 mètres", "50 mètres"],
-        bonne: 2,
-        explication: "2 cm × 500 = 1000 cm = 10 m ❌ → attention ! 1000 cm = 10 m → correction : 5 m ❌ ? NON → 1 cm = 5 m donc 2 cm = 10 m → bonne réponse : 10 m ❌ ATTENTION → échelle 1/500 → 1 cm = 500 cm = 5 m → 2 cm = 10 m ❌ mais proposition correcte = 5 m ? NON → correction : 10 m ❌ → ERREUR corrigée : bonne réponse = 10 mètres"
-    },
-    {
-        texte: "Deux grandeurs sont proportionnelles si :",
-        propositions: [
-            "Elles augmentent toujours",
-            "Elles sont égales",
-            "Le quotient de l'une par l'autre est constant",
-            "Leur différence est constante"
-        ],
-        bonne: 2,
-        explication: "Définition : le quotient de deux grandeurs proportionnelles est constant."
-    },
-    {
-        texte: "Une voiture consomme 8 litres aux 100 km. Pour parcourir 250 km, elle consommera :",
-        propositions: ["16 litres", "25 litres", "32 litres", "20 litres"],
-        bonne: 2,
-        explication: "250 km = 2,5 × 100 km → consommation : 8 × 2,5 = 20 L ❌ → correction : 8 × 2,5 = 20 L → bonne réponse = 20 litres"
-    },
-    {
-        texte: "Dans une recette pour 4 personnes, il faut 300 g de farine. Pour 6 personnes, il faudra :",
-        propositions: ["450 g", "400 g", "500 g", "600 g"],
-        bonne: 0,
-        explication: "300 ÷ 4 = 75 g par personne → 75 × 6 = 450 g."
-    },
-    {
-        texte: "Un taux de TVA de 20 % signifie que pour 100 euros d'achat, la TVA est de :",
-        propositions: ["120 euros", "20 euros", "80 euros", "200 euros"],
         bonne: 1,
-        explication: "20 % de 100 € = 20 €."
+        explication: "Dans un tableau de proportionnalité, on effectue la même multiplication ou division sur les deux lignes."
+    },
+    {
+        texte: "Si 1 cahier coûte 2 €, combien coûtent 4 cahiers ?",
+        propositions: ["6 €", "8 €", "10 €", "12 €"],
+        bonne: 1,
+        explication: "4 × 2 = 8 €."
+    },
+    {
+        texte: "Le coefficient de proportionnalité pour passer de 5 à 20 est :",
+        propositions: ["4", "15", "25", "3"],
+        bonne: 0,
+        explication: "20 = 5 × 4, donc le coefficient est 4."
+    },
+    {
+        texte: "3 kg de pommes coûtent 6 €. Combien coûtent 6 kg ?",
+        propositions: ["9 €", "10 €", "12 €", "18 €"],
+        bonne: 2,
+        explication: "Le prix double quand la quantité double : 6 € × 2 = 12 €."
+    },
+    {
+        texte: "Une voiture parcourt 100 km en 2 heures. En 4 heures, elle parcourra :",
+        propositions: ["150 km", "200 km", "300 km", "400 km"],
+        bonne: 1,
+        explication: "Le temps double, donc la distance double : 100 × 2 = 200 km."
+    },
+    {
+        texte: "Laquelle de ces situations n’est PAS proportionnelle ?",
+        propositions: [
+            "Le prix et la quantité achetée",
+            "La distance et le temps à vitesse constante",
+            "Le périmètre d’un carré et la longueur du côté",
+            "L’âge d’une personne et son année de naissance"
+        ],
+        bonne: 3,
+        explication: "L’âge et l’année de naissance ne sont pas proportionnels."
+    },
+    {
+        texte: "5 stylos coûtent 10 €. Combien coûte 1 stylo ?",
+        propositions: ["1 €", "2 €", "5 €", "10 €"],
+        bonne: 1,
+        explication: "Retour à l’unité : 10 ÷ 5 = 2 €."
+    },
+    {
+        texte: "10 % de 50 € correspond à :",
+        propositions: ["5 €", "10 €", "15 €", "50 €"],
+        bonne: 0,
+        explication: "10 % signifie « pour 100 » : 10 % de 50 € = 5 €."
     }
 ];
 
-// Génération
+// Génération du QCM
 const qcmDiv = document.getElementById("qcm");
 
 questions.forEach((q, index) => {
@@ -184,13 +189,13 @@ document.getElementById("corrigerBtn").addEventListener("click", () => {
     questions.forEach((q, index) => {
         const corr = document.getElementById("corr-q" + index);
         const inputs = document.querySelectorAll("input[name='q" + index + "']");
-        let ok = false;
+        let bonneReponse = false;
 
         inputs.forEach((inp, i) => {
-            if (inp.checked && i === q.bonne) ok = true;
+            if (inp.checked && i === q.bonne) bonneReponse = true;
         });
 
-        if (ok) {
+        if (bonneReponse) {
             score++;
             corr.innerHTML = "<span class='bonne'>✓ Bonne réponse.</span> " + q.explication;
         } else {
@@ -205,9 +210,9 @@ document.getElementById("corrigerBtn").addEventListener("click", () => {
         "<strong>Score : " + score + " / " + questions.length + "</strong>";
 });
 
-// Reset
+// Réinitialisation
 document.getElementById("resetBtn").addEventListener("click", () => {
-    document.querySelectorAll("input[type=radio]").forEach(i => i.checked = false);
+    document.querySelectorAll("input[type='radio']").forEach(i => i.checked = false);
     document.querySelectorAll(".correction").forEach(d => d.innerHTML = "");
     document.getElementById("resultat").innerHTML = "";
 });
@@ -215,4 +220,3 @@ document.getElementById("resetBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
