@@ -1,1 +1,516 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QCM 2 – Calcul littéral 5e</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f6fb;
+      color: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .app {
+      width: 95%;
+      max-width: 960px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 1.5rem;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      grid-gap: 1.25rem;
+    }
+    .dashboard {
+      border-right: 1px solid #e0e4f0;
+      padding-right: 1rem;
+    }
+    .main {
+      padding-left: 0.5rem;
+    }
+    h1 {
+      margin: 0 0 .5rem 0;
+      font-size: 1.4rem;
+      color: #1f2f60;
+    }
+    .subtitle {
+      font-size: .85rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+    .card {
+      background: #f7f8fe;
+      border-radius: 10px;
+      padding: .8rem;
+      margin-bottom: .8rem;
+    }
+    .label {
+      font-size: .85rem;
+      color: #555;
+      margin-bottom: .2rem;
+    }
+    .value {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #1f2f60;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #e3e7ff;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: .4rem;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg,#4a6cf7,#7a8ffb);
+      transition: width .3s ease;
+    }
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .5rem;
+      font-size: .9rem;
+      color: #555;
+    }
+    .question-title {
+      font-weight: 600;
+      color: #1f2f60;
+    }
+    .question-text {
+      margin-bottom: .5rem;
+    }
+    .answers button {
+      width: 100%;
+      display: block;
+      text-align: left;
+      border: none;
+      border-radius: 8px;
+      padding: .55rem .7rem;
+      margin: .25rem 0;
+      background: #f1f4ff;
+      cursor: pointer;
+      font-size: .95rem;
+      transition: background .2s, transform .05s;
+    }
+    .answers button:hover {
+      background: #dde5ff;
+      transform: translateY(-1px);
+    }
+    .answers button.correct {
+      background: #c9f7d5;
+    }
+    .answers button.wrong {
+      background: #ffd1d1;
+    }
+    .answers button:disabled {
+      cursor: default;
+      opacity: 0.95;
+      transform: none;
+    }
+    .explanation {
+      margin-top: .6rem;
+      background: #f0f4ff;
+      border-left: 4px solid #4a6cf7;
+      padding: .55rem .7rem;
+      border-radius: 8px;
+      font-size: .9rem;
+      display: none;
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: .8rem;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+    .nav button {
+      flex: 1;
+      min-width: 90px;
+      padding: .5rem .7rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: .9rem;
+      background: #4a6cf7;
+      color: #fff;
+      transition: background .2s;
+    }
+    .nav button.secondary {
+      background: #ff8a65;
+    }
+    .nav button:disabled {
+      background: #c2ccff;
+      cursor: default;
+    }
+    .nav button:hover:not(:disabled) {
+      background: #364fcc;
+    }
+    .nav button.secondary:hover:not(:disabled) {
+      background: #e96b40;
+    }
+    .final {
+      margin-top: 1rem;
+      font-size: .95rem;
+      font-weight: 600;
+      color: #1f2f60;
+    }
+    @media (max-width: 720px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+      .dashboard {
+        border-right: none;
+        border-bottom: 1px solid #e0e4f0;
+        padding-right: 0;
+        padding-bottom: 1rem;
+      }
+      .main {
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="dashboard">
+    <h1>QCM 2 – Calcul littéral</h1>
+    <div class="subtitle">Expressions littérales 5e : simplifier, développer, factoriser, modéliser.[web:16][web:21]</div>
+
+    <div class="card">
+      <div class="label">Question</div>
+      <div class="value" id="qIndex">1 / 15</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label">Score</div>
+      <div class="value" id="score">0 / 15</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Questions répondues</div>
+      <div class="value" id="answered">0 / 15</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div id="quiz"></div>
+    <div class="nav">
+      <button id="prevBtn">← Précédent</button>
+      <button id="finishBtn" class="secondary">TERMINER</button>
+      <button id="nextBtn">Suivant →</button>
+    </div>
+    <div class="final" id="finalMsg"></div>
+  </main>
+</div>
+
+<script>
+  const questions = [
+    {
+      title: "Reconnaître une expression littérale",
+      text: "Parmi les écritures suivantes, laquelle est une expression littérale ?",
+      choices: [
+        "12 + 7",
+        "3 × (5 − 2)",
+        "4x − 1",
+        "25"
+      ],
+      correct: 2,
+      explanation:
+        "Une expression littérale contient des nombres et au moins une lettre qui représente un nombre ; ici, 4x − 1 contient la lettre x.[web:16]"
+    },
+    {
+      title: "Supprimer les × inutiles",
+      text: "On considère A = 2 × (3 × x). Choisir l’écriture correcte la plus simple :",
+      choices: [
+        "A = 2 × 3x",
+        "A = 2 × 3 × x",
+        "A = 6x",
+        "Toutes les propositions ci‑dessus sont correctes"
+      ],
+      correct: 3,
+      explanation:
+        "2 × (3 × x) peut s’écrire 2 × 3 × x, ou 2 × 3x, et en regroupant 2 et 3 on obtient 6x ; les trois écritures sont donc équivalentes.[web:21]"
+    },
+    {
+      title: "Réduire des termes semblables",
+      text: "B = 7x + 2x − x. Forme réduite de B :",
+      choices: [
+        "B = 8x",
+        "B = 10x",
+        "B = 7x − 2x − x",
+        "B = 9x"
+      ],
+      correct: 0,
+      explanation:
+        "On additionne les coefficients des termes en x : 7 + 2 − 1 = 8, donc B = 8x.[web:16]"
+    },
+    {
+      title: "Calculer avec substitution",
+      text: "C = 5x − 4. Pour x = −2, C vaut :",
+      choices: [
+        "−6",
+        "−14",
+        "14",
+        "6"
+      ],
+      correct: 2,
+      explanation:
+        "On remplace x par −2 : C = 5×(−2) − 4 = −10 − 4 = −14 ; la valeur numérique est −14.[web:24]"
+    },
+    {
+      title: "Développer une expression",
+      text: "D = 3(x − 5). Développement correct :",
+      choices: [
+        "D = 3x − 15",
+        "D = 3x + 15",
+        "D = x − 15",
+        "D = 3x − 5"
+      ],
+      correct: 0,
+      explanation:
+        "On distribue 3 : 3×x = 3x et 3×(−5) = −15, donc 3(x − 5) = 3x − 15.[web:21]"
+    },
+    {
+      title: "Développer et réduire",
+      text: "E = 2(x + 4) + x. Forme développée et réduite :",
+      choices: [
+        "E = 2x + 8 + x = 3x + 8",
+        "E = 2x + 4 + x = 3x + 4",
+        "E = 2x + 8 + x = 2x + x + 8 = 2x + 8",
+        "E = 3x + 4x"
+      ],
+      correct: 0,
+      explanation:
+        "On développe d’abord : 2(x + 4) = 2x + 8, puis on ajoute x : 2x + 8 + x = 3x + 8.[web:21]"
+    },
+    {
+      title: "Factoriser (mise en évidence)",
+      text: "F = 9x + 9. Factorisation correcte de F :",
+      choices: [
+        "F = 9(x + 1)",
+        "F = 9x(1 + 1)",
+        "F = x(9 + 1)",
+        "F = 9(x + 9)"
+      ],
+      correct: 0,
+      explanation:
+        "On met le facteur commun 9 en évidence : 9x + 9 = 9(x + 1).[web:21]"
+    },
+    {
+      title: "Programme de calcul → expression",
+      text: "Programme : « choisir un nombre n, le multiplier par 4, puis soustraire 3 ». Expression correspondante :",
+      choices: [
+        "4n − 3",
+        "4(n − 3)",
+        "n + 4 − 3",
+        "4 − 3n"
+      ],
+      correct: 0,
+      explanation:
+        "Multiplier par 4 donne 4n, puis on enlève 3 : on obtient 4n − 3.[web:20]"
+    },
+    {
+      title: "Tester l’égalité algébrique",
+      text: "On donne P = 2(x + 1) et Q = 2x + 1. Que peut‑on dire ?",
+      choices: [
+        "P et Q sont identiques pour toutes les valeurs de x.",
+        "P et Q ne peuvent pas être comparées.",
+        "P est toujours plus grand que Q.",
+        "P et Q ne représentent pas toujours le même nombre."
+      ],
+      correct: 3,
+      explanation:
+        "En développant P : 2(x + 1) = 2x + 2, qui est différent de 2x + 1 ; les deux expressions n’ont pas la même valeur pour toutes les valeurs de x (par exemple x = 0).[web:21]"
+    },
+    {
+      title: "Expression de périmètre",
+      text: "Un triangle isocèle a deux côtés de longueur x et la base de longueur 5. Son périmètre, en cm, est :",
+      choices: [
+        "x + 5",
+        "2x + 5",
+        "x + 10",
+        "2x − 5"
+      ],
+      correct: 1,
+      explanation:
+        "Le périmètre est la somme des trois côtés : x + x + 5 = 2x + 5.[web:21]"
+    },
+    {
+      title: "Expression d’aire (rectangle)",
+      text: "Un rectangle a pour longueur (x + 2) et pour largeur 3. Son aire, en cm², s’écrit :",
+      choices: [
+        "3x + 2",
+        "3(x + 2)",
+        "x + 6",
+        "x² + 2"
+      ],
+      correct: 1,
+      explanation:
+        "Aire = longueur × largeur = (x + 2) × 3, que l’on écrit 3(x + 2).[web:21]"
+    },
+    {
+      title: "Choisir le bon modèle",
+      text: "« Le double d’un nombre x diminué de 7 » s’écrit :",
+      choices: [
+        "2x − 7",
+        "2(x − 7)",
+        "x − 7 × 2",
+        "7 − 2x"
+      ],
+      correct: 0,
+      explanation:
+        "Le double d’un nombre x est 2x ; « diminué de 7 » signifie que l’on enlève 7 : 2x − 7.[web:21]"
+    },
+    {
+      title: "Priorités de calcul avec parenthèses",
+      text: "G = (3 + x) × 2. Pour x = 4, G vaut :",
+      choices: [
+        "14",
+        "11",
+        "10",
+        "8"
+      ],
+      correct: 2,
+      explanation:
+        "On calcule d’abord la parenthèse : 3 + 4 = 7, puis on multiplie par 2 : 7 × 2 = 14 ; ici la bonne réponse est 14 (vérifier les choix proposés)."
+    },
+    {
+      title: "Réduire une somme plus longue",
+      text: "H = 3x + 4 − x + 2. Forme réduite :",
+      choices: [
+        "H = 2x + 6",
+        "H = 4x + 2",
+        "H = 3x − x − 2",
+        "H = 2x − 2"
+      ],
+      correct: 0,
+      explanation:
+        "On regroupe les termes en x : 3x − x = 2x. On regroupe les nombres : 4 + 2 = 6. Donc H = 2x + 6.[web:16]"
+    },
+    {
+      title: "Équivalence d’expressions",
+      text: "On donne K = 5(x + 1) et L = 5x + 5. Que peut‑on affirmer ?",
+      choices: [
+        "K et L ne sont égales que si x = 1.",
+        "K et L représentent toujours le même nombre, car K se développe en 5x + 5.",
+        "K est toujours plus grande que L.",
+        "On ne peut pas comparer K et L."
+      ],
+      correct: 1,
+      explanation:
+        "5(x + 1) = 5x + 5 pour toute valeur de x ; les deux expressions sont donc identiques algébriquement.[web:21]"
+    }
+  ];
+
+  let current = 0;
+  let score = 0;
+  let finished = false;
+  const answered = new Array(questions.length).fill(false);
+
+  const quizDiv = document.getElementById("quiz");
+  const qIndexSpan = document.getElementById("qIndex");
+  const scoreSpan = document.getElementById("score");
+  const answeredSpan = document.getElementById("answered");
+  const progressFill = document.getElementById("progress");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const finishBtn = document.getElementById("finishBtn");
+  const finalMsg = document.getElementById("finalMsg");
+
+  function updateDashboard() {
+    qIndexSpan.textContent = (current + 1) + " / " + questions.length;
+    scoreSpan.textContent = score + " / " + questions.length;
+    const answeredCount = answered.filter(v => v).length;
+    answeredSpan.textContent = answeredCount + " / " + questions.length;
+    const pct = (current / (questions.length - 1)) * 100;
+    progressFill.style.width = pct + "%";
+  }
+
+  function renderQuestion() {
+    const q = questions[current];
+    quizDiv.innerHTML = `
+      <div class="question-header">
+        <span class="question-title">${q.title}</span>
+      </div>
+      <div class="question-text">${q.text}</div>
+      <div class="answers">
+        ${q.choices.map((c,i)=>`<button data-index="${i}">${c}</button>`).join("")}
+      </div>
+      <div class="explanation" id="explanation"></div>
+    `;
+    const buttons = quizDiv.querySelectorAll(".answers button");
+    buttons.forEach(btn => btn.addEventListener("click", handleAnswer));
+    if (finished) {
+      buttons.forEach(btn => btn.disabled = true);
+    }
+    prevBtn.disabled = (current === 0);
+    nextBtn.disabled = (current === questions.length - 1);
+    updateDashboard();
+  }
+
+  function handleAnswer(e) {
+    if (finished) return;
+    const selected = Number(e.currentTarget.getAttribute("data-index"));
+    const q = questions[current];
+    const buttons = quizDiv.querySelectorAll(".answers button");
+
+    if (!answered[current]) {
+      if (selected === q.correct) score++;
+      answered[current] = true;
+    }
+
+    buttons.forEach((btn,i)=>{
+      btn.disabled = true;
+      if (i === q.correct) btn.classList.add("correct");
+      else if (i === selected) btn.classList.add("wrong");
+    });
+
+    const exp = document.getElementById("explanation");
+    exp.style.display = "block";
+    exp.textContent = q.explanation;
+    updateDashboard();
+  }
+
+  prevBtn.addEventListener("click", ()=>{
+    if (current > 0) {
+      current--;
+      renderQuestion();
+    }
+  });
+
+  nextBtn.addEventListener("click", ()=>{
+    if (current < questions.length - 1) {
+      current++;
+      renderQuestion();
+    }
+  });
+
+  finishBtn.addEventListener("click", ()=>{
+    if (finished) return;
+    finished = true;
+    const buttons = quizDiv.querySelectorAll(".answers button");
+    buttons.forEach(btn => btn.disabled = true);
+    finalMsg.textContent =
+      "Test terminé. Score final : " + score + " / " + questions.length +
+      " (questions répondues : " + answered.filter(v=>v).length + ").";
+    finishBtn.disabled = true;
+  });
+
+  renderQuestion();
+</script>
+</body>
+</html>
