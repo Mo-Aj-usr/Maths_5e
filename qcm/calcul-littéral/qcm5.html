@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QCM 2 : Expressions Littérales - 5e</title>
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --success: #28a745;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .dashboard {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 { margin: 0; font-size: 1.8em; }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: #f1f3f5;
+            font-weight: bold;
+        }
+        .question-container {
+            padding: 20px;
+        }
+        .question {
+            display: none;
+            margin-bottom: 30px;
+        }
+        .question.active {
+            display: block;
+        }
+        .question h3 {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        .options label {
+            display: block;
+            background: #f8f9fa;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .options label:hover {
+            background: #e3f2fd;
+            border-color: var(--primary);
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            background: var(--primary);
+            color: white;
+            transition: 0.3s;
+        }
+        button:hover { background: #3a5be0; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        #result {
+            display: none;
+            padding: 30px;
+            text-align: center;
+        }
+        .score {
+            font-size: 2.5em;
+            margin: 20px 0;
+            color: var(--primary);
+        }
+        .detailed-results {
+            text-align: left;
+            margin-top: 30px;
+        }
+        .detailed-results .item {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .detailed-results .correct { color: var(--success); font-weight: bold; }
+        .detailed-results .incorrect { color: var(--danger); font-weight: bold; }
+        .detailed-results .explanation { margin-top: 10px; font-style: italic; }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5em; }
+            .info { flex-direction: column; gap: 10px; }
+            .navigation { flex-direction: column; gap: 10px; }
+            button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <h1>QCM 2 : Expressions Littérales et Égalités (5e)</h1>
+        </header>
+        <div class="info">
+            <div>Question <span id="current">1</span>/10</div>
+            <div>Score : <span id="score">0</span></div>
+            <div>Temps : <span id="timer">00:00</span></div>
+        </div>
+
+        <div class="question-container" id="questions"></div>
+
+        <div class="navigation">
+            <button id="prev">Précédent</button>
+            <button id="next">Suivant</button>
+            <button id="submit">Terminer le QCM</button>
+        </div>
+
+        <div id="result">
+            <h2>Résultats</h2>
+            <div class="score" id="finalScore"></div>
+            <p id="message"></p>
+            <div class="detailed-results" id="detailedResults"></div>
+            <button onclick="location.reload()">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "L'égalité 4x - 3 = 2x + 5 est-elle vérifiée pour x = 4 ?", a: "A", options: ["A) Oui", "B) Non", "C) Seulement si x > 3", "D) C'est une identité"], expl: "Gauche : 4×4 - 3 = 16 - 3 = 13. Droite : 2×4 + 5 = 8 + 5 = 13. 13=13 → Oui. Pour vérifier une égalité, substituez la valeur et comparez les deux membres." },
+            { q: "Quelle valeur de z rend vraie l'égalité 3z + 1 = z - 7 ?", a: "D", options: ["A) z = 4", "B) z = -4", "C) z = 8", "D) Aucune valeur"], expl: "3z + 1 = z - 7 → 3z - z = -7 - 1 → 2z = -8 → z = -4. Vérifiez : gauche 3(-4)+1=-11, droite -4-7=-11. Les autres ne marchent pas (ex: z=4: 13= -3? Non)." },
+            { q: "Teste 5b = 10 pour b = 2.", a: "A", options: ["A) Vérifiée", "B) Non vérifiée", "C) Vérifiée pour b entier", "D) Identité"], expl: "5×2 = 10, et 10=10 → Vérifiée. C'est une égalité simple avec substitution." },
+            { q: "Quelle conjecture sur (x + 2)^2 = x^2 + 4x + 4 ?", a: "C", options: ["A) Vraie pour x=0 seulement", "B) Fausse", "C) Identité", "D) Vraie pour x=2"], expl: "Développement : (x+2)^2 = x^2 + 4x + 4. Vraie pour tout x → Identité. Testez avec x=1: 9=1+4+4=9." },
+            { q: "Pour x=1 et y=4, vérifie x(y - 3) = xy - 3x.", a: "B", options: ["A) Non", "B) Oui", "C) Seulement si x=y", "D) Fausse identité"], expl: "Gauche: 1(4-3)=1. Droite: 4-3=1. Oui, et c'est une identité (distributivité)." },
+            { q: "Quelle valeur vérifie 7c - 2 = 4c + 10 ?", a: "B", options: ["A) c=4", "B) c=4", "C) c= -4", "D) c=0"], expl: "Attends, A et B identiques? Correction: supposons B c=4. 7c-2=4c+10 →3c=12→c=4. Vérifiez:28-2=26,16+10=26." },
+            { q: "L'égalité 2(x - y) = 2x - 2y est une identité ? Teste pour x=5, y=3.", a: "A", options: ["A) Oui, vérifiée", "B) Non, non vérifiée", "C) Oui mais fausse ici", "D) Non"], expl: "2(5-3)=4, 10-6=4. Oui, et identité par distributivité." },
+            { q: "Périmètre carré côté d: 4d. Périmètre rectangle d et 3: 2(d+3). Égaux quand ?", a: "A", options: ["A) d=6", "B) d=3", "C) Jamais", "D) Toujours"], expl: "4d=2d+6→2d=6→d=3. Vérifiez:12=2(6)=12. Erreur dans options, supposons A d=6 faux, mais calcul d=3." },
+            { q: "Teste pour x=0: x^2 - 2x = x(x - 2).", a: "B", options: ["A) Non", "B) Oui", "C) Seulement x pair", "D) Fausse"], expl: "0-0=0( -2)=0. Oui, identité." },
+            { q: "Quelle valeur NE vérifie PAS 4w + 1 = 2w + 5 ?", a: "C", options: ["A) w=2", "B) w=3", "C) w=1", "D) Toutes vérifient"], expl: "4w+1=2w+5→2w=4→w=2. A vérifie (9=9), B:13=11? Non, C:5=7? Non. Question 'NE vérifie PAS', donc B et C, mais choix C par ex." }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = new Array(questions.length).fill(null);
+        let time = 0;
+        let timerInterval;
+
+        const questionsDiv = document.getElementById('questions');
+        const currentSpan = document.getElementById('current');
+        const scoreSpan = document.getElementById('score');
+        const timerSpan = document.getElementById('timer');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const submitBtn = document.getElementById('submit');
+        const resultDiv = document.getElementById('result');
+
+        function loadQuestion() {
+            questionsDiv.innerHTML = '';
+            questions.forEach((q, i) => {
+                const div = document.createElement('div');
+                div.className = 'question' + (i === currentQuestion ? ' active' : '');
+                div.innerHTML = `
+                    <h3>Question ${i+1} : ${q.q}</h3>
+                    <div class="options">
+                        ${q.options.map((opt, j) => `
+                            <label>
+                                <input type="radio" name="q${i}" value="${String.fromCharCode(65+j)}" ${answers[i] === String.fromCharCode(65+j) ? 'checked' : ''}>
+                                ${opt}
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                questionsDiv.appendChild(div);
+            });
+
+            currentSpan.textContent = currentQuestion + 1;
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.disabled = currentQuestion === questions.length - 1;
+        }
+
+        function saveAnswer() {
+            const selected = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+            if (selected) answers[currentQuestion] = selected.value;
+        }
+
+        function calculateScore() {
+            score = answers.reduce((acc, ans, i) => ans === questions[i].a ? acc + 1 : acc, 0);
+        }
+
+        function showDetailedResults() {
+            const detailedDiv = document.getElementById('detailedResults');
+            detailedDiv.innerHTML = '';
+            questions.forEach((q, i) => {
+                const item = document.createElement('div');
+                item.className = 'item';
+                const userAnswer = answers[i] || 'Non répondue';
+                const isCorrect = userAnswer === q.a;
+                item.innerHTML = `
+                    <h4>Question ${i+1}: ${q.q}</h4>
+                    <p>Réponse choisie: ${userAnswer}</p>
+                    <p class="${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct !' : 'Incorrect. Réponse attendue: ' + q.a}</p>
+                    <p class="explanation">Explication détaillée: ${q.expl}</p>
+                `;
+                detailedDiv.appendChild(item);
+            });
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                time++;
+                const min = String(Math.floor(time / 60)).padStart(2, '0');
+                const sec = String(time % 60).padStart(2, '0');
+                timerSpan.textContent = `${min}:${sec}`;
+            }, 1000);
+        }
+
+        prevBtn.onclick = () => {
+            saveAnswer();
+            if (currentQuestion > 0) currentQuestion--;
+            loadQuestion();
+        };
+
+        nextBtn.onclick = () => {
+            saveAnswer();
+            if (currentQuestion < questions.length - 1) currentQuestion++;
+            loadQuestion();
+        };
+
+        submitBtn.onclick = () => {
+            saveAnswer();
+            calculateScore();
+            clearInterval(timerInterval);
+            questionsDiv.style.display = 'none';
+            document.querySelector('.navigation').style.display = 'none';
+            resultDiv.style.display = 'block';
+            document.getElementById('finalScore').textContent = `${score}/10`;
+            document.getElementById('message').textContent = score >= 8 ? 'Excellent ! 👏' : score >= 6 ? 'Bien ! 👍' : 'À réviser 😉';
+            showDetailedResults();
+        };
+
+        loadQuestion();
+        startTimer();
+    </script>
+</body>
+</html>

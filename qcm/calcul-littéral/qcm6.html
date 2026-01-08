@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>QCM 2 – Calcul littéral (5e)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f4ff;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    max-width: 760px;
+    width: 100%;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 12px;
+    margin-bottom: 20px;
+}
+
+.progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #6a8dff, #00c6ff);
+}
+
+.question {
+    font-size: 1.15em;
+    margin-bottom: 10px;
+}
+
+.choices button {
+    width: 100%;
+    margin: 6px 0;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #eef1f7;
+    font-size: 1em;
+}
+
+.choices button:hover {
+    background: #dce6ff;
+}
+
+.correct {
+    background: #c8f7c5 !important;
+}
+
+.wrong {
+    background: #f7c5c5 !important;
+}
+
+.explanation {
+    background: #f9fafc;
+    border-left: 5px solid #6a8dff;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 0.95em;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.buttons button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+#nextBtn {
+    background: #6a8dff;
+    color: white;
+    display: none;
+}
+
+#endBtn {
+    background: #ff7676;
+    color: white;
+}
+
+#result {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>QCM 2 – Calcul littéral (5e)</h1>
+
+<div class="dashboard">
+    <div>Score : <span id="score">0</span>/15</div>
+    <div>Question <span id="qNum">1</span>/15</div>
+</div>
+
+<div class="progress-bar">
+    <div class="progress" id="progress"></div>
+</div>
+
+<div id="quiz">
+    <div class="question" id="question"></div>
+    <div class="choices" id="choices"></div>
+    <div class="explanation" id="explanation" style="display:none;"></div>
+</div>
+
+<div class="buttons">
+    <button id="nextBtn">Question suivante</button>
+    <button id="endBtn">TERMINER</button>
+</div>
+
+<div id="result"></div>
+</div>
+
+<script>
+const questions = [
+{
+q:"Simplifier : x + x + x",
+choices:["x³","3x","x + 3","2x"],
+answer:1,
+exp:"Additionner x trois fois revient à multiplier x par 3 : x + x + x = 3x."
+},
+{
+q:"Réduire : 5a + 2 − a",
+choices:["6a + 2","4a + 2","5a + 1","a + 7"],
+answer:1,
+exp:"On regroupe les termes en a : 5a − a = 4a, puis on conserve +2."
+},
+{
+q:"Développer : 2(x + 4)",
+choices:["2x + 4","2x + 8","x + 8","6x"],
+answer:1,
+exp:"On multiplie chaque terme par 2 : 2×x + 2×4 = 2x + 8."
+},
+{
+q:"Développer : 4(x − 3)",
+choices:["4x − 3","4x − 12","x − 12","1x − 3"],
+answer:1,
+exp:"On distribue 4 : 4×x − 4×3 = 4x − 12."
+},
+{
+q:"Réduire : 6x − 2x + 1",
+choices:["4x + 1","8x + 1","4x","x + 1"],
+answer:0,
+exp:"6x − 2x = 4x, puis on ajoute +1."
+},
+{
+q:"Simplifier : 10 × y",
+choices:["y10","10y","y + 10","y¹⁰"],
+answer:1,
+exp:"Multiplier un nombre par une lettre s’écrit sans le signe × : 10y."
+},
+{
+q:"Calculer la valeur de x − 3 pour x = 8",
+choices:["11","5","24","3"],
+answer:1,
+exp:"On remplace x par 8 : 8 − 3 = 5."
+},
+{
+q:"Calculer 2x + 1 pour x = 4",
+choices:["9","6","5","12"],
+answer:0,
+exp:"2×4 = 8, puis 8 + 1 = 9."
+},
+{
+q:"Tester l’égalité : x + 5 = 9 pour x = 4",
+choices:["Vraie","Fausse"],
+answer:0,
+exp:"4 + 5 = 9, donc l’égalité est vraie."
+},
+{
+q:"Tester l’égalité : 3x = 15 pour x = 4",
+choices:["Vraie","Fausse"],
+answer:1,
+exp:"3×4 = 12 et non 15, donc l’égalité est fausse."
+},
+{
+q:"Quelle expression correspond à « la somme de x et 7 » ?",
+choices:["7x","x + 7","x × 7","x − 7"],
+answer:1,
+exp:"Une somme correspond à une addition : x + 7."
+},
+{
+q:"Quelle expression correspond à « le double de x » ?",
+choices:["x + 2","2x","x²","x × x"],
+answer:1,
+exp:"Le double de x signifie 2 fois x, soit 2x."
+},
+{
+q:"Simplifier : 0 × x",
+choices:["x","0","1","Impossible"],
+answer:1,
+exp:"Tout nombre multiplié par 0 vaut 0."
+},
+{
+q:"Réduire : x + 4 + 2x",
+choices:["3x + 4","3x","x + 6","2x + 4"],
+answer:0,
+exp:"x + 2x = 3x, puis on ajoute +4."
+},
+{
+q:"Développer : 3(x + 1)",
+choices:["3x + 1","3x + 3","x + 3","4x"],
+answer:1,
+exp:"On multiplie chaque terme : 3×x + 3×1 = 3x + 3."
+}
+];
+
+let index = 0, score = 0, locked = false;
+
+const questionEl = document.getElementById("question");
+const choicesEl = document.getElementById("choices");
+const explanationEl = document.getElementById("explanation");
+const scoreEl = document.getElementById("score");
+const qNumEl = document.getElementById("qNum");
+const progressEl = document.getElementById("progress");
+const nextBtn = document.getElementById("nextBtn");
+const endBtn = document.getElementById("endBtn");
+const resultEl = document.getElementById("result");
+
+function loadQuestion() {
+    locked = false;
+    explanationEl.style.display = "none";
+    nextBtn.style.display = "none";
+    const q = questions[index];
+    questionEl.textContent = q.q;
+    choicesEl.innerHTML = "";
+    q.c = q.choices;
+    q.c.forEach((choice, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = choice;
+        btn.onclick = () => answer(btn, i);
+        choicesEl.appendChild(btn);
+    });
+    qNumEl.textContent = index + 1;
+    progressEl.style.width = (index / questions.length * 100) + "%";
+}
+
+function answer(btn, i) {
+    if (locked) return;
+    locked = true;
+    const q = questions[index];
+    const buttons = choicesEl.querySelectorAll("button");
+
+    if (i === q.answer) {
+        btn.classList.add("correct");
+        score++;
+        scoreEl.textContent = score;
+    } else {
+        btn.classList.add("wrong");
+        buttons[q.answer].classList.add("correct");
+    }
+
+    explanationEl.textContent = "💡 " + q.exp;
+    explanationEl.style.display = "block";
+    nextBtn.style.display = "block";
+}
+
+nextBtn.onclick = () => {
+    index++;
+    if (index < questions.length) {
+        loadQuestion();
+    } else {
+        endQuiz();
+    }
+};
+
+endBtn.onclick = endQuiz;
+
+function endQuiz() {
+    quiz.innerHTML = "";
+    progressEl.style.width = "100%";
+    resultEl.innerHTML = `<strong>Résultat final :</strong><br>${score} / 15`;
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
